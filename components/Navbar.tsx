@@ -7,6 +7,10 @@ import { Card } from './ui/card'
 import { cn } from '@/lib/utils'
 import NvavbarButton from './NvavbarButton'
 import MobileSideBar from './MobileSideBar'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import LoginForm from './auth/Login-Form'
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import RegisterForm from './auth/Register-Form'
 
 
 const datas = [
@@ -34,13 +38,12 @@ const datas = [
 ]
 
 
-
 const Navbar = () => {
   return (
     <div className= 'flex bg-gray-800 w-full items-center p-4  lg:justify-between h-full mx-auto'>
       <MobileSideBar/>
         <div className=' flex items-center px-5 '>
-            <Image src={'/logo.png'} width={100} height={100} alt='logo'  />
+            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid'  />
         </div>
         <div className=' items-center gap-x-2 px-10 hidden lg:flex '>
         {datas.map((tool)=>(
@@ -63,12 +66,35 @@ const Navbar = () => {
                 </div>
               </Card>
             ))}
-            <div>
-            <div className=' flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white'>
-            <Plane className="w-9 h-9 bg-white text-red-800 rounded-md" />
-                <NvavbarButton label='Login & Signup'/>
-            </div>
-            </div>  
+            
+              <div className='flex gap-x-2'>
+                  <div className=' flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2  border-black/5 hover:shadow-xl  transition cursor-pointer bg-white'>
+                   
+                      <Dialog>
+                      <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
+                        <DialogTrigger>
+                            <NvavbarButton label='Signup' />
+                        </DialogTrigger>
+                        <DialogContent className='flex flex-col items-center justify-center z-[100]'>
+                            <RegisterForm/>
+                        </DialogContent>
+                      </Dialog>
+                 
+                  </div>
+                  <div className=' flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white'>
+                      <Dialog>                   
+                          <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
+                            <DialogTrigger>
+                                <NvavbarButton label='Login' />
+                            </DialogTrigger>
+                            <DialogContent className='flex items-center justify-center z-[100]'>
+                                <LoginForm/>
+                            </DialogContent>
+                  
+                      </Dialog>
+                  </div>
+              </div>
+             
         </div>
     </div>
   )
