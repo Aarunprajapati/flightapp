@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
@@ -5,12 +6,13 @@ import { Button } from './ui/button'
 interface SeacrhButtonProps {
     label:string,
     href?: string,
+    className?:string
 }
-const CustomButton = ({label,href}: SeacrhButtonProps) => {
+const CustomButton = ({label,href,className}: SeacrhButtonProps) => {
   return (
-    
-    <Button className=' py-[22px]' size={'sm'} type="submit">{label}</Button>
-
+    <Link href={'#'}>
+    <button className={cn('', className)}>{label}</button>
+    </Link>
   )
 }
 
