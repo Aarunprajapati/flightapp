@@ -13,7 +13,7 @@ import {
 const HeaderPage = () => {
   return (
     <div className=' flex items-center space-y-5'>
-      <Select>
+          <Select>
                 <SelectTrigger className="w-[150px] border-none outline-none ring-1 ring-blue-600 rounded-sm">
                     <SelectValue placeholder="one way" />
                 </SelectTrigger>
