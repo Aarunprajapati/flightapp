@@ -1,14 +1,16 @@
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 
 interface SeacrhButtonProps {
     label:string,
     href?: string,
+    className?:string
 }
-const CustomButton = ({label,href}: SeacrhButtonProps) => {
+const CustomButton = ({label,href,className}: SeacrhButtonProps) => {
   return (
     <Link href={'#'}>
-    <button className='px-6 py-2 rounded-md text-md bg-black text-white'>{label}</button>
+    <button className={cn('', className)}>{label}</button>
     </Link>
   )
 }

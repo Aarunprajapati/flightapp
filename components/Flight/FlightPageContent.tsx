@@ -6,6 +6,10 @@ import SeacrhButton from '../CustomButton'
 import CustomButton from '../CustomButton'
 import { Input } from '@/components/ui/input'
 import FilterSider from './FilterSider'
+import Flightdata from './flight-data'
+import { cn } from '@/lib/utils'
+import { Switch } from '../ui/switch'
+import { Label } from '../ui/label'
  
 
 const FlightPageContent = () => {
@@ -25,13 +29,30 @@ const FlightPageContent = () => {
             <HeaderPage/>
             <HeaderPage/>            
             <HeaderPage/>
-            <CustomButton label='Search'/>
+            <CustomButton className='px-6 py-2 rounded-md text-md bg-black text-white' label='Search'/>
         </div>
         <main className=' grid grid-cols-12 gap-x-2 gap-y-10 mx-60'>
-            <div className=' col-span-3 p-4 flex flex-col flex-1 bg-red-400'>
+            <div className=' col-span-3 '>
                 <FilterSider/>
             </div>
-            <div className=' col-span-9 p-4 bg-blue-400 '>hello2</div>
+            <div className='col-span-9 grid gap-3'>
+                <div className='flex gap-[76px]  items-center bg-slate-100  h-1 text-sm p-6  '>
+                    <p>Airlines</p>
+                    <p>Departure</p>
+                    <p> Duration</p>
+                    <p> Arrival</p>
+                    <p> Price</p>
+                    <div>
+                    <div className="flex ">
+                    <Label htmlFor="airplane-mode" className='my-1 mx-1 '>Smart sort</Label>
+                    <Switch id="airplane-mode" />
+                    </div>
+                    </div>
+                </div>
+
+                <div> <Flightdata/></div>
+               
+            </div>
         </main>
     
     </div>
