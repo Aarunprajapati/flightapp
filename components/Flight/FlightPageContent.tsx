@@ -10,13 +10,15 @@ import Flightdata from './flight-data'
 import { cn } from '@/lib/utils'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
+import SearchForm from './SearchForm'
  
 
 const FlightPageContent = () => {
   return (
     <div className='w-full mx-auto'>
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
-            <HeaderPage/>
+            <SearchForm/>
+            {/* <HeaderPage/>
             <div className=' flex items-center'>
             <Input type="text" placeholder="Banglore" />
             <div className='relative top-1 inline-block mx-2 z-[100]'>
@@ -29,7 +31,7 @@ const FlightPageContent = () => {
             <HeaderPage/>
             <HeaderPage/>            
             <HeaderPage/>
-            <CustomButton className='px-6 py-2 rounded-md text-md bg-black text-white' label='Search'/>
+            <CustomButton className='px-6 py-2 rounded-md text-md bg-black text-white' label='Search'/> */}
         </div>
         <main className=' grid grid-cols-12 gap-x-2 gap-y-10 mx-60'>
             <div className=' col-span-3 '>
