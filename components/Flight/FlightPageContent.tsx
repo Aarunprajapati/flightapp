@@ -13,7 +13,22 @@ import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
  
-
+const Filter1=[
+    {
+        label:"Stop",
+        value1:"Non-stop",
+        value2:"1 Stop"
+    },
+]
+const Filter2=[
+    {
+        label:"Departure time",
+        value1:"Non-stop",
+        time1:"4pm-8pm",
+        value2:"1 Stop",
+        time2:"8pm-12pm"
+    },
+]
 const FlightPageContent = () => {
   return (
     <div className='w-full mx-auto'>
@@ -36,7 +51,9 @@ const FlightPageContent = () => {
         </div>
         <main className=' grid grid-cols-12 gap-x-2 gap-y-10 mx-60'>
             <div className=' col-span-3 '>
-                <FilterSider/>
+            <p className='mb-2'>39 of 39 flights</p>
+                <FilterSider filter={Filter1}/>
+                <FilterSider filter={Filter2}/>
             </div>
             <div className='col-span-9 grid gap-5'>
                 <div className=' max-w-6xl ml-14'>
