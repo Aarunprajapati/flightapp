@@ -47,13 +47,13 @@ const SearchForm = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             route: '',
-            dates:{
-                from: 'oneway',
-                to: 'roundtrip'
-            },
-            location: {},     
-            adults: 1,
-            children: 0
+            // dates:{
+            //     from: 'oneway',
+            //     to: 'roundtrip'
+            // },
+            // location: {},     
+            // adults: 1,
+            // children: 0
         
         }
     })
@@ -78,21 +78,20 @@ const SearchForm = () => {
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
-                            <FormControl>
-                                <Input type="text" {...field}/>
-                                {/* <div className='w-[150px] flex items-center space-y-5'>
+                            <FormControl>        
+                                <div className='w-[150px] flex items-center space-y-5'>
                                     <Select>
                                     <SelectTrigger className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                                    <SelectValue placeholder="one way" />
+                                    <SelectValue placeholder='one way'/>
                                     </SelectTrigger>
-                                            <SelectContent>
+                                                <SelectContent {...field}>
                                                 <SelectGroup>
-                                                <SelectItem value="one way" className=' text-black focus:text-white focus:bg-blue-500 ' {...field}>One Way</SelectItem>
-                                                <SelectItem value="rounded trip" className=' text-black focus:text-white focus:bg-blue-500 '{...field}>Rounded trip</SelectItem>
+                                                <SelectItem value="one way" className=' text-black focus:text-white focus:bg-blue-500' >one way</SelectItem>
+                                                <SelectItem value="rounded trip" className=' text-black focus:text-white focus:bg-blue-500 '>Rounded trip</SelectItem>
                                                 </SelectGroup>
                                                 </SelectContent>
                                                 </Select>
-                                            </div>    */}
+                                            </div>   
                             </FormControl>
                                             <FormMessage/>
                         </FormItem>
