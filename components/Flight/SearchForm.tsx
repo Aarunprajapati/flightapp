@@ -51,23 +51,18 @@ const SearchForm = () => {
                 from: 'oneway',
                 to: 'roundtrip'
             },
-            location: { },     
+            location: {},     
             adults: 1,
             children: 0
         
         }
     })
-    // const [date, setDate] = React.useState<DateRange | undefined>({
-    //     from: new Date(2024, 0, 20) ,
-    //     to: addDays(new Date(2024, 0, 20), 20),
-    //   })
-    //   useEffect(()=>{
-    //     setDate(undefined)
-    //   },[date])
+ 
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log("sdsd")
-        console.log(values.route)
+        console.log(values)
+        form.reset()
         
     }
 
@@ -75,11 +70,11 @@ const SearchForm = () => {
         <div className=' w-full space-y-2 my-5'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
-                className='flex flex-col lg:flex-row  items-center lg:max-w-[1400px]   lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg   '>
+                className='flex flex-col lg:flex-row  items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg   '>
                     <div className='grid gap-1.5 justify-start lg:max-w-sm items-center '>
                        <FormField
                        control={form.control}
-                       name='route'
+                       name="route"
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
