@@ -325,13 +325,13 @@ const SearchForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       route: "",
-    //   dates: {
-    //     from: 'oneway',
-    //     to: 'roundtrip'
-    //   },
-    //   location: {},
-    //   adults: 1,
-    //   children: 0
+      dates: {
+        from: 'oneway',
+        to: 'roundtrip'
+      },
+      location: {},
+      adults: 1,
+      children: 0
     }
   })
 
