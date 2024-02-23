@@ -56,12 +56,14 @@ const SearchForm = () => {
         },
     });
  
-    type FormValues = z.infer<typeof formSchema>;
-    const onSubmit = (values: FormValues) => {
-        console.log(values);
-    }; 
-    
-   console.log("rohti")
+      
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        console.log("sdsd")
+        // console.log(values)
+        
+        form.reset()
+        
+    }
 
   return (
         <div className=' w-full space-y-2 my-5'>
