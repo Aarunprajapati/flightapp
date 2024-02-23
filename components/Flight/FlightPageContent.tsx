@@ -12,8 +12,42 @@ import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
- 
 
+import Flightdetail from './flight-detail'
+ 
+const Filter1=[
+    {
+        label:"Stop",
+        value1:"Non-stop",
+        value2:"1 Stop"
+    },
+]
+const Filter2=[
+    {
+        label:"Departure time",
+        value1:"Evening",
+        time1:"4pm-8pm",
+        value2:"Night",
+        time2:"8pm-12pm"
+    },
+]
+const airlines=[
+    {
+        label:"Airlines",
+        value1:"Show multiple airlines",
+        price1:"285$",
+        value2:"Air india",
+        price2:"285$",
+        value3:"Air India express",
+        price3:"285$",
+        value4:"Indigo",
+        price4:"285$",
+        value5:"Vistara",
+        price5:"285$",
+        value6:"Spice jet",
+        price6:"285$",
+    }
+]
 const FlightPageContent = () => {
   return (
     <div className='w-full mx-auto'>
@@ -34,11 +68,14 @@ const FlightPageContent = () => {
             <HeaderPage/>
             <CustomButton className='px-6 py-2 rounded-md text-md bg-black text-white' label='Search'/> */}
         </div>
-        <main className=' grid grid-cols-12 gap-x-2 gap-y-10 mx-60'>
-            <div className=' col-span-3 '>
-                <FilterSider/>
+        <main className='relative grid grid-cols-12 gap-x-2 mx-60 gap-y-10 h-auto'>
+            <div className=' col-span-3'>
+            <p className='mb-2'>39 of 39 flights</p>
+                <FilterSider filter={Filter1}/> 
+                <FilterSider filter={Filter2}/> 
+                <FilterSider filter={airlines}/> 
             </div>
-            <div className='col-span-9 grid gap-5'>
+            <div className='col-span-9 grid gap-5 '>
                 <div className=' max-w-6xl ml-14'>
                     <FlightDate/>
 
@@ -61,6 +98,7 @@ const FlightPageContent = () => {
                
             </div>
         </main>
+ 
     
     </div>
   )
