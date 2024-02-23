@@ -3,7 +3,7 @@ import { formSchema } from '@/Schemas/FormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React, { RefAttributes, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form';
 import * as z  from 'zod'
 import { Button } from "@/components/ui/button"
 import {
@@ -42,21 +42,19 @@ import { format } from 'date-fns'
 import CustomButton from '../CustomButton'
 
 const SearchForm = () => {
+    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [date1, setDate1] = useState<Date | undefined>(undefined);
     const router = useRouter()
-    const form = useForm<z.infer<typeof formSchema>>({
+    const  form  = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             route: '',
-            // dates:{
-            //     from: 'oneway',
-            //     to: 'roundtrip'
-            // },
-            // location: {},     
-            // adults: 1,
-            // children: 0
-        
-        }
-    })
+            location:'',     
+            locationR:'',     
+            adults: '',
+            children: '',
+        },
+    });
  
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -79,70 +77,65 @@ const SearchForm = () => {
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
-                            <FormControl>        
+                            <FormControl>
                                 <div className='w-[150px] flex items-center space-y-5'>
-                                    <Select>
-                                    <SelectTrigger className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                                    <SelectValue placeholder='one way'/>
-                                    </SelectTrigger>
-                                                <SelectContent {...field}>
-                                                <SelectGroup>
-                                                <SelectItem value="one way" className=' text-black focus:text-white focus:bg-blue-500' >one way</SelectItem>
-                                                <SelectItem value="rounded trip" className=' text-black focus:text-white focus:bg-blue-500 '>Rounded trip</SelectItem>
-                                                </SelectGroup>
-                                                </SelectContent>
-                                                </Select>
-                                            </div>   
+                        <select  {...field} className="border-none outline-none ring-1 ring-blue-600 p-2 rounded-sm">
+                            <option  value="">Select the trip</option>  
+                            <option value="one way">One Way</option>
+                            <option value="Rounded trip">Rounded trip</option>
+                        </select>
+                                </div>
                             </FormControl>
-                                            <FormMessage/>
+                            <FormMessage/>
                         </FormItem>
                        )}                    
                        />     
                     </div>
-                    {/* <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
-                        <FormField
-                        control={form.control}
-                        name='location'
-                        render={(field)=>(
-                            <FormItem>
-                                <FormLabel className=' flex text-black'>From</FormLabel>
-                                <FormMessage/>
-                                <FormControl>
-                                        <div className=' flex items-center '>
-                                            <Input type="text" placeholder="From" {...field}/>
-                                          
-                                        </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                        />
-                    </div>
+
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
-                        <FormField
-                        control={form.control}
-                        name='location'
-                        render={(field)=>(
-                            <FormItem>
-                                <FormLabel className=' flex text-black'>To</FormLabel>
-                                <FormMessage/>
-                                <FormControl>
-                                        <div className=' flex items-center '>
-                                            <Input type="text" placeholder="From" {...field}/>
-                                          
-                                        </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                        />
+                    <FormField
+                      control={form.control}
+                      name='location'
+                      render={({ field: {...field } }) => ( 
+                      <FormItem>
+                      <FormLabel className='flex text-black'>From</FormLabel>
+                    <FormControl>
+                     <Input type="text" placeholder="From" {...field} />
+                     </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                     )}
+                    />
                     </div>
+                    
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
+                    <FormField
+                      control={form.control}
+                      name='locationR'
+                      render={({ field: {...field } }) => ( 
+                      <FormItem>
+                      <FormLabel className='flex text-black'>To</FormLabel>
+                    <FormControl>
+                     <Input type="text" placeholder="From" {...field} />
+                     </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                     )}
+                    />
+                    </div>
+
+
+
+
+
+                <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
                            <FormField
                            control={form.control}
-                           name='onward'
-                           render={(field)=>(
+                           name='dates'
+                           render={( {field} )=>(
                                 <FormItem >
                                     <FormLabel className=' flex text-black'>Onward</FormLabel>
-                                    <FormMessage/>
+                                   
                                     <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                     <div className={cn("grid gap-2",)}>
                                     <Popover>
@@ -152,36 +145,32 @@ const SearchForm = () => {
                                             variant={"outline"}
                                             className={cn(
                                             "justify-start text-left font-normal",
-                                            !field?.onward && "text-muted-foreground"
+                                            "text-muted-foreground"
                                             )}
+                                        
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {dates.from ? 
-                                           
-                                                <>
-                                                {format(date.from, "LLL dd, y")}
-                                            
-                                                </>
-                                                :"Onward Date"
-                                            }
+                                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                             
                                         </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
-                                            initialFocus
-                                            mode="range"
-                                            defaultMonth={date?.to}
-                                            selected={date}
-                                            onSelect={setDate}
-                                            numberOfMonths={2}
-                                            disabled={(date)=>
-                                                date < new Date(new Date().setHours(0, 0, 0, 0))
-                                            }
-                                        />
+                                                initialFocus
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={(selectedDate) => {
+                                                    setDate(selectedDate); 
+                                                    field.onChange(selectedDate); 
+                                                }}
+                                                numberOfMonths={2}
+                                                disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                            />
+                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
+                            {/* <FormMessage/> */}
                                     </FormControl>
                                 </FormItem>
                            )}
@@ -189,14 +178,15 @@ const SearchForm = () => {
 
                            />
                     </div>
-                    <div className='grid w-full gap-1.5 lg:max-w-xs items-center'>
+
+                <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
                            <FormField
                            control={form.control}
-                           name='return'
-                           render={(field)=>(
-                                <FormItem>
+                           name='dateR'
+                           render={( {field} )=>(
+                                <FormItem >
                                     <FormLabel className=' flex text-black'>Return</FormLabel>
-                                    <FormMessage/>
+                                   
                                     <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                     <div className={cn("grid gap-2",)}>
                                     <Popover>
@@ -206,72 +196,79 @@ const SearchForm = () => {
                                             variant={"outline"}
                                             className={cn(
                                             "justify-start text-left font-normal",
-                                            !date && "text-muted-foreground"
+                                            "text-muted-foreground"
                                             )}
+                                        
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {field.value?.to ? 
-                                           
-                                                <>
-                                                {format(date.to, "LLL dd, y")}
+                                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                             
-                                                </>
-                                                :"Return Date"
-                                            }                                           
                                         </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
-                                            initialFocus
-                                            mode="range"
-                                            defaultMonth={date?.to}
-                                            selected={field.date}
-                                            onSelect={setDate}
-                                            numberOfMonths={2}
-                                            disabled={(date)=>
-                                                date < new Date(new Date().setHours(0, 0, 0, 0))
-                                            }
-                                        />
+                                                initialFocus
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={(selectedDate) => {
+                                                    setDate1(selectedDate); 
+                                                    field.onChange(selectedDate); 
+                                                }}
+                                                numberOfMonths={2}
+                                                disabled={(date1) => date1 < new Date(new Date().setHours(0, 0, 0, 0))}
+                                            />
+                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
+                            {/* <FormMessage/> */}
                                     </FormControl>
                                 </FormItem>
                            )}
+
+
                            />
                     </div>
+
+                   
+
+
+
+
+
                     <div className=' flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                             <FormField
                             control={form.control}
                             name='adults'
-                            render={(field)=>(
+                            render={({ field: {...field } })=>(
                             <FormItem>
                             <FormLabel className=' flex text-black'>Adults</FormLabel>
-                            <FormMessage/>
-                            <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
-                            
+                           
+                            <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>               
                                 <Input placeholder='No of adults' type='text' {...field} />
-                            </FormControl>                 
+                            </FormControl>
+                            <FormMessage/>                 
                             </FormItem>
                             )}
                     />
                     </div>
                     
                     </div>
+
                     <div className='flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                         <FormField
                         control={form.control}
                         name='children'
-                        render={(field)=>(
+                        render={({ field: {...field } })=>(
                         <FormItem>
                         <FormLabel className=' flex text-black'>Childrens</FormLabel>
-                        <FormMessage/>
-                        <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                         
+                        <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>           
                             <Input placeholder='no of childrens' type='text' {...field} />
-                        </FormControl>                 
+                        </FormControl> 
+                        <FormMessage/>                
                         </FormItem>
                         )}
                         />                    
@@ -279,10 +276,11 @@ const SearchForm = () => {
                     
                     </div>
                     </div>
-                    */}
-                    <div className='flex items-center w-full space-x-2'>
+                   
+                    <div className='flex items-center  space-x-2'>
                         <div className=' grid items-center flex-1 mt-5'>
-                           <button type="submit">search</button>
+                           {/* </button type="submit">search</> */}
+                           <Button type='submit'>Search</Button>
                         </div>
                     </div> 
                     
@@ -290,7 +288,53 @@ const SearchForm = () => {
                 </form>
             </Form>
         </div>
-  )
-}
+  );
+};                     
 
 export default SearchForm
+
+{/* <div className='grid w-full gap-1.5 lg:max-w-xs items-center'>
+<FormField
+control={form.control}
+name='dates'
+render={(field)=>(
+     <FormItem>
+         <FormLabel className=' flex text-black'>Return</FormLabel>
+         {/* <FormMessage/> */}
+        //  <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+        //  <div className={cn("grid gap-2",)}>
+        //  <Popover>
+        //      <PopoverTrigger asChild>
+        //      <Button
+        //          id="date"
+        //          variant={"outline"}
+        //          className={cn(
+        //          "justify-start text-left font-normal",
+        //           "text-muted-foreground"
+        //          )}
+            //  >
+            //      <CalendarIcon className="mr-2 h-4 w-4" />
+            //      {date1 ? format(date1, "PPP") : <span>Pick a date</span>}
+            //  </Button>
+            //  </PopoverTrigger>
+            //  <PopoverContent className="w-auto p-0" align="start">
+            //  <Calendar
+            //      initialFocus
+            //      mode="single"
+                 // defaultMonth={date?.to}
+//                  selected={date1}
+//                  onSelect={setDate1}
+//                  numberOfMonths={2}
+//                  // initialFocus
+//                  disabled={(date1)=>
+//                      date1 < new Date(new Date().setHours(0, 0, 0, 0))
+//                  }
+//              />
+//              </PopoverContent>
+//          </Popover>
+//  </div>
+//          </FormControl>
+//      </FormItem>
+// )}
+// />
+// </div> 
