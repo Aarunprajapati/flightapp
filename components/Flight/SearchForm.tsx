@@ -45,7 +45,7 @@ const SearchForm = () => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const router = useRouter()
-    const  form  = useForm<FormValues>({
+    const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             route: '',
@@ -59,7 +59,7 @@ const SearchForm = () => {
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log("sdsd")
-        // console.log(values)
+        console.log(values)
         
         form.reset()
         

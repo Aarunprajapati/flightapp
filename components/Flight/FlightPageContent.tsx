@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import HeaderPage from './HeaderPage'
 import { ArrowLeftRight } from 'lucide-react'
@@ -15,40 +16,9 @@ import FlightDate from './Flight-Date'
 
 import Flightdetail from './flight-detail'
 import FilterSiderAirlines from './FilterSiderAirlines'
- 
-const Filter1=[
-    {
-        label:"Stop",
-        value1:"Non-stop",
-        value2:"1 Stop"
-    },
-]
-const Filter2=[
-    {
-        label:"Departure time",
-        value1:"Evening",
-        time1:"4pm-8pm",
-        value2:"Night",
-        time2:"8pm-12pm"
-    },
-]
-const airlines=[
-    {
-        label:"Airlines",
-        value1:"Show multiple airlines",
-        price1:"285$",
-        value2:"Air india",
-        price2:"285$",
-        value3:"Air India express",
-        price3:"285$",
-        value4:"Indigo",
-        price4:"285$",
-        value5:"Vistara",
-        price5:"285$",
-        value6:"Spice jet",
-        price6:"285$",
-    }
-]
+import FilterSlider from './FilterSlider'
+ import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+
 const FlightPageContent = () => {
   return (
     <div className='w-full mx-auto'>
@@ -61,7 +31,9 @@ const FlightPageContent = () => {
                     <p className='mb-2'>39 of 39 flights</p>
                         <FilterSider filter={Filter1}/> 
                         <FilterSider filter={Filter2}/> 
-                        <FilterSiderAirlines filter={airlines}/> 
+                        <FilterSlider value={prices}/>
+                        <FilterSiderAirlines filter={airlines}/>
+                        <FilterSlider value={TripDuration} /> 
                 </div>
             </div>
             <div className='col-span-9 flex flex-col gap-4 '>
