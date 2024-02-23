@@ -14,6 +14,7 @@ import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
 
 import Flightdetail from './flight-detail'
+import FilterSiderAirlines from './FilterSiderAirlines'
  
 const Filter1=[
     {
@@ -53,29 +54,17 @@ const FlightPageContent = () => {
     <div className='w-full mx-auto'>
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
             <SearchForm/>
-            {/* <HeaderPage/>
-            <div className=' flex items-center'>
-            <Input type="text" placeholder="Banglore" />
-            <div className='relative top-1 inline-block mx-2 z-[100]'>
-                <button type='button' className=' shadow-lg rounded-full  '>
-                    <ArrowLeftRight className='text-orange-400 w-8 h-8 p-1'/>
-                </button>
-            </div>
-            <Input type="text" placeholder="Banglore" />
-            </div>
-            <HeaderPage/>
-            <HeaderPage/>            
-            <HeaderPage/>
-            <CustomButton className='px-6 py-2 rounded-md text-md bg-black text-white' label='Search'/> */}
         </div>
-        <main className='relative grid grid-cols-12 gap-x-2 mx-60 gap-y-10 h-auto'>
+        <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
             <div className=' col-span-3'>
-            <p className='mb-2'>39 of 39 flights</p>
-                <FilterSider filter={Filter1}/> 
-                <FilterSider filter={Filter2}/> 
-                <FilterSider filter={airlines}/> 
+                <div className='h-auto'>
+                    <p className='mb-2'>39 of 39 flights</p>
+                        <FilterSider filter={Filter1}/> 
+                        <FilterSider filter={Filter2}/> 
+                        <FilterSiderAirlines filter={airlines}/> 
+                </div>
             </div>
-            <div className='col-span-9 grid gap-5 '>
+            <div className='col-span-9 flex flex-col gap-4 '>
                 <div className=' max-w-6xl ml-14'>
                     <FlightDate/>
 
