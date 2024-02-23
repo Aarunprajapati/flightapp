@@ -61,7 +61,8 @@ const SearchForm = () => {
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log("sdsd")
-        console.log(values)
+        // console.log(values)
+        
         form.reset()
         
     }
