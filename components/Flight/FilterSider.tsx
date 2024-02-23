@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { Select, SelectTrigger, SelectContent, SelectGroup } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
