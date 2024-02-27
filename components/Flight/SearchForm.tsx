@@ -45,7 +45,7 @@ const SearchForm = () => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const router = useRouter()
-    const  form  = useForm <z.infer<typeof formSchema>>({
+    const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             route: '',
@@ -58,9 +58,8 @@ const SearchForm = () => {
  
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        // console.log("sdsd")
-        console.log(values)
-        
+        console.log("sdsd")
+        console.log(values)      
         form.reset()
         
     }
@@ -77,15 +76,22 @@ const SearchForm = () => {
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
-                            <FormControl>
+                            <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                 <div className='w-[150px] flex items-center space-y-5'>
-                        <select  {...field} className="border-none outline-none ring-1 ring-blue-600 p-2 rounded-sm">
-                           
-                             <option  value="">Select the trip</option>  
-                            <option value="one way">One Way</option>
-                            <option value="Rounded trip">Rounded trip</option>
-                           
-                        </select>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="One Way" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="One Way" className=' text-black focus:bg-blue-500 focus:text-white'>One way</SelectItem>
+                                        <SelectItem value="Rounded trip" className='text-black focus:bg-blue-500 focus:text-white'>Rounded trip</SelectItem>           
+                                    </SelectContent>
+                                </Select>
                                 </div>
                             </FormControl>
                             <FormMessage/>
@@ -130,7 +136,7 @@ const SearchForm = () => {
 
 
 
-                <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
+                <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
                            <FormField
                            control={form.control}
                            name='dates'
@@ -138,7 +144,7 @@ const SearchForm = () => {
                                 <FormItem >
                                     <FormLabel className=' flex text-black'>Onward</FormLabel>
                                    
-                                    <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                    <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm '>
                                     <div className={cn("grid gap-2",)}>
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -181,7 +187,7 @@ const SearchForm = () => {
                            />
                     </div>
 
-                <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
+                <div className='grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2'>
                            <FormField
                            control={form.control}
                            name='dateR'

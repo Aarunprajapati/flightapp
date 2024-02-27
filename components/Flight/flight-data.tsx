@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import CustomButton from '../CustomButton'
 import Fligtdetailsbtn from './fligt-details-btn'
@@ -6,7 +7,7 @@ const Flightdata = () => {
   return (
     <div className='  border-2 border-gray-200 p-6'>
 
-      <div className='flex gap-16 '>
+      <div className='flex gap-2 justify-between items-center'>
 
         <div className='flex gap-2 '>
             <div className='py-1'><img className='w-8   h-8' src="flight.svg" alt="flight" /></div>

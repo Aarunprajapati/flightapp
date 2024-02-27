@@ -1,3 +1,4 @@
+"use client"
 import { Clock5 } from 'lucide-react'
 import React from 'react'
 
