@@ -40,10 +40,15 @@ import { addDays } from 'date-fns'
 import { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
 import CustomButton from '../CustomButton'
+import axios from 'axios'
+import { Separator } from '@radix-ui/react-separator'
+import { ScrollArea } from '../ui/scroll-area'
 
-const SearchForm = () => {
+const SearchForm =  () => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
+    const [data, setData] = useState<[]>([])
+    const [data1, setData1] = useState<[]>([])
     const router = useRouter()
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,10 +60,39 @@ const SearchForm = () => {
             children: '',
         },
     });
- 
+
+        const sourcecityData = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/user/sourcecity');
+           const  airportdata =   res.data.sourceAirports;
+              const airports = airportdata?.map((value:string) =>(value))          
+                setData(airports)
+            } catch (error) {   
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        const destinationcityData = async () => {
+            try {
+                const res1 = await axios.get('http://localhost:5000/api/user/destinationcity');
+           const  airportdata1 =   res1.data.sourceAirports1;
+              const airports1 = airportdata1?.map((value:string) =>(value))
+                setData1(airports1)
+            } catch (error) {   
+                console.error('Error fetching data:', error);
+            }
+        };
+       
+
+      useEffect(()=>{
+        sourcecityData();
+      });
+
+      useEffect(()=>{
+        destinationcityData();
+      })
       
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log("sdsd")
         console.log(values)      
         form.reset()
         
@@ -107,9 +141,37 @@ const SearchForm = () => {
                       render={({ field: {...field } }) => ( 
                       <FormItem>
                       <FormLabel className='flex text-black'>From</FormLabel>
-                    <FormControl>
-                     <Input type="text" placeholder="From" {...field} />
-                     </FormControl>
+                    
+                     
+                     <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                <div className='w-[150px] flex items-center space-y-5'>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="from" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <ScrollArea className=" h-64 w-36 rounded-md ">
+                                        {/* <SelectItem value="One Way" className=' text-black focus:bg-blue-500 focus:text-white'>One way</SelectItem>      */}
+                                        {data.map((city, index) => (
+                                               <SelectItem
+                                               key={index}
+                                                   value={city}
+                                                   className='text-black focus:bg-blue-500 focus:text-white'
+                                               >
+                                                   {city}
+                                               </SelectItem>
+                                           ))}
+                                    </ScrollArea>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                            </FormControl>
+                    
                       <FormMessage />
                       </FormItem>
                      )}
@@ -123,9 +185,33 @@ const SearchForm = () => {
                       render={({ field: {...field } }) => ( 
                       <FormItem>
                       <FormLabel className='flex text-black'>To</FormLabel>
-                    <FormControl>
-                     <Input type="text" placeholder="From" {...field} />
-                     </FormControl>
+                      <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                <div className='w-[150px] flex items-center space-y-5'>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="To" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <ScrollArea className=" h-64 w-36 rounded-md ">
+                                        {data1.map((city, index) => (
+                                               <SelectItem
+                                               key={index}
+                                                   value={city}
+                                                   className='text-black focus:bg-blue-500 focus:text-white'
+                                               >
+                                                   {city}
+                                               </SelectItem>
+                                           ))}
+                                    </ScrollArea>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                            </FormControl>
                       <FormMessage />
                       </FormItem>
                      )}
@@ -301,15 +387,7 @@ const SearchForm = () => {
 
 export default SearchForm
 
-{/* <div className='grid w-full gap-1.5 lg:max-w-xs items-center'>
-<FormField
-control={form.control}
-name='dates'
-render={(field)=>(
-     <FormItem>
-         <FormLabel className=' flex text-black'>Return</FormLabel>
-         {/* <FormMessage/> */}
-        //  <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+
         //  <div className={cn("grid gap-2",)}>
         //  <Popover>
         //      <PopoverTrigger asChild>
