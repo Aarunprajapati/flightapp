@@ -1,6 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scroll-container {
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 200px; /* Set the maximum height */
+  scrollbar-width: none; /* Hide the scrollbar on Firefox */
+  -ms-overflow-style: none; /* Hide the scrollbar on IE/Edge */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar on Chrome, Safari, and Opera */
+}
  
 @layer base {
   :root {
