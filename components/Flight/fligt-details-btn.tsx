@@ -3,6 +3,10 @@ import React from 'react'
 import Flightdetail from './flight-detail'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion'
 
+
+
+
+
 const Fligtdetailsbtn = () => {
   return (
     <div>

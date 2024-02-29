@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import HeaderPage from './HeaderPage'
 import { ArrowLeftRight } from 'lucide-react'
 import NvavbarButton from '../NvavbarButton'
@@ -19,11 +19,19 @@ import FilterSiderAirlines from './FilterSiderAirlines'
 import FilterSlider from './FilterSlider'
  import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
 
+ 
+ 
 const FlightPageContent = () => {
+
+    const [flyData, setFlyData] = useState<any[]>([]);
+
+ const updateFlyData = (newData:any) => {
+     setFlyData(newData);
+ };
   return (
     <div className='w-full mx-auto'>
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
-            <SearchForm/>
+            <SearchForm updateFlyData={updateFlyData}/>
         </div>
         <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
             <div className=' col-span-3'>
@@ -55,7 +63,7 @@ const FlightPageContent = () => {
                     </div>
                 </div>
 
-                <div> <Flightdata/></div>
+                <div> <Flightdata flyData={flyData}/></div>
                
             </div>
         </main>
