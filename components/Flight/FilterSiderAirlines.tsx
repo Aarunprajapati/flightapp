@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import React from 'react';
 import { Select, SelectTrigger, SelectContent, SelectGroup } from '../ui/select';
 import { Checkbox } from '../ui/checkbox';
@@ -28,7 +28,7 @@ interface FlightSiderProps {
   filter?: Filter[];
 }
 
-const FilterSider = ({ filter }: FlightSiderProps) => {
+const FilterSiderAirlines = ({ filter }: FlightSiderProps) => {
   return (
     <div className='w-full bg-white rounded-lg grid gap-2'>
       <Accordion type="single" collapsible>
@@ -44,7 +44,7 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
               <AccordionContent className=' shadow-md'>        
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg  ">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2' />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value1}
                         </label>
@@ -53,7 +53,7 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                     </div>
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2' />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value2}
                         </label>
@@ -62,9 +62,9 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                     </div>
                     {/* for Airlines filter */}
 
-                    {/* <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
+                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2' />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value3}
                         </label>
@@ -73,7 +73,7 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                     </div>
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2' />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value4}
                         </label>
@@ -82,7 +82,7 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                     </div>
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2'  />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value5}
                         </label>
@@ -91,13 +91,13 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                     </div>
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg  ">
                       <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
+                        <Checkbox defaultChecked id={`non-stop-${item.label}`} className=' mx-2' />
                         <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
                           {item.value6}
                         </label>
                       </div>
                       <p className='font-extralight text-xs'>{item.price6}</p>
-                    </div> */}
+                    </div>
                     {/* end check box */}
                     
             </AccordionContent>
@@ -108,4 +108,4 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
   );
 };
 
-export default FilterSider;
+export default FilterSiderAirlines;

@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import LoginForm from './auth/Login-Form'
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import RegisterForm from './auth/Register-Form'
+import Link from 'next/link'
 
 
 const datas = [
@@ -43,7 +44,10 @@ const Navbar = () => {
     <div className= 'flex bg-gray-800 w-full items-center p-4  lg:justify-between h-full mx-auto'>
       <MobileSideBar/>
         <div className=' flex items-center px-5 '>
-            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid'  />
+          <Link href={"/"}>
+          
+            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid w-20 h-12'  />
+          </Link>
         </div>
         <div className=' items-center gap-x-2 px-10 hidden lg:flex '>
         {datas.map((tool)=>(

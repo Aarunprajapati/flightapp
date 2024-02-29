@@ -3,7 +3,7 @@ import { formSchema } from '@/Schemas/FormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React, { RefAttributes, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form';
 import * as z  from 'zod'
 import { Button } from "@/components/ui/button"
 import {
@@ -40,30 +40,84 @@ import { addDays } from 'date-fns'
 import { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
 import CustomButton from '../CustomButton'
+import axios from 'axios'
+import { Separator } from '@radix-ui/react-separator'
+import { ScrollArea } from '../ui/scroll-area'
 
-const SearchForm = () => {
+interface SearchFormProps {
+    updateFlyData: (newData: any) => void;
+}
+const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
+    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [date1, setDate1] = useState<Date | undefined>(undefined);
+    const [data, setData] = useState<[]>([])
+    const [data1, setData1] = useState<[]>([])
+    // const [flyData, setflyData] = useState<[]>([])
+ 
     const router = useRouter()
-    const form = useForm<z.infer<typeof formSchema>>({
+    const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             route: '',
-            // dates:{
-            //     from: 'oneway',
-            //     to: 'roundtrip'
-            // },
-            // location: {},     
-            // adults: 1,
-            // children: 0
-        
-        }
-    })
- 
+            location:'',     
+            locationR:'',     
+            adults: '',
+            children: '',
+        },
+    });
+
+        const sourcecityData = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/api/user/sourcecity');
+           const  airportdata =   res.data.sourceAirports;
+              const airports = airportdata?.map((value:string) =>(value))          
+                setData(airports)
+            } catch (error) {   
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        const destinationcityData = async () => {
+            try {
+                const res1 = await axios.get('http://localhost:5000/api/user/destinationcity');
+           const  airportdata1 =   res1.data.sourceAirports1;
+              const airports1 = airportdata1?.map((value:string) =>(value))
+                setData1(airports1)
+            } catch (error) {   
+                console.error('Error fetching data:', error);
+            }
+        };
+       
+      useEffect(()=>{
+        sourcecityData();
+      });
+
+      useEffect(()=>{
+        destinationcityData();
+      });
       
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log("sdsd")
-        console.log(values)
-        form.reset()
-        
+      const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/user/allflight');
+            const res1 = res.data.flight;
+
+            const matchingData = res1.filter((flight: any) =>
+            flight.displayData.source.airport.cityName === values.location &&
+            flight.displayData.destination.airport.cityName === values.locationR
+             );
+             if (matchingData.length === 0) {
+                console.log("No data found");
+                updateFlyData([])
+             
+            } else {
+                updateFlyData(matchingData);
+                console.log(matchingData, "matchingData")
+            }
+               
+            form.reset();
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 
   return (
@@ -78,71 +132,123 @@ const SearchForm = () => {
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
-                            <FormControl>        
+                            <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                 <div className='w-[150px] flex items-center space-y-5'>
-                                    <Select>
-                                    <SelectTrigger className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                                    <SelectValue placeholder='one way'/>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="One Way" />
                                     </SelectTrigger>
-                                                <SelectContent {...field}>
-                                                <SelectGroup>
-                                                <SelectItem value="one way" className=' text-black focus:text-white focus:bg-blue-500' >one way</SelectItem>
-                                                <SelectItem value="rounded trip" className=' text-black focus:text-white focus:bg-blue-500 '>Rounded trip</SelectItem>
-                                                </SelectGroup>
-                                                </SelectContent>
-                                                </Select>
-                                            </div>   
+                                    <SelectContent>
+                                        <SelectItem value="One Way" className=' text-black focus:bg-blue-500 focus:text-white'>One way</SelectItem>
+                                        <SelectItem value="Rounded trip" className='text-black focus:bg-blue-500 focus:text-white'>Rounded trip</SelectItem>           
+                                    </SelectContent>
+                                </Select>
+                                </div>
                             </FormControl>
-                                            <FormMessage/>
+                            <FormMessage/>
                         </FormItem>
                        )}                    
                        />     
                     </div>
-                    {/* <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
-                        <FormField
-                        control={form.control}
-                        name='location'
-                        render={(field)=>(
-                            <FormItem>
-                                <FormLabel className=' flex text-black'>From</FormLabel>
-                                <FormMessage/>
-                                <FormControl>
-                                        <div className=' flex items-center '>
-                                            <Input type="text" placeholder="From" {...field}/>
-                                          
-                                        </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                        />
-                    </div>
+
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
-                        <FormField
-                        control={form.control}
-                        name='location'
-                        render={(field)=>(
-                            <FormItem>
-                                <FormLabel className=' flex text-black'>To</FormLabel>
-                                <FormMessage/>
-                                <FormControl>
-                                        <div className=' flex items-center '>
-                                            <Input type="text" placeholder="From" {...field}/>
-                                          
-                                        </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                        />
+                    <FormField
+                      control={form.control}
+                      name='location'
+                      render={({ field: {...field } }) => ( 
+                      <FormItem>
+                      <FormLabel className='flex text-black'>From</FormLabel>
+                    
+                     
+                     <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                <div className='w-[150px] flex items-center space-y-5'>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="from" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <ScrollArea className=" h-64 w-36 rounded-md ">
+                                        {/* <SelectItem value="One Way" className=' text-black focus:bg-blue-500 focus:text-white'>One way</SelectItem>      */}
+                                        {data.map((city, index) => (
+                                               <SelectItem
+                                               key={index}
+                                                   value={city}
+                                                   className='text-black focus:bg-blue-500 focus:text-white'
+                                               >
+                                                   {city}
+                                               </SelectItem>
+                                           ))}
+                                    </ScrollArea>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                            </FormControl>
+                    
+                      <FormMessage />
+                      </FormItem>
+                     )}
+                    />
                     </div>
+                    
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
+                    <FormField
+                      control={form.control}
+                      name='locationR'
+                      render={({ field: {...field } }) => ( 
+                      <FormItem>
+                      <FormLabel className='flex text-black'>To</FormLabel>
+                      <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                <div className='w-[150px] flex items-center space-y-5'>
+                                <Select
+                                 value={field.value}
+                                 onValueChange={(value) => {
+                                   field.onChange(value);
+                                 }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="To" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                    <ScrollArea className=" h-64 w-36 rounded-md ">
+                                        {data1.map((city, index) => (
+                                               <SelectItem
+                                               key={index}
+                                                   value={city}
+                                                   className='text-black focus:bg-blue-500 focus:text-white'
+                                               >
+                                                   {city}
+                                               </SelectItem>
+                                           ))}
+                                    </ScrollArea>
+                                    </SelectContent>
+                                </Select>
+                                </div>
+                            </FormControl>
+                      <FormMessage />
+                      </FormItem>
+                     )}
+                    />
+                    </div>
+
+                <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
                            <FormField
                            control={form.control}
-                           name='onward'
-                           render={(field)=>(
+                           name='dates'
+                           render={( {field} )=>(
                                 <FormItem >
                                     <FormLabel className=' flex text-black'>Onward</FormLabel>
-                                    <FormMessage/>
-                                    <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
+                                   
+                                    <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm '>
                                     <div className={cn("grid gap-2",)}>
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -151,36 +257,32 @@ const SearchForm = () => {
                                             variant={"outline"}
                                             className={cn(
                                             "justify-start text-left font-normal",
-                                            !field?.onward && "text-muted-foreground"
+                                            "text-muted-foreground"
                                             )}
+                                        
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {dates.from ? 
-                                           
-                                                <>
-                                                {format(date.from, "LLL dd, y")}
-                                            
-                                                </>
-                                                :"Onward Date"
-                                            }
+                                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                             
                                         </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
-                                            initialFocus
-                                            mode="range"
-                                            defaultMonth={date?.to}
-                                            selected={date}
-                                            onSelect={setDate}
-                                            numberOfMonths={2}
-                                            disabled={(date)=>
-                                                date < new Date(new Date().setHours(0, 0, 0, 0))
-                                            }
-                                        />
+                                                initialFocus
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={(selectedDate) => {
+                                                    setDate(selectedDate); 
+                                                    field.onChange(selectedDate); 
+                                                }}
+                                                numberOfMonths={2}
+                                                disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                            />
+                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
+                            {/* <FormMessage/> */}
                                     </FormControl>
                                 </FormItem>
                            )}
@@ -188,14 +290,15 @@ const SearchForm = () => {
 
                            />
                     </div>
-                    <div className='grid w-full gap-1.5 lg:max-w-xs items-center'>
+
+                <div className='grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2'>
                            <FormField
                            control={form.control}
-                           name='return'
-                           render={(field)=>(
-                                <FormItem>
+                           name='dateR'
+                           render={( {field} )=>(
+                                <FormItem >
                                     <FormLabel className=' flex text-black'>Return</FormLabel>
-                                    <FormMessage/>
+                                   
                                     <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                     <div className={cn("grid gap-2",)}>
                                     <Popover>
@@ -205,72 +308,73 @@ const SearchForm = () => {
                                             variant={"outline"}
                                             className={cn(
                                             "justify-start text-left font-normal",
-                                            !date && "text-muted-foreground"
+                                            "text-muted-foreground"
                                             )}
+                                        
                                         >
                                             <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {field.value?.to ? 
-                                           
-                                                <>
-                                                {format(date.to, "LLL dd, y")}
+                                            {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
                                             
-                                                </>
-                                                :"Return Date"
-                                            }                                           
                                         </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
-                                            initialFocus
-                                            mode="range"
-                                            defaultMonth={date?.to}
-                                            selected={field.date}
-                                            onSelect={setDate}
-                                            numberOfMonths={2}
-                                            disabled={(date)=>
-                                                date < new Date(new Date().setHours(0, 0, 0, 0))
-                                            }
-                                        />
+                                                initialFocus
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={(selectedDate) => {
+                                                    setDate1(selectedDate); 
+                                                    field.onChange(selectedDate); 
+                                                }}
+                                                numberOfMonths={2}
+                                                disabled={(date1) => date1 < new Date(new Date().setHours(0, 0, 0, 0))}
+                                            />
+                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
+                            {/* <FormMessage/> */}
                                     </FormControl>
                                 </FormItem>
                            )}
+
+
                            />
                     </div>
+
                     <div className=' flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                             <FormField
                             control={form.control}
                             name='adults'
-                            render={(field)=>(
+                            render={({ field: {...field } })=>(
                             <FormItem>
                             <FormLabel className=' flex text-black'>Adults</FormLabel>
-                            <FormMessage/>
-                            <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
-                            
+                           
+                            <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>               
                                 <Input placeholder='No of adults' type='text' {...field} />
-                            </FormControl>                 
+                            </FormControl>
+                            <FormMessage/>                 
                             </FormItem>
                             )}
                     />
                     </div>
                     
                     </div>
+
                     <div className='flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                         <FormField
                         control={form.control}
                         name='children'
-                        render={(field)=>(
+                        render={({ field: {...field } })=>(
                         <FormItem>
                         <FormLabel className=' flex text-black'>Childrens</FormLabel>
-                        <FormMessage/>
-                        <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                         
+                        <FormControl className=' border-none outline-none ring-1 ring-blue-600 rounded-sm'>           
                             <Input placeholder='no of childrens' type='text' {...field} />
-                        </FormControl>                 
+                        </FormControl> 
+                        <FormMessage/>                
                         </FormItem>
                         )}
                         />                    
@@ -278,10 +382,10 @@ const SearchForm = () => {
                     
                     </div>
                     </div>
-                    */}
-                    <div className='flex items-center w-full space-x-2'>
+                   
+                    <div className='flex items-center  space-x-2'>
                         <div className=' grid items-center flex-1 mt-5'>
-                           <button type="submit">search</button>
+                           <Button type='submit'>Search</Button>
                         </div>
                     </div> 
                     
@@ -289,7 +393,7 @@ const SearchForm = () => {
                 </form>
             </Form>
         </div>
-  )
-}
+  );
+};                     
 
 export default SearchForm
