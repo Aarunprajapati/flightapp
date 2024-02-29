@@ -44,11 +44,16 @@ import axios from 'axios'
 import { Separator } from '@radix-ui/react-separator'
 import { ScrollArea } from '../ui/scroll-area'
 
-const SearchForm =  () => {
+interface SearchFormProps {
+    updateFlyData: (newData: any) => void;
+}
+const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
+    // const [flyData, setflyData] = useState<[]>([])
+ 
     const router = useRouter()
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -83,19 +88,36 @@ const SearchForm =  () => {
             }
         };
        
-
       useEffect(()=>{
         sourcecityData();
       });
 
       useEffect(()=>{
         destinationcityData();
-      })
+      });
       
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)      
-        form.reset()
-        
+      const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/user/allflight');
+            const res1 = res.data.flight;
+
+            const matchingData = res1.filter((flight: any) =>
+            flight.displayData.source.airport.cityName === values.location &&
+            flight.displayData.destination.airport.cityName === values.locationR
+             );
+             if (matchingData.length === 0) {
+                console.log("No data found");
+                updateFlyData([])
+             
+            } else {
+                updateFlyData(matchingData);
+                console.log(matchingData, "matchingData")
+            }
+               
+            form.reset();
+        } catch (error) {
+            console.error("Error:", error);
+        }
     }
 
   return (
@@ -218,10 +240,6 @@ const SearchForm =  () => {
                     />
                     </div>
 
-
-
-
-
                 <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
                            <FormField
                            control={form.control}
@@ -324,12 +342,6 @@ const SearchForm =  () => {
                            />
                     </div>
 
-                   
-
-
-
-
-
                     <div className=' flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                             <FormField
@@ -373,7 +385,6 @@ const SearchForm =  () => {
                    
                     <div className='flex items-center  space-x-2'>
                         <div className=' grid items-center flex-1 mt-5'>
-                           {/* </button type="submit">search</> */}
                            <Button type='submit'>Search</Button>
                         </div>
                     </div> 
@@ -386,41 +397,3 @@ const SearchForm =  () => {
 };                     
 
 export default SearchForm
-
-
-        //  <div className={cn("grid gap-2",)}>
-        //  <Popover>
-        //      <PopoverTrigger asChild>
-        //      <Button
-        //          id="date"
-        //          variant={"outline"}
-        //          className={cn(
-        //          "justify-start text-left font-normal",
-        //           "text-muted-foreground"
-        //          )}
-            //  >
-            //      <CalendarIcon className="mr-2 h-4 w-4" />
-            //      {date1 ? format(date1, "PPP") : <span>Pick a date</span>}
-            //  </Button>
-            //  </PopoverTrigger>
-            //  <PopoverContent className="w-auto p-0" align="start">
-            //  <Calendar
-            //      initialFocus
-            //      mode="single"
-                 // defaultMonth={date?.to}
-//                  selected={date1}
-//                  onSelect={setDate1}
-//                  numberOfMonths={2}
-//                  // initialFocus
-//                  disabled={(date1)=>
-//                      date1 < new Date(new Date().setHours(0, 0, 0, 0))
-//                  }
-//              />
-//              </PopoverContent>
-//          </Popover>
-//  </div>
-//          </FormControl>
-//      </FormItem>
-// )}
-// />
-// </div> 
