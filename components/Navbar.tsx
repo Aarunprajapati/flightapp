@@ -2,18 +2,20 @@
 
 import Image from 'next/image'
 import React from 'react'
-import { Backpack, Building2, HomeIcon, Plane } from 'lucide-react'
 import { Card } from './ui/card'
 import { cn } from '@/lib/utils'
+// * custome components
 import NvavbarButton from './NvavbarButton'
 import MobileSideBar from './MobileSideBar'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import LoginForm from './auth/Login-Form'
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import RegisterForm from './auth/Register-Form'
+// * icons
+import { Backpack, Building2, HomeIcon, Plane } from 'lucide-react'
+//* shadcn ui
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import Link from 'next/link'
 
-
+//* var
 const datas = [
   {
     icon: HomeIcon ,
@@ -45,8 +47,7 @@ const Navbar = () => {
       <MobileSideBar/>
         <div className=' flex items-center px-5 '>
           <Link href={"/"}>
-          
-            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid w-20 h-12'  />
+            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid '  />
           </Link>
         </div>
         <div className=' items-center gap-x-2 px-10 hidden lg:flex '>

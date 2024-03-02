@@ -37,10 +37,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({ labels, className, title, sid
                     </div>
                   ))}
               </RadioGroup>
-              </div>
-              
-                   
-
+            </div>
         </div>
         <p className='text-zinc-800 text-md'>{sidelabel}</p>
       </div>
