@@ -1,14 +1,25 @@
 'use client'
 import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import axios from 'axios'
+
+//* icons
 import { ArrowLeftRight, Plane, Check } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+
+//* custom components
 import RadioButton from './RadioButton'
 import HeroContent from './HeroContent'
-import { Button } from './ui/button'
 import HeroContentSecond from './HeroContentSecond'
-import axios from 'axios'
-import { addDays, format } from "date-fns";
 
+
+import { addDays, format } from "date-fns";
+import { DateRange } from 'react-day-picker'
+
+
+//* shadcn ui
+
+import { Button } from './ui/button'
 import {
   Command,
   CommandEmpty,
@@ -22,9 +33,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Separator } from './ui/separator'
-import Link from 'next/link'
-import { DateRange } from 'react-day-picker'
 
+
+
+//* Var 
 const datas = [
   {
     icon: Plane,
@@ -62,7 +74,7 @@ const heroLabel = [
     label: "Double Seat Fares",
   },
 ];
-
+  
 interface City {
     cityName: string;
     AirPortcode: string;
@@ -71,8 +83,7 @@ interface City {
 
 const HeroPage = () => {
 
-  //* HeroContentSecond
-
+  //* HeroContentSecond functionality
   const today = new Date();
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: today,
@@ -86,6 +97,7 @@ const HeroPage = () => {
   const fromDateString = date?.from ? date.from.toLocaleDateString('en-US') : '';
   const toDateString = date?.to ? date.to.toLocaleDateString('en-US') : '';
 
+  //* popover open and close 
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
 
@@ -114,7 +126,6 @@ const HeroPage = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/user/displaydata');
-    //   console.log(response.data.sourceAirports)
       const FromData = response.data.source;
       const ToData = response.data.destination; 
       const FromAirlines = FromData?.map((value:any)=>({
@@ -135,13 +146,14 @@ const HeroPage = () => {
       console.error('Error fetching data:', error);
     }
   };
+  
+  //* arrival city select function
   const handleCitySelection = (city: City) => {
-    console.log(city,"city")
     setSelectedCity(city);
     setOpen(false); 
   };
+  // * destination city select function
   const handleCityDestinationSelection = (city: City) => {
-    console.log(city,"city")
     setdestinationcity(city);
     setOpen1(false); 
   };
@@ -244,6 +256,8 @@ const HeroPage = () => {
           
           <HeroContentSecond date={date} setDate={setDate} disabledDates={disabledDays} getDayOfWeek={getDayOfWeek} today={today}/>
         </div>
+
+
         <div className='relative bottom-[90px] left-[270px] inline-block'>
           <button type='button' onClick={stateChange} className='rounded-full bg-white shadow-lg z-[100] '>
             <ArrowLeftRight className='text-blue-500 w-full h-full p-2' />
@@ -255,9 +269,7 @@ const HeroPage = () => {
 
       <div className='hidden relative bottom-12 w-full md:flex items-center justify-center'>
         <Link href={`/flights?${selectedCity.cityName}&${destinationcity.cityName}&${fromDateString}&${toDateString}`}>
-        <Button className='px-14 rounded-full text-2xl font-semibold py-3 bg-blue-400' size={'lg'}>Search</Button>
-        
-        
+        <Button className='px-14 rounded-full text-2xl font-semibold py-3 bg-blue-400' size={'lg'}>Search</Button>      
         </Link>
       </div>
     </div>  

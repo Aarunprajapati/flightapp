@@ -1,5 +1,12 @@
 "use client"
 import React, { useState } from 'react';
+
+//* custome components 
+import BookReview from './BookReview';
+import BookContact from './BookContact';
+import BookTravelDeatils from './BookTravelDeatils';
+
+//* chakra ui 
 import {
   Box,
   Button,
@@ -13,10 +20,8 @@ import {
   StepTitle,
   Stepper,
 } from '@chakra-ui/react';
-import BookReview from './BookReview';
-import BookContact from './BookContact';
-import BookTravelDeatils from './BookTravelDeatils';
 
+//* var 
 const steps = [
   { title: 'Review your itinerary',  },
   { title: 'Add contact details', },
@@ -24,27 +29,22 @@ const steps = [
 ];
 
 const BookPage = () => {
+  //* states
   const [activeStep, setActiveStep] = useState(0);
 
+  //* functions 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((currentStep) => currentStep + 1);
     }
   };
-  const lastButton = ()=>{
-    if(activeStep === steps.length - 1){
-      return <Button colorScheme='orange'>Continoue & Payment</Button>
-    } else {
-      return <Button onClick={handleNext}>Next</Button>
-    }
-  }
-
   const handlePrevious = () => {
     if (activeStep > 0) {
       setActiveStep((currentStep) => currentStep - 1);
     }
   };
 
+  //* render components accordingly steps
   const getStepContent = (step:any) => {
     switch (step) {
       case 0:
@@ -55,6 +55,9 @@ const BookPage = () => {
         return <BookTravelDeatils/>;
     }
   };
+
+  //* form submittion function
+
   const handleSubmit = (e:any)=>{
     e.preventDefault()
     console.log(e.target.value)
@@ -83,13 +86,13 @@ const BookPage = () => {
             </Step>
           ))}
         </Stepper>
-        <form onSubmit={handleSubmit}>
 
+
+        <form onSubmit={handleSubmit}>
           <h1>{getStepContent(activeStep)}</h1>
           <div className="flex justify-between">
             {activeStep > 0 && (
-              <Button
-                
+              <Button            
                 className="text-light"
                 colorScheme="orange"
                 variant="solid"
