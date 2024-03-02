@@ -1,11 +1,13 @@
-import { ArrowLeft, ArrowRight, Backpack, Briefcase, CalendarDays, ChevronDown, Clock5, Sofa, Utensils, XSquare } from 'lucide-react'
+import React  from 'react'
+//* icons
+import {ArrowRight, Backpack, Briefcase, CalendarDays, ChevronDown, Clock5, Sofa, Utensils, XSquare } from 'lucide-react'
+//* shadcn ui
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
-import React from 'react'
 
 const BookReview = () => {
   return (
@@ -52,10 +54,9 @@ const BookReview = () => {
                         <ArrowRight className=' h-5 w-5'/>
                         <h1 className='text-sm font-bold'>BOM: Standard Fare</h1> 
                     </div>
-                
-
-
                 </div>
+
+
                 <div className="p-4">
                         <div className="grid grid-cols-3 gap-4">
                             <span className="text-gray-500 text-xs flex items-center gap-x-2 "><XSquare className='w-4 h-4'/>Cancellation fee starts from ₹3,830</span>
@@ -68,6 +69,7 @@ const BookReview = () => {
                             <span className="text-gray-500 text-xs flex items-center gap-x-2"><Sofa className='w-4 h-4'/> Paid seat</span>
                         </div>
                 </div>
+
                 <div>
                 <Accordion type="single" collapsible>
                     <AccordionItem value="item-1">

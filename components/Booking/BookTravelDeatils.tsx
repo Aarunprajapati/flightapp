@@ -1,12 +1,16 @@
 ""
 import React from 'react'
-import {  travelleSchema } from '@/Schemas/BookSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { FormField, FormItem, Form, FormControl, FormLabel, FormMessage } from '../ui/form'
+import { cn } from '@/lib/utils'
+//* schema
+import {  travelleSchema } from '@/Schemas/BookSchema'
+
+//* shadcn ui
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { FormField, FormItem, Form, FormControl, FormLabel} from '../ui/form'
 import {
     Select,
     SelectContent,
@@ -15,7 +19,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { cn } from '@/lib/utils'
+
 import { Nationality } from './nationality'
 
 
@@ -40,9 +44,8 @@ const BookTravelDeatils = () => {
          <Form {...form}>
     <form onSubmit={form.handleSubmit(handleSubmit)} className='p-4 w-full'>
         
-        {/* Mobile Number */}
+        {/* full Name */}
         <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md ">
-
             <div className=''>
                 <FormField             
                     control={form.control}
@@ -71,7 +74,8 @@ const BookTravelDeatils = () => {
                     )}
                 />
             </div>
-                {/* Gender */}
+
+            {/* Gender */}
             <div className='grid gap-3 items-center p-4 max-w-xl -mt-6 '>
                 <FormLabel>Gender</FormLabel>
                 <div>
@@ -102,9 +106,9 @@ const BookTravelDeatils = () => {
                         )}
                     />
                 </div>
-           
            </div>
         </div>
+        {/* nationality */}
         <div className='grid gap-3 items-center p-4 max-w-md '>
                 <FormLabel>Nationality</FormLabel>
                 <div>
@@ -134,7 +138,6 @@ const BookTravelDeatils = () => {
                         )}
                     />
                 </div>
-           
            </div>  
         <div className=' px-4 py-2'>
             <Button className='bg-blue-600 text-white ' type="submit">submit</Button>
