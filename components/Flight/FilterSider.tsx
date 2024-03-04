@@ -26,6 +26,7 @@ interface Filter {
 
 interface FlightSiderProps {
   filter?: Filter[];
+  onClick?:()=>void
 }
 
 const FilterSider = ({ filter }: FlightSiderProps) => {
