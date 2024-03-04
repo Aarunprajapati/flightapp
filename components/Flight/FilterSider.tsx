@@ -1,10 +1,12 @@
 'use client'
 import React from 'react';
-import { Select, SelectTrigger, SelectContent, SelectGroup } from '../ui/select';
+import {  ChevronDown } from 'lucide-react';
+//* shadcn ui components
 import { Checkbox } from '../ui/checkbox';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
-import { ArrowBigDown, ChevronDown } from 'lucide-react';
 
+
+// interface for the filter constent 
 interface Filter {
   label?: string;
   value1?: string;
@@ -28,7 +30,7 @@ interface FlightSiderProps {
   filter?: Filter[];
   onClick?:()=>void
 }
-
+// * Side filter components
 const FilterSider = ({ filter }: FlightSiderProps) => {
   return (
     <div className='w-full bg-white rounded-lg grid gap-2'>
@@ -60,7 +62,8 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                         </label>
                       </div>
                       <p className='font-extralight text-xs'>{item.price2}</p>
-                    </div>  
+                    </div>                   
+                    
             </AccordionContent>
           </AccordionItem>
         ))}

@@ -2,8 +2,10 @@
 import { Clock5 } from 'lucide-react'
 import React from 'react'
 
-const Flightdetail = () => {
+// flight details component which show in the flight data component
+const Flightdetail = ()=> {
   return (
+    <> 
     <div  className='  border-2 border-gray-200  '>
        <div className='flex border-b-2 border-gray-200 p-4'>
         <div className='text-xs flex gap-2'>
@@ -59,6 +61,8 @@ const Flightdetail = () => {
 
 
     </div>
+
+    </>
   )
 }
 
