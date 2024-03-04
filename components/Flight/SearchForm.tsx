@@ -52,7 +52,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
-    // const [flyData, setflyData] = useState<[]>([])
+ 
+    // console.log(stopFlights,"stop flights")
  
     const router = useRouter()
     const  form  = useForm<z.infer<typeof formSchema>>({
@@ -66,6 +67,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
         },
     });
 
+
+        
         const sourcecityData = async () => {
             try {
                 const res = await axios.get('http://localhost:5000/api/user/sourcecity');
@@ -90,17 +93,16 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
        
       useEffect(()=>{
         sourcecityData();
-      });
+      },[]);
 
       useEffect(()=>{
         destinationcityData();
-      });
+      },[]);
       
       const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const res = await axios.get('http://localhost:5000/api/user/allflight');
             const res1 = res.data.flight;
-
             const matchingData = res1.filter((flight: any) =>
             flight.displayData.source.airport.cityName === values.location &&
             flight.displayData.destination.airport.cityName === values.locationR
