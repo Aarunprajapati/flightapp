@@ -1,40 +1,33 @@
 "use client"
 import React, { useState } from 'react'
-import HeaderPage from './HeaderPage'
-import { ArrowLeftRight } from 'lucide-react'
-import NvavbarButton from '../NvavbarButton'
-import SeacrhButton from '../CustomButton'
-import CustomButton from '../CustomButton'
-import { Input } from '@/components/ui/input'
 import FilterSider from './FilterSider'
 import Flightdata from './flight-data'
-import { cn } from '@/lib/utils'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
-
-import Flightdetail from './flight-detail'
 import FilterSiderAirlines from './FilterSiderAirlines'
 import FilterSlider from './FilterSlider'
- import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+import { FlightProvider } from '../contextApi'
 
- 
- 
+//  this is the parent component in which all the componets are together
 const FlightPageContent = () => {
+// flyData is the state to handle the states of the flight data after searhing the flight
 
-    const [flyData, setFlyData] = useState<any[]>([]);
 
- const updateFlyData = (newData:any) => {
-     setFlyData(newData);
- };
   return (
+    <FlightProvider>
     <div className='w-full mx-auto'>
+        {/* this is the search component which  is used to search the flights  */}
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
-            <SearchForm updateFlyData={updateFlyData}/>
+            <SearchForm  />
+            {/* updateFlyData={setFlyData} */}
         </div>
+
         <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
             <div className=' col-span-3'>
+                {/* this is  the side filter  */}
                 <div className='h-auto'>
                     <p className='mb-2'>39 of 39 flights</p>
                         <FilterSider filter={Filter1}/> 
@@ -62,14 +55,15 @@ const FlightPageContent = () => {
                     </div>
                     </div>
                 </div>
-
-                <div> <Flightdata flyData={flyData}/></div>
-               
+               {/* this shows the flight data   */}
+                <div> <Flightdata /></div>
+                {/* flyData={flyData} */}
             </div>
         </main>
  
     
     </div>
+    </FlightProvider>
   )
 }
 
