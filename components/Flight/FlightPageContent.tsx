@@ -18,14 +18,36 @@ import Flightdetail from './flight-detail'
 import FilterSiderAirlines from './FilterSiderAirlines'
 import FilterSlider from './FilterSlider'
  import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+import axios from 'axios'
 
  
  
 const FlightPageContent = () => {
 
-    const [flyData, setFlyData] = useState<any[]>([]);
+const [flyData, setFlyData] = useState<any[]>([]);
+const [oneStop, setOneStopflight] = useState<any[]>([])
 
- const updateFlyData = (newData:any) => {
+
+    const flightstops = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/user/allFlight');
+            const  stopsdata =   res.data.flights;
+            console.log(stopsdata)
+             const Onestopdata = stopsdata.filter((flight:any)=>(
+                flight.displayData.stopInfo === '1 stop' 
+            ))
+             const Twostopdata = stopsdata.filter((flight:any)=>(
+                flight.displayData.stopInfo === '2 stop' 
+            ))
+            setOneStopflight(Onestopdata)
+
+        } catch (error) {   
+            console.error('Error fetching data:', error);
+        }
+    };
+
+
+const updateFlyData = (newData:any) => {
      setFlyData(newData);
  };
   return (
@@ -37,7 +59,7 @@ const FlightPageContent = () => {
             <div className=' col-span-3'>
                 <div className='h-auto'>
                     <p className='mb-2'>39 of 39 flights</p>
-                        <FilterSider filter={Filter1}/> 
+                        <FilterSider  filter={Filter1}/> 
                         <FilterSider filter={Filter2}/> 
                         <FilterSlider value={prices}/>
                         <FilterSiderAirlines filter={airlines}/>
@@ -62,6 +84,11 @@ const FlightPageContent = () => {
                     </div>
                     </div>
                 </div>
+                {/* {oneStop && (
+                    <div>
+                        <Flightdata flyData={oneStop}/>
+                    </div>
+                )} */}
 
                 <div> <Flightdata flyData={flyData}/></div>
                

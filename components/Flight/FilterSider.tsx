@@ -26,6 +26,7 @@ interface Filter {
 
 interface FlightSiderProps {
   filter?: Filter[];
+  onClick?:()=>void
 }
 
 const FilterSider = ({ filter }: FlightSiderProps) => {
@@ -59,47 +60,7 @@ const FilterSider = ({ filter }: FlightSiderProps) => {
                         </label>
                       </div>
                       <p className='font-extralight text-xs'>{item.price2}</p>
-                    </div>
-                    {/* for Airlines filter */}
-
-                    {/* <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value3}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price3}</p>
-                    </div>
-                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value4}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price4}</p>
-                    </div>
-                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value5}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price5}</p>
-                    </div>
-                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg  ">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value6}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price6}</p>
-                    </div> */}
-                    {/* end check box */}
-                    
+                    </div>  
             </AccordionContent>
           </AccordionItem>
         ))}
