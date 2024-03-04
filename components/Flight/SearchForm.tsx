@@ -1,15 +1,13 @@
 "use client"
 import { formSchema } from '@/Schemas/FormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import React, { RefAttributes, useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, {useContext, useEffect, useState } from 'react'
+import { useForm} from 'react-hook-form';
 import * as z  from 'zod'
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,43 +16,33 @@ import {
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-
 import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
 import { Input } from "@/components/ui/input"
-import HeroContent from '../HeroContent'
-import HeaderPage from './HeaderPage'
-import { ArrowLeftRight, CalendarIcon, MinusCircleIcon, Plus, PlusCircleIcon } from 'lucide-react'
-import { addDays } from 'date-fns'
-import { DateRange } from 'react-day-picker'
+import {  CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
-import CustomButton from '../CustomButton'
 import axios from 'axios'
-import { Separator } from '@radix-ui/react-separator'
 import { ScrollArea } from '../ui/scroll-area'
-
-interface SearchFormProps {
-    updateFlyData: (newData: any) => void;
-}
-const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
+import  instance from "@/axiosinstance"
+import { FlightContext} from '../contextApi';
+  
+const SearchForm= () => {
+    const {setFlyData } = useContext(FlightContext)!;
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
-    // const [flyData, setflyData] = useState<[]>([])
  
-    const router = useRouter()
+
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -65,10 +53,10 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
             children: '',
         },
     });
-
+// api used for the search city
         const sourcecityData = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/user/sourcecity');
+                const res = await instance.get('/sourcecity');
            const  airportdata =   res.data.sourceAirports;
               const airports = airportdata?.map((value:string) =>(value))          
                 setData(airports)
@@ -76,10 +64,10 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
                 console.error('Error fetching data:', error);
             }
         };
-
+// api used for the destination city
         const destinationcityData = async () => {
             try {
-                const res1 = await axios.get('http://localhost:5000/api/user/destinationcity');
+                const res1 = await instance.get('/destinationcity');
            const  airportdata1 =   res1.data.sourceAirports1;
               const airports1 = airportdata1?.map((value:string) =>(value))
                 setData1(airports1)
@@ -96,22 +84,25 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
         destinationcityData();
       });
       
+    //   functions used after the  submit  button
       const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        // api used to get all the data of a  all flight
         try {
-            const res = await axios.get('http://localhost:5000/api/user/allflight');
+            const res = await instance.get('/allflight');
             const res1 = res.data.flight;
-
+ 
+            
             const matchingData = res1.filter((flight: any) =>
             flight.displayData.source.airport.cityName === values.location &&
             flight.displayData.destination.airport.cityName === values.locationR
              );
              if (matchingData.length === 0) {
                 console.log("No data found");
-                updateFlyData([])
+                setFlyData([])
              
             } else {
-                updateFlyData(matchingData);
-                console.log(matchingData, "matchingData")
+                setFlyData(matchingData);
+                // console.log(matchingData, "matchingData")
             }
                
             form.reset();
@@ -121,10 +112,13 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
     }
 
   return (
+    
         <div className=' w-full space-y-2 my-5'>
+            {/* components used to search the flight  */}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
-                className='flex flex-col lg:flex-row  items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg   '>
+                className='flex flex-col lg:flex-row  items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg '>
+                   {/* select the route  */}
                     <div className='grid gap-1.5 justify-start lg:max-w-sm items-center '>
                        <FormField
                        control={form.control}
@@ -155,7 +149,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
                        )}                    
                        />     
                     </div>
-
+                     {/* source city location */}
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
                     <FormField
                       control={form.control}
@@ -199,7 +193,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
                      )}
                     />
                     </div>
-                    
+                    {/* destination city location */}
                     <div className='grid w-full gap-1.5 lg:max-w-sm items-center'>
                     <FormField
                       control={form.control}
@@ -239,8 +233,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
                      )}
                     />
                     </div>
-
-                <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
+                    {/*  date of journey */}
+                     <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
                            <FormField
                            control={form.control}
                            name='dates'
@@ -290,8 +284,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
 
                            />
                     </div>
-
-                <div className='grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2'>
+                    {/* return date */}
+                    <div className='grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2'>
                            <FormField
                            control={form.control}
                            name='dateR'
@@ -341,7 +335,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ updateFlyData }) => {
 
                            />
                     </div>
-
+                      {/*family members   */}
                     <div className=' flex items-center w-full space-x-2'>
                     <div className=' grid items-center flex-1'>
                             <FormField
