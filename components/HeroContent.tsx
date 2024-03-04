@@ -1,14 +1,11 @@
 'use client'
 
 import React from 'react'
-import { PopoverContent } from './ui/popover'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command'
 
 interface HeroContentProps {
     cityName?:string,
     AirPortcode?:string,
-    AirportName?:string
-    
+    AirportName?:string   
 }
 interface HeroContent{
     value?:HeroContentProps
