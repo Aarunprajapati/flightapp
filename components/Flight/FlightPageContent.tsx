@@ -15,7 +15,6 @@ import { FlightProvider } from '../contextApi'
 const FlightPageContent = () => {
 // flyData is the state to handle the states of the flight data after searhing the flight
 
-
   return (
     <FlightProvider>
     <div className='w-full mx-auto'>
@@ -30,7 +29,7 @@ const FlightPageContent = () => {
                 {/* this is  the side filter  */}
                 <div className='h-auto'>
                     <p className='mb-2'>39 of 39 flights</p>
-                        <FilterSider filter={Filter1}/> 
+                        <FilterSider  filter={Filter1}/> 
                         <FilterSider filter={Filter2}/> 
                         <FilterSlider value={prices}/>
                         <FilterSiderAirlines filter={airlines}/>

@@ -78,11 +78,11 @@ const SearchForm= () => {
        
       useEffect(()=>{
         sourcecityData();
-      });
+      },[]);
 
       useEffect(()=>{
         destinationcityData();
-      });
+      },[]);
       
     //   functions used after the  submit  button
       const onSubmit = async (values: z.infer<typeof formSchema>) => {
