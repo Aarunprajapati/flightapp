@@ -41,11 +41,6 @@ const SearchForm= () => {
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
-<<<<<<< HEAD
- 
-    // console.log(stopFlights,"stop flights")
-=======
->>>>>>> 61741ed5df0740f96096b703b9e51a07d9d11fb1
  
 
     const  form  = useForm<z.infer<typeof formSchema>>({
@@ -58,13 +53,7 @@ const SearchForm= () => {
             children: '',
         },
     });
-<<<<<<< HEAD
-
-
-        
-=======
 // api used for the search city
->>>>>>> 61741ed5df0740f96096b703b9e51a07d9d11fb1
         const sourcecityData = async () => {
             try {
                 const res = await instance.get('/sourcecity');
@@ -101,11 +90,8 @@ const SearchForm= () => {
         try {
             const res = await instance.get('/allflight');
             const res1 = res.data.flight;
-<<<<<<< HEAD
-=======
  
             
->>>>>>> 61741ed5df0740f96096b703b9e51a07d9d11fb1
             const matchingData = res1.filter((flight: any) =>
             flight.displayData.source.airport.cityName === values.location &&
             flight.displayData.destination.airport.cityName === values.locationR
