@@ -1,12 +1,9 @@
-'use client'
-import React from 'react';
-import {  ChevronDown } from 'lucide-react';
-//* shadcn ui components
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '../ui/checkbox';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 
 
-// interface for the filter constent 
 interface Filter {
   label?: string;
   value1?: string;
@@ -25,45 +22,119 @@ interface Filter {
   price6?: string;
 
 }
-
-interface FlightSiderProps {
-  filter?: Filter[];
-  onClick?:()=>void
+interface Airport {
+  cityCode: string;
+  cityName: string;
+  terminal: string;
+  airportCode: string;
+  airportName: string;
+  countryCode: string;
+  countryName: string;
 }
-// * Side filter components
-const FilterSider = ({ filter }: FlightSiderProps) => {
+
+interface DisplayData {
+  source: {
+    airport: Airport;
+    depTime: string;
+  };
+  destination: {
+    airport: Airport;
+    arrTime: string;
+  };
+  airlines: {
+    airlineCode: string;
+    airlineName: string;
+    flightNumber: string;
+    _id: string;
+  }[];
+  stopInfo: string;
+  totalDuration: string;
+}
+
+interface Flight {
+  _id: string;
+  id: string;
+  fare: number;
+  __v: number;
+  displayData: DisplayData;
+}
+interface FilterProps {
+  filter?: Filter[];
+  searchResults: Flight[];
+  setFilteredResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+}
+
+const FilterSider: React.FC<FilterProps> = ({ filter, searchResults, setFilteredResults }) => {
+  const [filters, setFilters] = useState<Filter>({});
+
+  const applyFilters = () => {
+    let filteredData = [...searchResults];
+
+    if (filters.value1){
+      filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filters.value1);
+    }
+
+    if (filters.value2){
+      filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filters.value2);
+    }
+
+    // Apply other filters similarly...
+
+    setFilteredResults(filteredData);
+  };
+
+  const handleCheckboxChange = (value: string) => {
+    setFilters({ ...filters, value1: value });
+    applyFilters(); 
+  };
+
+  const handleCheckbox2Change = (value: string) => {
+    setFilters({ ...filters, value1: value });
+    applyFilters();
+  };
+
+  // Add other checkbox change handlers...
+
   return (
     <div className='w-full bg-white rounded-lg grid gap-2'>
       <Accordion type="single" collapsible>
-        {filter?.map((item) => (
-          <AccordionItem value={`item-${item.label}`} key={item.label}> 
-       
-            <AccordionTrigger className=' no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center'>
+        {filter?.map(item => (
+          <AccordionItem value={`item-${item.label}`} key={item.label}>
+            <AccordionTrigger className='no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center'>
               {item.label}
-              <ChevronDown className=' text-gray-400 font-extralight text-xs'/>
+              <ChevronDown className='text-gray-400 font-extralight text-xs'/>
             </AccordionTrigger>
-       
-          
-              <AccordionContent className=' shadow-md'>        
-                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg  ">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value1}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price1}</p>
-                    </div>
-                    <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
-                      <div className='flex items-center'>
-                        <Checkbox id={`non-stop-${item.label}`} className=' mx-2' />
-                        <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                          {item.value2}
-                        </label>
-                      </div>
-                      <p className='font-extralight text-xs'>{item.price2}</p>
-                    </div>                   
-                    
+
+            <AccordionContent className='shadow-md'>
+              <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
+                <div className='flex items-center'>
+                  <Checkbox
+                    id={`non-stop-${item.label}`}
+                    value={item.value1}
+                    onClick={() => handleCheckboxChange(item.value1 || '')}
+                    className='mx-2'
+                  />
+                  <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
+                    {item.value1}
+                  </label>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
+                <div className='flex items-center'>
+                  <Checkbox
+                    id={`non-stop-${item.label}`}
+                    value={item.value2}
+                    onClick={() => handleCheckbox2Change(item.value2 || '')}
+                    className='mx-2'
+                  />
+                  <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
+                    {item.value2}
+                  </label>
+                </div>
+              </div>
+
+              {/* Add more checkbox inputs as needed... */}
+
             </AccordionContent>
           </AccordionItem>
         ))}

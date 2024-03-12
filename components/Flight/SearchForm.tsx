@@ -30,18 +30,55 @@ import {
 import { Input } from "@/components/ui/input"
 import {  CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
-import axios from 'axios'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
-import { FlightContext} from '../contextApi';
+
+
+interface Airport {
+    cityCode: string;
+    cityName: string;
+    terminal: string;
+    airportCode: string;
+    airportName: string;
+    countryCode: string;
+    countryName: string;
+  }
+ 
+  interface DisplayData {
+    source: {
+      airport: Airport;
+      depTime: string;
+    };
+    destination: {
+      airport: Airport;
+      arrTime: string;
+    };
+    airlines: {
+      airlineCode: string;
+      airlineName: string;
+      flightNumber: string;
+      _id: string;
+    }[];
+    stopInfo: string;
+    totalDuration: string;
+  }
   
-const SearchForm= () => {
-    const {setFlyData } = useContext(FlightContext)!;
+  interface Flight {
+    _id: string;
+    id: string;
+    fare: number;
+    __v: number;
+    displayData: DisplayData;
+  }
+interface SearchPageProps {
+    setSearchResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+  }
+const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults })  => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
- 
+    const [query, setQuery] = useState<string>('');
 
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -88,26 +125,21 @@ const SearchForm= () => {
       const onSubmit = async (values: z.infer<typeof formSchema>) => {
         // api used to get all the data of a  all flight
         try {
-            const res = await instance.get('/allflight');
-            const res1 = res.data.flight;
- 
-            
-            const matchingData = res1.filter((flight: any) =>
-            flight.displayData.source.airport.cityName === values.location &&
-            flight.displayData.destination.airport.cityName === values.locationR
-             );
-             if (matchingData.length === 0) {
+            const { location, locationR } = values;
+            const params = { location, locationR };
+            const res = await instance.get('/matchingData', { params });
+             const res1 = res.data;
+             if (res1.length === 0) {
                 console.log("No data found");
-                setFlyData([])
-             
+            
             } else {
-                setFlyData(matchingData);
-                // console.log(matchingData, "matchingData")
+                setSearchResults(res1);
             }
                
             form.reset();
-        } catch (error) {
-            console.error("Error:", error);
+        } catch (error:any) {
+            console.log(error.response.data.error)
+
         }
     }
 

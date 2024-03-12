@@ -2,15 +2,51 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
 import Fligtdetailsbtn from './fligt-details-btn'
-import { FlightContext } from '../contextApi'
 
 
+interface Airport {
+  cityCode: string;
+  cityName: string;
+  terminal: string;
+  airportCode: string;
+  airportName: string;
+  countryCode: string;
+  countryName: string;
+}
+
+interface DisplayData {
+  source: {
+    airport: Airport;
+    depTime: string;
+  };
+  destination: {
+    airport: Airport;
+    arrTime: string;
+  };
+  airlines: {
+    airlineCode: string;
+    airlineName: string;
+    flightNumber: string;
+    _id: string;
+  }[];
+  stopInfo: string;
+  totalDuration: string;
+}
+interface Flight {
+  _id: string;
+  id: string;
+  fare: number;
+  __v: number;
+  displayData: DisplayData;
+}
+interface FlightDataProps {
+  data: Flight[];
+}
 // flight data component
-const Flightdata= () => {
-  const { flyData } = useContext(FlightContext)!;
+const Flightdata: React.FC<FlightDataProps> = ({ data })=> {
   return (
     <>
-      {flyData.map((flight, index) => (
+      {data.map((flight, index) => (
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
           <div className='flex gap-2'>
