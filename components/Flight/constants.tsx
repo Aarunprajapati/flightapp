@@ -2,7 +2,7 @@
 export const Filter1=[
     {
         label:"Stop",
-        value1:"Non-stop",
+        value1:"Non stop",
         value2:"1 Stop"
     },
 ]
