@@ -19,7 +19,7 @@ import { DateRange } from 'react-day-picker'
 
 //* shadcn ui
 
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import {
   Command,
   CommandEmpty,
@@ -32,7 +32,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Separator } from './ui/separator'
+import { Separator } from '../ui/separator'
 
 
 
@@ -82,7 +82,9 @@ interface City {
   }
 
 const HeroPage = () => {
-
+  const [select , setSelect]= useState<string>('One way');
+  const [selectdown , setSelectdown]= useState<string>(' Regular Fares');
+  
   //* HeroContentSecond functionality
   const today = new Date();
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -103,7 +105,6 @@ const HeroPage = () => {
 
   //*   Arrival city select
   const [FromCity, setCity] = useState<City[]>([]);
-  console.log(FromCity,"Fromcity") 
   const [selectedCity, setSelectedCity] = useState<City>({
     cityName: 'Delhi',
     AirPortcode: 'DEL',
@@ -123,29 +124,6 @@ const HeroPage = () => {
     setdestinationcity({...selectedCity})
   }
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/user/displaydata');
-      const FromData = response.data.source;
-      const ToData = response.data.destination; 
-      const FromAirlines = FromData?.map((value:any)=>({
-        cityName: value.airport.cityName,
-        AirPortcode: value.airport.airportCode,
-        AirportName: value.airport.airportName
-      }))
-      const ToAirlines = ToData?.map((value:any)=>({
-        cityName: value.airport.cityName,
-        AirPortcode: value.airport.airportCode,
-        AirportName: value.airport.airportName
-      }))
-      setCity(FromAirlines);
-      setToCity(ToAirlines)
-      
-      
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
   
   //* arrival city select function
   const handleCitySelection = (city: City) => {
@@ -159,7 +137,28 @@ const HeroPage = () => {
   };
   
   useEffect(() => {
-    fetchData();
+    ( async()=>{
+      try {
+        const response = await axios.get('http://localhost:5000/api/user/displaydata');
+        const FromData = response.data.source;
+        const ToData = response.data.destination; 
+        const FromAirlines = FromData?.map((value:any)=>({
+          cityName: value.airport.cityName,
+          AirPortcode: value.airport.airportCode,
+          AirportName: value.airport.airportName
+        }))
+        const ToAirlines = ToData?.map((value:any)=>({
+          cityName: value.airport.cityName,
+          AirPortcode: value.airport.airportCode,
+          AirportName: value.airport.airportName
+        }))
+        setCity(FromAirlines);
+        setToCity(ToAirlines)
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    })()
   }, []);
 
 
@@ -174,7 +173,7 @@ const HeroPage = () => {
         ))}
       </div>
       <div className='relative bottom-5 shadow-2xl w-full'>
-        <RadioButton labels={labels} className='mt-10' sidelabel="Book International and Domestic Flights" />
+        <RadioButton labels={labels} className='mt-10' sidelabel="Book International and Domestic Flights"  setSelect={setSelectdown}/>
         <div className='flex items-center'>
           {/* From City */}
           <Popover open={open} onOpenChange={setOpen}>
@@ -183,17 +182,16 @@ const HeroPage = () => {
                 <div className='flex items-center'>
                    {/* HeroContent  */}
                    <HeroContent value={selectedCity} label="From" />
-
                 </div>
               </PopoverTrigger>
               <PopoverContent className="w-full p-0  z-50 relative">
                 <div className='scroll-container overflow-hidden items-center fixed -top-20 -left-[125px] h-auto w-[230px] bg-white' >
-                    <Command >
+                    <Command>
                             <CommandInput placeholder="Search arrival..." />
                             <CommandEmpty>No framework found.</CommandEmpty>
                             {FromCity?.map((city) => (
                                 <CommandGroup>
-                                    <div className=' flex items-center  ' onClick={() => handleCitySelection(city)}>
+                                    <div className=' flex items-center' onClick={() => handleCitySelection(city)}>
                                         <CommandItem key={city.cityName} value={city.cityName}>
                                             {city.cityName}
                                         </CommandItem>
@@ -202,7 +200,6 @@ const HeroPage = () => {
                                                 className={cn(
                                                     "mr-2 h-4 w-4",
                                                     selectedCity.cityName === city.cityName ? "opacity-100" : "opacity-0"
-                                                   
                                                 )}
                                             />         
                                     </div>
@@ -246,7 +243,7 @@ const HeroPage = () => {
                                             />         
                                     </div>
                             ))}
-                               <Separator className="my-2" />
+                             
                                     </CommandGroup>
                     </Command>
                 </div>
@@ -264,11 +261,11 @@ const HeroPage = () => {
           </button>
         </div>
 
-        <RadioButton labels={heroLabel} title='Select A Fare Type' className='bg-blue-50 w-fit p-2 mx-5 text-xs mb-10' />
+        <RadioButton labels={heroLabel} title='Select A Fare Type' className='bg-blue-50 w-fit p-2 mx-5 text-xs mb-10' setSelect={setSelect} />
       </div>
 
       <div className='hidden relative bottom-12 w-full md:flex items-center justify-center'>
-        <Link href={`/flights?${selectedCity.cityName}&${destinationcity.cityName}&${fromDateString}&${toDateString}`}>
+        <Link href={`/flights?${selectedCity.cityName}&${destinationcity.cityName}&${fromDateString}&${toDateString}&${selectdown}&${select}`}>
         <Button className='px-14 rounded-full text-2xl font-semibold py-3 bg-blue-400' size={'lg'}>Search</Button>      
         </Link>
       </div>

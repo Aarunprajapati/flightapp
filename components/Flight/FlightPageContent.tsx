@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import FilterSider from './FilterSider'
 import Flightdata from './flight-data'
 import { Switch } from '../ui/switch'
@@ -61,7 +61,6 @@ const [searchResults, setSearchResults] = useState<Flight[]>([]);
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
             <SearchForm  setSearchResults={setSearchResults}/>
         </div>
-        
 
         <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
             <div className=' col-span-3'>
@@ -95,7 +94,8 @@ const [searchResults, setSearchResults] = useState<Flight[]>([]);
                 </div>
                {/* this shows the flight data   */}
                 <div> <Flightdata  data={filteredResults.length > 0 ? filteredResults : searchResults} /></div>
-            </div>
+         
+          </div>
         </main>
  
     
@@ -104,4 +104,8 @@ const [searchResults, setSearchResults] = useState<Flight[]>([]);
   )
 }
 
+
+
 export default FlightPageContent
+
+

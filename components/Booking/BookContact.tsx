@@ -17,9 +17,13 @@ import {
   } from "@/components/ui/select"
 
 import { cn } from '@/lib/utils'
+type StepProps = {
+    gonext: (FormData: Record<string, any>) => void;
+    goprev: () => void;
+  };
 
 
-const BookContact = () => {
+const BookContact = ({gonext, goprev}:StepProps) => {
     const form = useForm<z.infer<typeof bookschema>>({
         resolver: zodResolver(bookschema),
         defaultValues:{
@@ -107,13 +111,13 @@ const BookContact = () => {
                 />
             </div>
         </div>
-        <div className=' px-4 py-2'>
+        {/* <div className=' px-4 py-2'>
             <Button className='bg-blue-600 text-white ' type="submit">submit</Button>
-        </div>
+        </div> */}
     </form>
 </Form>
 
-      
+      {/* <Button onClick={()=>gonext({age:26})}>Next</Button> */}
     </div>
   )
 }

@@ -21,9 +21,13 @@ import {
   } from "@/components/ui/select"
 
 import { Nationality } from './nationality'
+type StepProps = {
+    gonext: (FormData: Record<string, any>) => void;
+    goprev: () => void;
+  };
 
 
-const BookTravelDeatils = () => {
+const BookTravelDeatils = ({gonext, goprev}: StepProps) => {
 
     const form = useForm<z.infer<typeof travelleSchema>>({
         resolver: zodResolver(travelleSchema),
@@ -144,6 +148,7 @@ const BookTravelDeatils = () => {
         </div>
     </form>
 </Form>
+{/* <Button onClick={()=>gonext({city:"jaipur"})}>next</Button> */}
 
     </div>
   )

@@ -20,6 +20,7 @@ import {
   StepTitle,
   Stepper,
 } from '@chakra-ui/react';
+import { ControlledFlow } from './ControlledFlow';
 
 //* var 
 const steps = [
@@ -31,8 +32,26 @@ const steps = [
 const BookPage = () => {
   //* states
   const [activeStep, setActiveStep] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [data, setData] = useState({})
 
   //* functions 
+  const goprev = ()=>{
+    const prevstep = currentStepIndex -1;
+    if(prevstep >= 0){
+      setCurrentStepIndex(prevstep);
+    }
+  }
+  
+  const gonext = (FormData:any) => {
+    const newdata = {
+      ...data,
+      ...FormData
+    }
+    setCurrentStepIndex(currentStepIndex +1) 
+    setData(newdata)
+  };
+
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((currentStep) => currentStep + 1);
@@ -45,37 +64,37 @@ const BookPage = () => {
   };
 
   //* render components accordingly steps
-  const getStepContent = (step:any) => {
-    switch (step) {
-      case 0:
-        return <BookReview />;
-      case 1:
-        return <BookContact/>;
-      case 2:
-        return <BookTravelDeatils/>;
-    }
-  };
+  // const getStepContent = (step:any) => {
+  //   switch (step) {
+  //     case 0:
+  //       return <BookReview/>;
+  //     case 1:
+  //       return <BookContact/>;
+  //     case 2:
+  //       return <BookTravelDeatils/>;
+  //   }
+  // };
 
   //* form submittion function
 
-  const handleSubmit = (e:any)=>{
-    e.preventDefault()
-    console.log(e.target.value)
+  // const handleSubmit = (e:any)=>{
+  //   e.preventDefault()
+  //   console.log(e.target.value)
 
 
-  }
+  // }
 
   return (
     <div className="max-w-5xl mx-28 bg-white rounded-lg overflow-hidden">
       <div className="p-4">
-        <Stepper index={activeStep}>
+        <Stepper index={currentStepIndex}>
           {steps.map((step, index) => (
             <Step key={index}>
               <StepIndicator>
                 <StepStatus
-                  complete={index < activeStep ? <StepIcon /> : undefined}
-                  incomplete={index >= activeStep ? <StepNumber /> : undefined}
-                  active={index === activeStep ? <StepNumber /> : undefined}
+                  complete={index < currentStepIndex ? <StepIcon /> : undefined}
+                  incomplete={index >= currentStepIndex ? <StepNumber /> : undefined}
+                  active={index === currentStepIndex ? <StepNumber /> : undefined}
                 />
               </StepIndicator>
               <Box flexShrink="0">
@@ -88,16 +107,20 @@ const BookPage = () => {
         </Stepper>
 
 
-        <form onSubmit={handleSubmit}>
-          <h1>{getStepContent(activeStep)}</h1>
+       
+          <ControlledFlow currentIndex={currentStepIndex} onNext={gonext}>
+            <BookReview gonext={gonext} goprev={() => {}}/>
+            <BookContact gonext={gonext} goprev={() => {}}/>
+            <BookTravelDeatils gonext={gonext} goprev={() => {}}/>
+          </ControlledFlow>
           <div className="flex justify-between">
-            {activeStep > 0 && (
+            {currentStepIndex > 0 && (
               <Button            
                 className="text-light"
                 colorScheme="orange"
                 variant="solid"
                 size="md"
-                onClick={handlePrevious}
+                onClick={goprev}
               >
                 Previous
               </Button>
@@ -108,13 +131,11 @@ const BookPage = () => {
               colorScheme="orange"
               variant="solid"
               size="md"
-              onClick={handleNext}
+              onClick={gonext}
             >
-              {activeStep === steps.length - 1 ? 'continoune & Payment' : 'Next'}
+              {currentStepIndex === steps.length - 1 ? 'continoune & Payment' : 'Next'}
             </Button>
           </div>
-
-        </form>
       </div>
     </div>
   );
