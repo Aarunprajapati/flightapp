@@ -11,10 +11,10 @@ interface SeacrhButtonProps {
 }
 const CustomButton = ({label,href,className}: SeacrhButtonProps) => {
   return (
-    <Link href={'#'}>
-    <button className={cn('', className)}>{label}</button>
+    <Link href={href || ""}>
+      <Button className={cn("", className)}>{label}</Button>
     </Link>
-  )
+  );
 }
 
 export default CustomButton

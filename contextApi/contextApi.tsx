@@ -44,17 +44,27 @@ interface Airport {
     setFlyData: React.Dispatch<React.SetStateAction<Flight[]>>; 
   }
 
-  export const FlightContext = createContext<FlightContextType | undefined>(undefined);
+  export const FlightContext = createContext<FlightContextType | null>(null);
 
   export const FlightProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [flyData, setFlyData] = useState<Flight[]>([]);
-  
+
     return (
-      <FlightContext.Provider value={{ flyData, setFlyData }}>
+      <FlightContext.Provider value={{ flyData, setFlyData  }}>
         {children}
       </FlightContext.Provider>
     );
   };
-  export const useFlightContext = () => useContext(FlightContext);
+  export const useFlightContext = (): FlightContextType => {
+    const context = useContext(FlightContext);
+    if (!context) {
+      throw new Error('useFlightContext must be used within a FlightProvider');
+    }
+    return context;
+  };
 
+
+
+
+  

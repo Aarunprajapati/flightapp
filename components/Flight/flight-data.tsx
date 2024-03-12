@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
 import Fligtdetailsbtn from './fligt-details-btn'
-import { FlightContext } from '../contextApi'
+import { FlightContext } from '../../contextApi/contextApi'
 
 
 // flight data component
@@ -33,7 +33,7 @@ const Flightdata= () => {
                
 
           <div>
-            <CustomButton className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
+            <CustomButton href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
           </div>
           </div>
          

@@ -8,8 +8,13 @@ import {
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
+import { Button } from '../ui/button'
+type StepProps = {
+    gonext: (FormData: Record<string, any>) => void;
+    goprev: () => void;
+  };
 
-const BookReview = () => {
+const BookReview = ({gonext, goprev}: StepProps) => {
   return (
     <div className=' w-full p-4 my-8'>
         <div className=' grid gap-4'>
@@ -105,10 +110,9 @@ const BookReview = () => {
                     </AccordionItem>
                 </Accordion>
                 </div>
-
             </div>
         </div>
-
+        {/* <Button onClick={()=>{gonext({name:"arun"})}}>Next</Button> */}
     </div>
    
   )

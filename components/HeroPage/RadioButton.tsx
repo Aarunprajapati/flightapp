@@ -1,13 +1,11 @@
 'use client'
-import React from 'react';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Label } from './ui/label';
+import React, { useState } from 'react';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Label } from '../ui/label';
 import { cn } from '@/lib/utils';
-import HeroContent from './HeroContent';
 
 
 interface LabelItem{ 
-    id?:Number, 
     label: string;
 }
 
@@ -16,9 +14,16 @@ interface RadioButtonProps {
   title?:string;
   sidelabel?:string
   className?: string; 
+  setSelect?:(data:any)=>void;
 }
 
-const RadioButton: React.FC<RadioButtonProps> = ({ labels, className, title, sidelabel }) => {
+const RadioButton= ({ labels, className, title, sidelabel, setSelect }: RadioButtonProps) => {
+    const handleSubmit = (event: any) => {
+    if (setSelect) {
+      setSelect(event);
+    }
+  };
+ 
   return (
     <div>
       <div className={cn('w-full rounded-md md:flex items-center justify-between p-10 space-x-10 hidden ', className)}>
@@ -30,7 +35,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({ labels, className, title, sid
               <RadioGroup defaultValue={`option-${labels[0].label}`} className='flex items-center lg:space-x-2 space-x-5'>
                 {labels.map((item) => (
                     <div className="flex items-center space-x-2"  key={item.label}>
-                        <RadioGroupItem value={`option-${item.label}`} id={`option-${item.label}`} />
+                        <RadioGroupItem value={`option-${item.label}`}  id={`option-${item.label}`} onClick={()=>handleSubmit(item.label)} />
                         <Label htmlFor={`option-${item.label}`} className='text-md font-semibold space-x-2'>
                         {item.label}
                         </Label>

@@ -33,10 +33,10 @@ import { format } from 'date-fns'
 import axios from 'axios'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
-import { FlightContext} from '../contextApi';
+import { useFlightContext} from '../../contextApi/contextApi';
   
 const SearchForm= () => {
-    const {setFlyData } = useContext(FlightContext)!;
+    const { setFlyData} = useFlightContext()!;
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
@@ -53,45 +53,44 @@ const SearchForm= () => {
             children: '',
         },
     });
-// api used for the search city
-        const sourcecityData = async () => {
+
+
+      useEffect(()=>{
+        // api used for the search city
+        (async ()=>{
             try {
-                const res = await instance.get('/sourcecity');
-           const  airportdata =   res.data.sourceAirports;
+            const res = await instance.get('/sourcecity');
+            const  airportdata =   res.data.sourceAirports;
               const airports = airportdata?.map((value:string) =>(value))          
                 setData(airports)
             } catch (error) {   
                 console.error('Error fetching data:', error);
             }
-        };
-// api used for the destination city
-        const destinationcityData = async () => {
-            try {
-                const res1 = await instance.get('/destinationcity');
-           const  airportdata1 =   res1.data.sourceAirports1;
-              const airports1 = airportdata1?.map((value:string) =>(value))
-                setData1(airports1)
-            } catch (error) {   
-                console.error('Error fetching data:', error);
-            }
-        };
-       
-      useEffect(()=>{
-        sourcecityData();
+        })()
+                
+        // api used for the destination city
+       ;(async () => {
+        try {
+            const res1 = await instance.get('/destinationcity');
+       const  airportdata1 =   res1.data.sourceAirports1;
+          const airports1 = airportdata1?.map((value:string) =>(value))
+            setData1(airports1)
+        } catch (error) {   
+            console.error('Error fetching data:', error);
+        }
+    })();
+     
       },[]);
 
-      useEffect(()=>{
-        destinationcityData();
-      },[]);
-      
-    //   functions used after the  submit  button
+    
+    
+    //* functions used after the  submit  button
       const onSubmit = async (values: z.infer<typeof formSchema>) => {
         // api used to get all the data of a  all flight
         try {
+          
             const res = await instance.get('/allflight');
             const res1 = res.data.flight;
- 
-            
             const matchingData = res1.filter((flight: any) =>
             flight.displayData.source.airport.cityName === values.location &&
             flight.displayData.destination.airport.cityName === values.locationR
@@ -101,12 +100,12 @@ const SearchForm= () => {
                 setFlyData([])
              
             } else {
+                       
                 setFlyData(matchingData);
-                // console.log(matchingData, "matchingData")
             }
                
             form.reset();
-        } catch (error) {
+        } catch (error:any) {
             console.error("Error:", error);
         }
     }
