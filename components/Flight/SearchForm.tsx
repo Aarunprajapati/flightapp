@@ -32,54 +32,16 @@ import {  CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
+import { useDispatch } from 'react-redux';
+ import { setFlights } from '@/redux/reducers/flightsSlice';
 
-
-interface Airport {
-    cityCode: string;
-    cityName: string;
-    terminal: string;
-    airportCode: string;
-    airportName: string;
-    countryCode: string;
-    countryName: string;
-  }
- 
-  interface DisplayData {
-    source: {
-      airport: Airport;
-      depTime: string;
-    };
-    destination: {
-      airport: Airport;
-      arrTime: string;
-    };
-    airlines: {
-      airlineCode: string;
-      airlineName: string;
-      flightNumber: string;
-      _id: string;
-    }[];
-    stopInfo: string;
-    totalDuration: string;
-  }
-  
-  interface Flight {
-    _id: string;
-    id: string;
-    fare: number;
-    __v: number;
-    displayData: DisplayData;
-  }
-interface SearchPageProps {
-    setSearchResults: React.Dispatch<React.SetStateAction<Flight[]>>;
-  }
-const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults })  => {
+const SearchForm = ()  => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
-    const [query, setQuery] = useState<string>('');
 
+    const dispatch = useDispatch();
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -133,7 +95,7 @@ const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults })  => {
                 console.log("No data found");
             
             } else {
-                setSearchResults(res1);
+                dispatch(setFlights(res1));
             }
                
             form.reset();
