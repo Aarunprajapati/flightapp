@@ -1,7 +1,7 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
-import Fligtdetailsbtn from './fligt-details-btn'
+import Fligtdetailsbtn from './flight-details-btn'
 
 
 interface Airport {

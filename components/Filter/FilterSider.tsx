@@ -60,81 +60,84 @@ interface Flight {
 }
 interface FilterProps {
   filter?: Filter[];
-  searchResults: Flight[];
-  setFilteredResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+  filtersearch?: Flight[];
+  setStopInfo?: React.Dispatch<React.SetStateAction<string>>;
+  setFilteredResults?: React.Dispatch<React.SetStateAction<Flight[]>>;
 }
 
-const FilterSider: React.FC<FilterProps> = ({ filter, searchResults, setFilteredResults }) => {
+const FilterSider: React.FC<FilterProps> = ({
+  filter,
+  // filtersearch,
+  // setFilteredResults,
+  setStopInfo,
+}) => {
   const [filters, setFilters] = useState<Filter>({});
 
-  const applyFilters = () => {
-    let filteredData = [...searchResults];
-
-    if (filters.value1){
-      filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filters.value1);
-    }
-
-    if (filters.value2){
-      filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filters.value2);
-    }
-
-    // Apply other filters similarly...
-
-    setFilteredResults(filteredData);
-  };
-
+  
   const handleCheckboxChange = (value: string) => {
-    setFilters({ ...filters, value1: value });
-    applyFilters(); 
+    if (setStopInfo) {
+      setStopInfo("")
+      setStopInfo(value);
+     
+    }
   };
 
   const handleCheckbox2Change = (value: string) => {
-    setFilters({ ...filters, value1: value });
-    applyFilters();
+   
+    if (setStopInfo) {
+      setStopInfo("")
+      setStopInfo(value);
+     
+    }
   };
 
   // Add other checkbox change handlers...
 
   return (
-    <div className='w-full bg-white rounded-lg grid gap-2'>
+    <div className="w-full bg-white rounded-lg grid gap-2">
       <Accordion type="single" collapsible>
-        {filter?.map(item => (
+        {filter?.map((item) => (
           <AccordionItem value={`item-${item.label}`} key={item.label}>
-            <AccordionTrigger className='no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center'>
+            <AccordionTrigger className="no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center">
               {item.label}
-              <ChevronDown className='text-gray-400 font-extralight text-xs'/>
+              <ChevronDown className="text-gray-400 font-extralight text-xs" />
             </AccordionTrigger>
 
-            <AccordionContent className='shadow-md'>
+            <AccordionContent className="shadow-md">
               <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
-                <div className='flex items-center'>
+                <div className="flex items-center">
                   <Checkbox
                     id={`non-stop-${item.label}`}
                     value={item.value1}
-                    onClick={() => handleCheckboxChange(item.value1 || '')}
-                    className='mx-2'
+                    onClick={() => handleCheckboxChange(item.value1 || "")}
+                    className="mx-2"
                   />
-                  <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
+                  <label
+                    htmlFor={`non-stop-${item.label}`}
+                    className="text-[13px] ml-2"
+                  >
                     {item.value1}
                   </label>
                 </div>
               </div>
               <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
-                <div className='flex items-center'>
+                <div className="flex items-center">
                   <Checkbox
-                    id={`non-stop-${item.label}`}
+                    id={`1-stop-${item.label}`}
                     value={item.value2}
-                    onClick={() => handleCheckbox2Change(item.value2 || '')}
-                    className='mx-2'
+                    onClick={() => handleCheckbox2Change(item.value2 || "")}
+                    className="mx-2"
                   />
-                  <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
+                  <label
+                    htmlFor={`1-stop-${item.label}`}
+                    className="text-[13px] ml-2"
+                  >
                     {item.value2}
                   </label>
                 </div>
               </div>
 
               {/* Add more checkbox inputs as needed... */}
-
             </AccordionContent>
           </AccordionItem>
         ))}

@@ -72,13 +72,13 @@ interface Airport {
   }
 interface SearchPageProps {
     setSearchResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+    
   }
-const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults })  => {
+const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults})  => {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
-    const [query, setQuery] = useState<string>('');
 
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -122,24 +122,24 @@ const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults })  => {
     
     
     //* functions used after the  submit  button
-      const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         // api used to get all the data of a  all flight
         try {
             const { location, locationR } = values;
-            const params = { location, locationR };
-            const res = await instance.get('/matchingData', { params });
+            const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
              const res1 = res.data;
+             console.log(res1, "api response")
+             console.log(res1)
              if (res1.length === 0) {
                 console.log("No data found");
             
             } else {
                 setSearchResults(res1);
             }
-               
+            
             form.reset();
         } catch (error:any) {
             console.log(error.response.data.error)
-
         }
     }
 

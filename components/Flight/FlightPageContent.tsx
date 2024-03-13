@@ -1,14 +1,15 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
-import FilterSider from './FilterSider'
+import FilterSider from '../Filter/FilterSider'
 import Flightdata from './flight-data'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
-import FilterSiderAirlines from './FilterSiderAirlines'
-import FilterSlider from './FilterSlider'
-import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+import FilterSiderAirlines from '../Filter/FilterSiderAirlines'
+import FilterSlider from '../Filter/FilterSlider'
+import { Filter1, Filter2, airlines, prices, TripDuration} from '../Filter/constants'
+import  instance from "@/axiosinstance"
 
 
 interface Airport {
@@ -53,13 +54,31 @@ const FlightPageContent = () => {
 // flyData is the state to handle the states of the flight data after searhing the flight
 const [searchResults, setSearchResults] = useState<Flight[]>([]);
   const [filteredResults, setFilteredResults] = useState<Flight[]>([]);
+  console.log(filteredResults, "filtered results")
+  const [stopInfo, setStopInfo] = useState('');
+  console.log(stopInfo, "stop info")
+ 
+  useEffect(() => {
+    if (!stopInfo) {
+      setFilteredResults(searchResults); 
+      
+    }else {
+      const filtered = searchResults.filter(flight => {
+       
+        return flight.displayData.stopInfo === stopInfo;
+      });
 
+      setFilteredResults(filtered);
+    }
+  }, [stopInfo, searchResults]);
+  
+ 
 
   return (
     <div className='w-full mx-auto'>
         {/* this is the search component which  is used to search the flights  */}
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
-            <SearchForm  setSearchResults={setSearchResults}/>
+            <SearchForm setSearchResults={setSearchResults}/>
         </div>
 
         <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
@@ -67,8 +86,8 @@ const [searchResults, setSearchResults] = useState<Flight[]>([]);
                 {/* this is  the side filter  */}
                 <div className='h-auto'>
                     <p className='mb-2'>39 of 39 flights</p>
-                        <FilterSider searchResults={searchResults} setFilteredResults={setFilteredResults} filter={Filter1}/> 
-                        <FilterSider searchResults={searchResults} setFilteredResults={setFilteredResults} filter={Filter2}/> 
+                        <FilterSider setStopInfo={setStopInfo} filter={Filter1}/> 
+                        <FilterSider setStopInfo={setStopInfo} filter={Filter2}/> 
                         <FilterSlider value={prices}/>
                         <FilterSiderAirlines filter={airlines}/>
                         <FilterSlider value={TripDuration} /> 
@@ -97,10 +116,7 @@ const [searchResults, setSearchResults] = useState<Flight[]>([]);
          
           </div>
         </main>
- 
-    
     </div>
-
   )
 }
 
