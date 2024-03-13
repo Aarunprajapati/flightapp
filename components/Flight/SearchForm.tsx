@@ -35,7 +35,52 @@ import  instance from "@/axiosinstance"
 import { useDispatch } from 'react-redux';
  import { setFlights } from '@/redux/reducers/flightsSlice';
 
+<<<<<<< HEAD
+
+interface Airport {
+    cityCode: string;
+    cityName: string;
+    terminal: string;
+    airportCode: string;
+    airportName: string;
+    countryCode: string;
+    countryName: string;
+  }
+ 
+  interface DisplayData {
+    source: {
+      airport: Airport;
+      depTime: string;
+    };
+    destination: {
+      airport: Airport;
+      arrTime: string;
+    };
+    airlines: {
+      airlineCode: string;
+      airlineName: string;
+      flightNumber: string;
+      _id: string;
+    }[];
+    stopInfo: string;
+    totalDuration: string;
+  }
+  
+  interface Flight {
+    _id: string;
+    id: string;
+    fare: number;
+    __v: number;
+    displayData: DisplayData;
+  }
+interface SearchPageProps {
+    setSearchResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+    
+  }
+const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults})  => {
+=======
 const SearchForm = ()  => {
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
@@ -84,24 +129,24 @@ const SearchForm = ()  => {
     
     
     //* functions used after the  submit  button
-      const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         // api used to get all the data of a  all flight
         try {
             const { location, locationR } = values;
-            const params = { location, locationR };
-            const res = await instance.get('/matchingData', { params });
+            const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
              const res1 = res.data;
+             console.log(res1, "api response")
+             console.log(res1)
              if (res1.length === 0) {
                 console.log("No data found");
             
             } else {
                 dispatch(setFlights(res1));
             }
-               
+            
             form.reset();
         } catch (error:any) {
             console.log(error.response.data.error)
-
         }
     }
 

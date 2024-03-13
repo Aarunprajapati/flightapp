@@ -1,9 +1,13 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
+<<<<<<< HEAD
+import Fligtdetailsbtn from './flight-details-btn'
+=======
 import Fligtdetailsbtn from './fligt-details-btn'
 import { useSelector } from 'react-redux'
 import {  RootState } from '@/redux/reducers/flightsSlice'
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769
 
 
 // flight data component

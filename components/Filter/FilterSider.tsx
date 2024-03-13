@@ -53,6 +53,47 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
   //   totalDuration: string;
   // }
 
+<<<<<<< HEAD:components/Filter/FilterSider.tsx
+interface Flight {
+  _id: string;
+  id: string;
+  fare: number;
+  __v: number;
+  displayData: DisplayData;
+}
+interface FilterProps {
+  filter?: Filter[];
+  filtersearch?: Flight[];
+  setStopInfo?: React.Dispatch<React.SetStateAction<string>>;
+  setFilteredResults?: React.Dispatch<React.SetStateAction<Flight[]>>;
+}
+
+const FilterSider: React.FC<FilterProps> = ({
+  filter,
+  // filtersearch,
+  // setFilteredResults,
+  setStopInfo,
+}) => {
+  const [filters, setFilters] = useState<Filter>({});
+
+  
+  const handleCheckboxChange = (value: string) => {
+    if (setStopInfo) {
+      setStopInfo("")
+      setStopInfo(value);
+     
+    }
+  };
+
+  const handleCheckbox2Change = (value: string) => {
+   
+    if (setStopInfo) {
+      setStopInfo("")
+      setStopInfo(value);
+     
+    }
+  };
+=======
   // interface Flight {
   //   _id: string;
   //   id: string;
@@ -94,9 +135,53 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
 
     const handleCheckbox2Change = (value: string) => {
       dispatch(setFilterFlights({ ...filters }));
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769:components/Flight/FilterSider.tsx
 
     };
 
+<<<<<<< HEAD:components/Filter/FilterSider.tsx
+  return (
+    <div className="w-full bg-white rounded-lg grid gap-2">
+      <Accordion type="single" collapsible>
+        {filter?.map((item) => (
+          <AccordionItem value={`item-${item.label}`} key={item.label}>
+            <AccordionTrigger className="no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center">
+              {item.label}
+              <ChevronDown className="text-gray-400 font-extralight text-xs" />
+            </AccordionTrigger>
+
+            <AccordionContent className="shadow-md">
+              <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
+                <div className="flex items-center">
+                  <Checkbox
+                    id={`non-stop-${item.label}`}
+                    value={item.value1}
+                    onClick={() => handleCheckboxChange(item.value1 || "")}
+                    className="mx-2"
+                  />
+                  <label
+                    htmlFor={`non-stop-${item.label}`}
+                    className="text-[13px] ml-2"
+                  >
+                    {item.value1}
+                  </label>
+                </div>
+              </div>
+              <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
+                <div className="flex items-center">
+                  <Checkbox
+                    id={`1-stop-${item.label}`}
+                    value={item.value2}
+                    onClick={() => handleCheckbox2Change(item.value2 || "")}
+                    className="mx-2"
+                  />
+                  <label
+                    htmlFor={`1-stop-${item.label}`}
+                    className="text-[13px] ml-2"
+                  >
+                    {item.value2}
+                  </label>
+=======
     // Add other checkbox change handlers...
 
     return (
@@ -135,8 +220,19 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
                       {item.value2}
                     </label>
                   </div>
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769:components/Flight/FilterSider.tsx
                 </div>
 
+<<<<<<< HEAD:components/Filter/FilterSider.tsx
+              {/* Add more checkbox inputs as needed... */}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
+  );
+};
+=======
                 {/* Add more checkbox inputs as needed... */}
 
               </AccordionContent>
@@ -146,5 +242,6 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
       </div>
     );
   };
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769:components/Flight/FilterSider.tsx
 
   export default FilterSider;

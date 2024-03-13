@@ -1,15 +1,15 @@
 "use client"
-import FilterSider from './FilterSider'
+import FilterSider from '../Filter/FilterSider'
 import Flightdata from './flight-data'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
-import FilterSiderAirlines from './FilterSiderAirlines'
-import FilterSlider from './FilterSlider'
-import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
+import FilterSlider from '../Filter/FilterSlider'
+import { Filter1, Filter2, airlines, prices, TripDuration} from '../Filter/constants'
 import { Provider } from 'react-redux'
 import store from '@/redux/store'
+import FilterSiderAirlines from '../Filter/FilterSiderAirlines'
 
 
   
@@ -60,8 +60,6 @@ const FlightPageContent = () => {
          
           </div>
         </main>
- 
-    
     </div>
     </Provider>
 
