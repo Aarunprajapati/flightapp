@@ -32,7 +32,10 @@ import {  CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
+import { useDispatch } from 'react-redux';
+ import { setFlights } from '@/redux/reducers/flightsSlice';
 
+<<<<<<< HEAD
 
 interface Airport {
     cityCode: string;
@@ -75,11 +78,15 @@ interface SearchPageProps {
     
   }
 const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults})  => {
+=======
+const SearchForm = ()  => {
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
     const [data1, setData1] = useState<[]>([])
 
+    const dispatch = useDispatch();
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -134,7 +141,7 @@ const SearchForm: React.FC<SearchPageProps> = ({ setSearchResults})  => {
                 console.log("No data found");
             
             } else {
-                setSearchResults(res1);
+                dispatch(setFlights(res1));
             }
             
             form.reset();

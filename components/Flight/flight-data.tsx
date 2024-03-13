@@ -1,52 +1,23 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
+<<<<<<< HEAD
 import Fligtdetailsbtn from './flight-details-btn'
+=======
+import Fligtdetailsbtn from './fligt-details-btn'
+import { useSelector } from 'react-redux'
+import {  RootState } from '@/redux/reducers/flightsSlice'
+>>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769
 
 
-interface Airport {
-  cityCode: string;
-  cityName: string;
-  terminal: string;
-  airportCode: string;
-  airportName: string;
-  countryCode: string;
-  countryName: string;
-}
-
-interface DisplayData {
-  source: {
-    airport: Airport;
-    depTime: string;
-  };
-  destination: {
-    airport: Airport;
-    arrTime: string;
-  };
-  airlines: {
-    airlineCode: string;
-    airlineName: string;
-    flightNumber: string;
-    _id: string;
-  }[];
-  stopInfo: string;
-  totalDuration: string;
-}
-interface Flight {
-  _id: string;
-  id: string;
-  fare: number;
-  __v: number;
-  displayData: DisplayData;
-}
-interface FlightDataProps {
-  data: Flight[];
-}
 // flight data component
-const Flightdata: React.FC<FlightDataProps> = ({ data })=> {
+const Flightdata= ()=> {
+  const flightData = useSelector((state: RootState) => state.flights);
+  
+  console.log(flightData, "data")
   return (
     <>
-      {data.map((flight, index) => (
+      {Array.isArray(flightData) && flightData.map((flight, index)=> (
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
           <div className='flex gap-2'>
