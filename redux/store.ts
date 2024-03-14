@@ -3,7 +3,7 @@ import flightsReducer from './reducers/flightsSlice';
 
 const store = configureStore({
   reducer: {
-    flights: flightsReducer,
+    flight: flightsReducer,
   },
 });
 

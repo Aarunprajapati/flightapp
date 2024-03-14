@@ -6,6 +6,18 @@ import {  RootState } from '@/redux/reducers/flightsSlice'
 import Fligtdetailsbtn from './flight-details-btn'
 
 
+interface Flight {
+  // map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
+  _id: string;
+  id: string;
+  fare: number;
+  __v: number;
+}
+
+interface FlightsState {
+  flights: Flight[];
+}
+
 // flight data component
 const Flightdata= ()=> {
   const flightData = useSelector((state: RootState) => state.flights);
@@ -42,7 +54,7 @@ console.log(typeof flightArray1, "data", flightArray1);
             <CustomButton href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
           </div>
           </div>
-         
+        
 
             <div>
               <Fligtdetailsbtn />
@@ -50,7 +62,8 @@ console.log(typeof flightArray1, "data", flightArray1);
         
     </div>
            
-      ))}
+      ))
+      }
 
     </>
   );

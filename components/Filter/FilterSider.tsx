@@ -2,7 +2,7 @@
   import { ChevronDown } from 'lucide-react';
   import { Checkbox } from '../ui/checkbox';
   import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
 
 
@@ -24,7 +24,42 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
     price6?: string;
 
   }
- 
+  // interface Airport {
+  //   cityCode: string;
+  //   cityName: string;
+  //   terminal: string;
+  //   airportCode: string;
+  //   airportName: string;
+  //   countryCode: string;
+  //   countryName: string;
+  // }
+
+  // interface DisplayData {
+  //   source: {
+  //     airport: Airport;
+  //     depTime: string;
+  //   };
+  //   destination: {
+  //     airport: Airport;
+  //     arrTime: string;
+  //   };
+  //   airlines: {
+  //     airlineCode: string;
+  //     airlineName: string;
+  //     flightNumber: string;
+  //     _id: string;
+  //   }[];
+  //   stopInfo: string;
+  //   totalDuration: string;
+  // }
+
+  // interface Flight {
+  //   _id: string;
+  //   id: string;
+  //   fare: number;
+  //   __v: number;
+  //   displayData: DisplayData;
+  // }
   interface FilterProps {
     filter?: Filter[];
  
@@ -35,21 +70,31 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
     const dispatch = useDispatch();
     const filters = useSelector((state: RootState) => state.flights);
          
-    const applyFilters = () => {
-      let filteredData = [...filters];
+    // const applyFilters = () => {
+    //   let filteredData = [...filters];
 
-      setFilterFlights(filteredData);
-    };
+    //   // if (filter){
+    //   //   filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filter);
+    //   // }
 
-    const handleCheckboxChange = (value: string) => {
-      dispatch(setFilterFlights({ ...filters }));
+    //   // if (filter){
+    //   //   filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filter);
+    //   // }
 
-    };
+    //   // Apply other filters similarly...
 
-    const handleCheckbox2Change = (value: string) => {
-      dispatch(setFilterFlights({ ...filters }));
+    //   setFilterFlights(filteredData);
+    // };
 
-    };
+    // const handleCheckboxChange = (value: string) => {
+    //   dispatch(setFilterFlights({ ...filters }));
+
+    // };
+
+    // const handleCheckbox2Change = (value: string) => {
+    //   dispatch(setFilterFlights({ ...filters }));
+
+    // };
 
     // Add other checkbox change handlers...
 
@@ -69,7 +114,7 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
                     <Checkbox
                       id={`non-stop-${item.label}`}
                       value={item.value1}
-                      onClick={() => handleCheckboxChange(item.value1 || '')}
+                      // onClick={() => handleCheckboxChange(item.value1 || '')}
                       className='mx-2'
                     />
                     <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
@@ -82,7 +127,7 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
                     <Checkbox
                       id={`non-stop-${item.label}`}
                       value={item.value2}
-                      onClick={() => handleCheckbox2Change(item.value2 || '')}
+                      // onClick={() => handleCheckbox2Change(item.value2 || '')}
                       className='mx-2'
                     />
                     <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
