@@ -1,10 +1,11 @@
 "use client"
 import React from 'react';
-import { Select, SelectTrigger, SelectContent, SelectGroup } from '../ui/select';
+import { ChevronDown } from 'lucide-react';
+// shadcn ui componets
 import { Checkbox } from '../ui/checkbox';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
-import { ArrowBigDown, ChevronDown } from 'lucide-react';
 
+// interface for the constants used for the side filter
 interface Filter {
   label?: string;
   value1?: string;
@@ -27,7 +28,7 @@ interface Filter {
 interface FlightSiderProps {
   filter?: Filter[];
 }
-
+// side filter componets airlines 
 const FilterSiderAirlines = ({ filter }: FlightSiderProps) => {
   return (
     <div className='w-full bg-white rounded-lg grid gap-2'>
@@ -60,7 +61,6 @@ const FilterSiderAirlines = ({ filter }: FlightSiderProps) => {
                       </div>
                       <p className='font-extralight text-xs'>{item.price2}</p>
                     </div>
-                    {/* for Airlines filter */}
 
                     <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg ">
                       <div className='flex items-center'>

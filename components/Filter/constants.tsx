@@ -1,8 +1,9 @@
+// side Slider filter constants 
 export const Filter1=[
     {
         label:"Stop",
-        value1:"Non-stop",
-        value2:"1 Stop"
+        value1:"Non stop",
+        value2:"1 stop"
     },
 ]
 export const Filter2=[

@@ -1,62 +1,33 @@
 "use client"
-import React, { useState } from 'react'
-import HeaderPage from './HeaderPage'
-import { ArrowLeftRight } from 'lucide-react'
-import NvavbarButton from '../NvavbarButton'
-import SeacrhButton from '../CustomButton'
-import CustomButton from '../CustomButton'
-import { Input } from '@/components/ui/input'
-import FilterSider from './FilterSider'
+import FilterSider from '../Filter/FilterSider'
 import Flightdata from './flight-data'
-import { cn } from '@/lib/utils'
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
 import SearchForm from './SearchForm'
 import FlightDate from './Flight-Date'
+import FilterSlider from '../Filter/FilterSlider'
+import { Filter1, Filter2, airlines, prices, TripDuration} from '../Filter/constants'
+import { Provider } from 'react-redux'
+import store from '@/redux/store'
+import FilterSiderAirlines from '../Filter/FilterSiderAirlines'
 
-import Flightdetail from './flight-detail'
-import FilterSiderAirlines from './FilterSiderAirlines'
-import FilterSlider from './FilterSlider'
- import { Filter1, Filter2, airlines, prices, TripDuration} from './constants'
-import axios from 'axios'
 
- 
- 
+  
+//  this is the parent component in which all the componets are together
 const FlightPageContent = () => {
+// flyData is the state to handle the states of the flight data after searhing the flight
 
-const [flyData, setFlyData] = useState<any[]>([]);
-const [oneStop, setOneStopflight] = useState<any[]>([])
-
-
-    const flightstops = async () => {
-        try {
-            const res = await axios.get('http://localhost:5000/api/user/allFlight');
-            const  stopsdata =   res.data.flights;
-            console.log(stopsdata)
-             const Onestopdata = stopsdata.filter((flight:any)=>(
-                flight.displayData.stopInfo === '1 stop' 
-            ))
-             const Twostopdata = stopsdata.filter((flight:any)=>(
-                flight.displayData.stopInfo === '2 stop' 
-            ))
-            setOneStopflight(Onestopdata)
-
-        } catch (error) {   
-            console.error('Error fetching data:', error);
-        }
-    };
-
-
-const updateFlyData = (newData:any) => {
-     setFlyData(newData);
- };
   return (
+    <Provider store={store}>
     <div className='w-full mx-auto'>
+        {/* this is the search component which  is used to search the flights  */}
         <div className=' flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
-            <SearchForm updateFlyData={updateFlyData}/>
+            <SearchForm  />
         </div>
+
         <main className='grid grid-cols-12 gap-x-2 mx-60 gap-y-10 overflow-hidden '>
             <div className=' col-span-3'>
+                {/* this is  the side filter  */}
                 <div className='h-auto'>
                     <p className='mb-2'>39 of 39 flights</p>
                         <FilterSider  filter={Filter1}/> 
@@ -74,9 +45,9 @@ const updateFlyData = (newData:any) => {
                 <div className='flex gap-[76px]  items-center bg-slate-100  h-1 text-sm p-6  '>
                     <p>Airlines</p>
                     <p>Departure</p>
-                    <p> Duration</p>
-                    <p> Arrival</p>
-                    <p> Price</p>
+                    <p>Duration</p>
+                    <p>Arrival</p>
+                    <p>Price</p>
                     <div>
                     <div className="flex ">
                     <Label htmlFor="airplane-mode" className='my-1 mx-1 '>Smart sort</Label>
@@ -84,20 +55,19 @@ const updateFlyData = (newData:any) => {
                     </div>
                     </div>
                 </div>
-                {/* {oneStop && (
-                    <div>
-                        <Flightdata flyData={oneStop}/>
-                    </div>
-                )} */}
-
-                <div> <Flightdata flyData={flyData}/></div>
-               
-            </div>
+               {/* this shows the flight data   */}
+                <div> <Flightdata/></div>
+         
+          </div>
         </main>
- 
-    
     </div>
+    </Provider>
+
   )
 }
 
+
+
 export default FlightPageContent
+
+

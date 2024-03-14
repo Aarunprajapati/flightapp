@@ -31,7 +31,7 @@ const HeroContentSecond = ({date, setDate, disabledDates, getDayOfWeek, today}: 
                   </div>
                 </>
               ) : (
-                <div className='text-lg font-semibold'>departure date</div>
+                <div className='text-lg font-semibold'>Departure date</div>
               )}
             </div>
             {date && date.from && (

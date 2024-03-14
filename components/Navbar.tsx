@@ -74,7 +74,6 @@ const Navbar = () => {
             
               <div className='flex gap-x-2'>
                   <div className=' flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2  border-black/5 hover:shadow-xl  transition cursor-pointer bg-white'>
-                   
                       <Dialog>
                       <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
                         <DialogTrigger>
@@ -84,7 +83,6 @@ const Navbar = () => {
                             <RegisterForm/>
                         </DialogContent>
                       </Dialog>
-                 
                   </div>
                   <div className=' flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white'>
                       <Dialog>                   
@@ -95,11 +93,9 @@ const Navbar = () => {
                             <DialogContent className='flex items-center justify-center z-[100]'>
                                 <LoginForm/>
                             </DialogContent>
-                  
                       </Dialog>
                   </div>
               </div>
-             
         </div>
     </div>
   )

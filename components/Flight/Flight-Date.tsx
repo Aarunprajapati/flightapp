@@ -1,6 +1,4 @@
 "use client"
-import React from 'react'
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -8,8 +6,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Separator } from "@/components/ui/separator"
 
+
+//  Date carousel component which is shown above the flight data 
 const FlightDate = () => {
   return (
     <Carousel

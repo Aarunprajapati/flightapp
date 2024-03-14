@@ -1,8 +1,9 @@
 import React from 'react'
-import { Slider } from "@/components/ui/slider"
-import { Checkbox } from '@radix-ui/react-checkbox'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 import { ChevronDown } from 'lucide-react';
+
+// shadcn ui componets
+import { Slider } from "@/components/ui/slider"
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 
 interface FilterSlideritem{
     label?:string,
@@ -15,7 +16,7 @@ interface FilterSlideritem{
 interface FilterSliderProps{
     value?:FilterSlideritem[]
 }
-
+// * prise and time duration componets of side filter
 const FilterSlider = (
     {
        value

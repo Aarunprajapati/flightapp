@@ -1,54 +1,22 @@
 "use client"
-import React from 'react'
+
 import CustomButton from '../CustomButton'
-import Fligtdetailsbtn from './fligt-details-btn'
+import { useSelector } from 'react-redux'
+import {  RootState } from '@/redux/reducers/flightsSlice'
+import Fligtdetailsbtn from './flight-details-btn'
 
-interface Airport {
-  cityCode: string;
-  cityName: string;
-  terminal: string;
-  airportCode: string;
-  airportName: string;
-  countryCode: string;
-  countryName: string;
-}
 
-interface DisplayData {
-  source: {
-      airport: Airport;
-      depTime: string; 
-  };
-  destination: {
-      airport: Airport;
-      arrTime: string; 
-  };
-  airlines: {
-      airlineCode: string;
-      airlineName: string;
-      flightNumber: string;
-      _id: string;
-  }[];
-  stopInfo: string;
-  totalDuration: string;
-}
+// flight data component
+const Flightdata= ()=> {
+  const flightData = useSelector((state: RootState) => state.flights);
+const flightArray = Object.values(flightData);
+const flightArray1 = flightArray[0];
+console.log(typeof flightArray1, "data", flightArray1);
 
-interface Flight {
-  _id: string;
-  id: string;
-  fare: number;
-  __v: number;
-  displayData: DisplayData;
-}
-
-interface FlightDataProps {
-  flyData: Flight[];
-}
-
-const Flightdata: React.FC<FlightDataProps> = ({ flyData }) => {
   return (
     <>
-
-      {flyData.map((flight, index) => (
+      {flightArray1.map((flight, index)=> (
+        
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
           <div className='flex gap-2'>
@@ -68,15 +36,20 @@ const Flightdata: React.FC<FlightDataProps> = ({ flyData }) => {
           <div>
             <p className='font-bold'>₹{flight.fare}</p>
           </div>
+               
+
           <div>
-            <CustomButton className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
+            <CustomButton href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
           </div>
           </div>
+         
+
             <div>
               <Fligtdetailsbtn />
             </div>
         
     </div>
+           
       ))}
 
     </>
