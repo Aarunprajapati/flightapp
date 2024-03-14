@@ -56,7 +56,7 @@ const FlightPageContent = () => {
                     </div>
                 </div>
                {/* this shows the flight data   */}
-                <div> <Flightdata  /></div>
+                <div> <Flightdata/></div>
          
           </div>
         </main>
