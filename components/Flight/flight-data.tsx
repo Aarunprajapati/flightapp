@@ -1,23 +1,35 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react'
 import CustomButton from '../CustomButton'
-<<<<<<< HEAD
-import Fligtdetailsbtn from './flight-details-btn'
-=======
-import Fligtdetailsbtn from './fligt-details-btn'
 import { useSelector } from 'react-redux'
 import {  RootState } from '@/redux/reducers/flightsSlice'
->>>>>>> b8639bf3ebf6a8af55f27960c5e19323cb89b769
+import Fligtdetailsbtn from './flight-details-btn'
 
+
+interface Flight {
+  // map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
+  _id: string;
+  id: string;
+  fare: number;
+  __v: number;
+}
+
+interface FlightsState {
+  flights: Flight[];
+}
 
 // flight data component
 const Flightdata= ()=> {
-  const flightData = useSelector((state: RootState) => state.flights);
   
-  console.log(flightData, "data")
+  const flightData = useSelector((state: RootState) => state.flights);
+  console.log(flightData)
+  const FlightArray = Object.values(flightData);
+  const FlightArray1 = FlightArray[0]
+  console.log(FlightArray,"flighArray", "data", FlightArray1)
+
   return (
     <>
-      {Array.isArray(flightData) && flightData.map((flight, index)=> (
+      {Array.isArray(FlightArray1) ? (FlightArray1.map((flight, index)=> (
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
           <div className='flex gap-2'>
@@ -43,7 +55,7 @@ const Flightdata= ()=> {
             <CustomButton href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
           </div>
           </div>
-         
+        
 
             <div>
               <Fligtdetailsbtn />
@@ -51,7 +63,7 @@ const Flightdata= ()=> {
         
     </div>
            
-      ))}
+      ))) : (<p>No flights data available</p>)}
 
     </>
   );

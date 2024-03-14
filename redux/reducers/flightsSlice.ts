@@ -31,7 +31,7 @@ interface DisplayData {
 }
 
 interface Flight {
-  map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
+  // map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
   _id: string;
   id: string;
   fare: number;
