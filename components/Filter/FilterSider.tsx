@@ -1,4 +1,4 @@
-  import React, { useState } from 'react';
+  import React from 'react';
   import { ChevronDown } from 'lucide-react';
   import { Checkbox } from '../ui/checkbox';
   import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
@@ -62,12 +62,11 @@ import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
   // }
   interface FilterProps {
     filter?: Filter[];
-    // searchResults: Flight[];
-    // setFilteredResults: React.Dispatch<React.SetStateAction<Flight[]>>;
+ 
   }
 
   const FilterSider: React.FC<FilterProps> = ({ filter}) => {
-    // const [filters, setFilters] = useState<Filter>({});
+
     const dispatch = useDispatch();
     const filters = useSelector((state: RootState) => state.flights);
          

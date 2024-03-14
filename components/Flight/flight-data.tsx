@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useEffect, useState } from 'react'
+
 import CustomButton from '../CustomButton'
 import { useSelector } from 'react-redux'
 import {  RootState } from '@/redux/reducers/flightsSlice'
@@ -20,16 +20,15 @@ interface FlightsState {
 
 // flight data component
 const Flightdata= ()=> {
-  
   const flightData = useSelector((state: RootState) => state.flights);
-  console.log(flightData)
-  const FlightArray = Object.values(flightData);
-  const FlightArray1 = FlightArray[0]
-  console.log(FlightArray,"flighArray", "data", FlightArray1)
+const flightArray = Object.values(flightData);
+const flightArray1 = flightArray[0];
+console.log(typeof flightArray1, "data", flightArray1);
 
   return (
     <>
-      {Array.isArray(FlightArray1) ? (FlightArray1.map((flight, index)=> (
+      {flightArray1.map((flight, index)=> (
+        
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
           <div className='flex gap-2'>
@@ -63,7 +62,8 @@ const Flightdata= ()=> {
         
     </div>
            
-      ))) : (<p>No flights data available</p>)}
+      ))
+      }
 
     </>
   );
