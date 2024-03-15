@@ -1,33 +1,27 @@
 "use client"
 
 import CustomButton from '../CustomButton'
-import { useSelector } from 'react-redux'
-import {  RootState } from '@/redux/reducers/flightsSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import Fligtdetailsbtn from './flight-details-btn'
+import { RootState } from '@/redux/store'
+import { setBookingFlights } from '@/redux/reducers/flightsSlice'
 
-
-interface Flight {
-  // map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
-  _id: string;
-  id: string;
-  fare: number;
-  __v: number;
-}
-
-interface FlightsState {
-  flights: Flight[];
-}
 
 // flight data component
 const Flightdata= ()=> {
-  const flightData = useSelector((state: RootState) => state.flights);
-const flightArray = Object.values(flightData);
-const flightArray1 = flightArray[0];
-console.log(typeof flightArray1, "data", flightArray1);
+  const dispatch = useDispatch();
+  const flights = useSelector((state: RootState) => state.flights.flights); 
+  console.log('Flight data:', flights);
+ 
+
+  const handleBookClick = (flightData:any) => {
+    dispatch(setBookingFlights(flightData))
+  };
+
 
   return (
     <>
-      {flightArray1.map((flight, index)=> (
+      {flights.map((flight, index)=> (
         
     <div className='border-2 border-gray-200 my-2 p-5 '>
         <div key={index} className='flex gap-2 justify-between items-center'>
@@ -51,7 +45,7 @@ console.log(typeof flightArray1, "data", flightArray1);
                
 
           <div>
-            <CustomButton href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
+            <CustomButton onClick={() => handleBookClick(flight)} href='/flights/book' className='px-6 py-2 rounded-md text-md bg-orange-500 text-white' label='Book' />
           </div>
           </div>
         

@@ -33,7 +33,8 @@ import { format } from 'date-fns'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
 import { useDispatch } from 'react-redux';
- import { setFlights } from '@/redux/reducers/flightsSlice';
+import { setFlights } from '@/redux/reducers/flightsSlice';
+
 
 const SearchForm = ()  => {
     const [date, setDate] = useState<Date | undefined>(undefined);
@@ -89,10 +90,11 @@ const SearchForm = ()  => {
             const { location, locationR } = values;
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
             let res1 = res.data;
+            console.log(res1, "api response ")
             if (res1.length === 0) {
                 console.log("No data found");
             } else {
-                dispatch(setFlights(res1)); // Dispatching as an array
+                dispatch(setFlights(res1)) // Dispatching as an array
             }
     
             form.reset();
