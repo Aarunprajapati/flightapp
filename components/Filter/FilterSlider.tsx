@@ -39,7 +39,7 @@ const FilterSlider = (
                         <div className=' text-xs text-foreground'>{item.timeend}</div>
                     </div>
                     <Slider defaultValue={[33]} max={100} step={1} className='my-2 cursor-pointer'  /> 
-                    <div className=' w-full flex justify-between items-center'>
+                    <div className=' w-full flex justify-between items-center p-2'>
                         <p className=' text-xs text-foreground'>{item.minprice}</p>
                         <p className=' text-xs text-foreground'>{item.maxprice}</p>                      
                     </div>           

@@ -1,149 +1,98 @@
-  import React from 'react';
-  import { ChevronDown } from 'lucide-react';
-  import { Checkbox } from '../ui/checkbox';
-  import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, setFilterFlights } from '@/redux/reducers/flightsSlice';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 
+// Assuming Checkbox component exists and is correctly imported
+interface CheckboxProps {
+  id: string;
+  value: string;
+  checked: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; // Ensure this matches your handler
+  className?: string;
+}
 
-  interface Filter {
-    label?: string;
-    value1?: string;
-    value2?: string;
-    time1?: string;
-    time2?: string;
-    value3?: string;
-    value4?: string;
-    value5?: string;
-    value6?: string;
-    price1?: string;
-    price2?: string;
-    price3?: string;
-    price4?: string;
-    price5?: string;
-    price6?: string;
+const Checkbox: React.FC<CheckboxProps> = ({ id, value, checked, onChange, className }) => (
+  <input type="checkbox" id={id} value={value} checked={checked} onChange={onChange} className={className} />
+);
 
-  }
-  // interface Airport {
-  //   cityCode: string;
-  //   cityName: string;
-  //   terminal: string;
-  //   airportCode: string;
-  //   airportName: string;
-  //   countryCode: string;
-  //   countryName: string;
-  // }
+interface Filter {
+  label?: string;
+  value1?: string;
+  value2?: string;
+  time1?:string,
+  time2?:string
+} 
 
-  // interface DisplayData {
-  //   source: {
-  //     airport: Airport;
-  //     depTime: string;
-  //   };
-  //   destination: {
-  //     airport: Airport;
-  //     arrTime: string;
-  //   };
-  //   airlines: {
-  //     airlineCode: string;
-  //     airlineName: string;
-  //     flightNumber: string;
-  //     _id: string;
-  //   }[];
-  //   stopInfo: string;
-  //   totalDuration: string;
-  // }
+interface FilterProps {
+  filter?: Filter[];
+  setStopInfo?: React.Dispatch<React.SetStateAction<string[]>>;
+  setDepTime?: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-  // interface Flight {
-  //   _id: string;
-  //   id: string;
-  //   fare: number;
-  //   __v: number;
-  //   displayData: DisplayData;
-  // }
-  interface FilterProps {
-    filter?: Filter[];
- 
-  }
+const FilterSider: React.FC<FilterProps> = ({ filter, setStopInfo=()=>{}, setDepTime=()=>{} }) => {
+  const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
-  const FilterSider: React.FC<FilterProps> = ({ filter}) => {
+  // Handle changes to the checkbox
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
 
-    const dispatch = useDispatch();
-    const filters = useSelector((state: RootState) => state.flights);
-         
-    // const applyFilters = () => {
-    //   let filteredData = [...filters];
-
-    //   // if (filter){
-    //   //   filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filter);
-    //   // }
-
-    //   // if (filter){
-    //   //   filteredData = filteredData.filter(flight => flight.displayData.stopInfo === filter);
-    //   // }
-
-    //   // Apply other filters similarly...
-
-    //   setFilterFlights(filteredData);
-    // };
-
-    // const handleCheckboxChange = (value: string) => {
-    //   dispatch(setFilterFlights({ ...filters }));
-
-    // };
-
-    // const handleCheckbox2Change = (value: string) => {
-    //   dispatch(setFilterFlights({ ...filters }));
-
-    // };
-
-    // Add other checkbox change handlers...
-
-    return (
-      <div className='w-full bg-white rounded-lg grid gap-2'>
-        <Accordion type="single" collapsible>
-          {filter?.map(item => (
-            <AccordionItem value={`item-${item.label}`} key={item.label}>
-              <AccordionTrigger className='no-underline hover:no-underline font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center'>
-                {item.label}
-                <ChevronDown className='text-gray-400 font-extralight text-xs'/>
-              </AccordionTrigger>
-
-              <AccordionContent className='shadow-md'>
-                <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
-                  <div className='flex items-center'>
-                    <Checkbox
-                      id={`non-stop-${item.label}`}
-                      value={item.value1}
-                      // onClick={() => handleCheckboxChange(item.value1 || '')}
-                      className='mx-2'
-                    />
-                    <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                      {item.value1}
-                    </label>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between py-4 w-full hover:bg-blue-50 rounded-lg">
-                  <div className='flex items-center'>
-                    <Checkbox
-                      id={`non-stop-${item.label}`}
-                      value={item.value2}
-                      // onClick={() => handleCheckbox2Change(item.value2 || '')}
-                      className='mx-2'
-                    />
-                    <label htmlFor={`non-stop-${item.label}`} className="text-[13px] ml-2">
-                      {item.value2}
-                    </label>
-                  </div>
-                </div>
-
-                {/* Add more checkbox inputs as needed... */}
-
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    );
+    setCheckedValues(prev => {
+      const updatedValues = isChecked ? [...prev, value] : prev.filter(item => item !== value);
+      return updatedValues;
+    });
   };
 
-  export default FilterSider;
+
+  useEffect(() => {
+    setDepTime(checkedValues)
+    setStopInfo(checkedValues);
+  }, [checkedValues, setStopInfo, setDepTime]); 
+
+  return (
+    <div className="w-full bg-white rounded-lg grid gap-2">
+      <Accordion type="single" collapsible>
+        {filter?.map((item, index) => (
+          <AccordionItem value={`item-${item.label}`} key={index}>
+            <AccordionTrigger className="font-semibold text-xs text-foreground mx-2 w-full flex justify-between items-center">
+              {item.label}
+              <ChevronDown className="text-gray-400" />
+            </AccordionTrigger>
+            <AccordionContent className="shadow-md">
+              {item.value1 && (
+                <div className="py-4 w-full hover:bg-blue-50 rounded-lg">
+                  <Checkbox
+                    id={`checkbox-${item.label}-1`}
+                    value={item.value1}
+                    checked={checkedValues.includes(item.value1)}
+                    onChange={handleCheckboxChange}
+                    className="mx-2"
+                  />
+                  <label htmlFor={`checkbox-${item.label}-1`} className="text-[13px] ml-2">
+                    {item.value1}
+                  </label>
+                </div>
+              )}
+              {item.value2 && (
+                <div className="py-4 w-full hover:bg-blue-50 rounded-lg">
+                  <Checkbox
+                    id={`checkbox-${item.label}-2`}
+                    value={item.value2}
+                    checked={checkedValues.includes(item.value2)}
+                    onChange={handleCheckboxChange}
+                    className="mx-2"
+                  />
+                  <label htmlFor={`checkbox-${item.label}-2`} className="text-[13px] ml-2">
+                    {item.value2}
+                  </label>
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </div>
+  );
+};
+
+export default FilterSider;
