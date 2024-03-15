@@ -1,7 +1,7 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Airport {
+export interface Airport {
   cityCode: string;
   cityName: string;
   terminal: string;
@@ -11,7 +11,7 @@ interface Airport {
   countryName: string;
 }
 
-interface DisplayData {
+export interface DisplayData {
   source: {
     airport: Airport;
     depTime: string;
@@ -30,9 +30,9 @@ interface DisplayData {
   totalDuration: string;
 }
 
-interface Flight {
-  map(arg0: (flight: any, index: any) => import("react").JSX.Element): unknown;
-  // map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
+export interface Flight {
+  // map(arg0: (flight: any, index: any) => import("react").JSX.Element): unknown;
+  map(arg0: (flight: any, innerIndex: any) => import("react").JSX.Element): import("react").ReactNode;
   _id: string;
   id: string;
   fare: number;
@@ -52,8 +52,9 @@ const flightsSlice = createSlice({
   name: 'flights',
   initialState,
   reducers: {
+    
     setFlights: (state, action: PayloadAction<Flight[]>) => {
-      state.flights = action.payload;
+      state.flights= action.payload;
     },
     setFilterFlights: (state, action: PayloadAction<Flight[]>) => {
       state.flights = action.payload;
@@ -64,4 +65,3 @@ const flightsSlice = createSlice({
 export const { setFlights, setFilterFlights } = flightsSlice.actions;
 
 export default flightsSlice.reducer;
-export type RootState = ReturnType<typeof flightsSlice.reducer>;

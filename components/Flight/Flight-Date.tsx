@@ -15,7 +15,7 @@ const FlightDate = () => {
     opts={{
       align: "end",
     }}
-    className="w-full max-w-2xl"
+    className=" ml-14 w-full max-w-2xl"
   >
     <CarouselContent>
       {Array.from({ length: 20 }).map((_, index) => (
