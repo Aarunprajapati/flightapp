@@ -42,10 +42,12 @@ interface Flight {
 
 interface FlightsState {
   flights: Flight[];
+  bookingFlights: Flight[]
 }
 
 const initialState: FlightsState = {
   flights: [],
+  bookingFlights: []
 };
 
 const flightsSlice = createSlice({
@@ -55,13 +57,11 @@ const flightsSlice = createSlice({
     setFlights: (state, action: PayloadAction<Flight[]>) => {
       state.flights = action.payload;
     },
-    setFilterFlights: (state, action: PayloadAction<Flight[]>) => {
-      state.flights = action.payload;
+    setBookingFlights: (state, action: PayloadAction<Flight[]>) => {
+      state.bookingFlights = action.payload;
     },
   },
 });
 
-export const { setFlights, setFilterFlights } = flightsSlice.actions;
-
+export const { setFlights,setBookingFlights } = flightsSlice.actions;
 export default flightsSlice.reducer;
-export type RootState = ReturnType<typeof flightsSlice.reducer>;

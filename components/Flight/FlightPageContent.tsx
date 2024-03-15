@@ -8,8 +8,8 @@ import FlightDate from './Flight-Date'
 import FilterSlider from '../Filter/FilterSlider'
 import { Filter1, Filter2, airlines, prices, TripDuration} from '../Filter/constants'
 import { Provider } from 'react-redux'
-import store from '@/redux/store'
 import FilterSiderAirlines from '../Filter/FilterSiderAirlines'
+import { store } from '@/redux/store'
 
 
   
