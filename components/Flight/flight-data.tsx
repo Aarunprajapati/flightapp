@@ -1,21 +1,23 @@
 "use client"
 import CustomButton from '../CustomButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FlightDetailsBtn from './flight-details-btn';
 import { useState, useEffect } from 'react';
 import instance from "@/axiosinstance";
 import { string } from 'zod';
 import { RootState } from '@/redux/store';
-import { Flight } from '@/redux/reducers/flightsSlice';
+import { Flight, setBookingFlights } from '@/redux/reducers/flightsSlice';
 interface FlightDataProps{
   data: Flight[]
 }
 
 const FlightData = ({data}:FlightDataProps) => {
+  const dispatch = useDispatch()
 
- 
-  // const flightData = useSelector((state: RootState) => state.flights.flights);
+  const handleBookClick = (flightData:any) => {
+    dispatch(setBookingFlights(flightData))
+  };
 
   return (
     <>
@@ -48,6 +50,7 @@ const FlightData = ({data}:FlightDataProps) => {
             <div>
               <CustomButton
                 href="/flights/book"
+                onClick={()=> handleBookClick(flight)}
                 className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
                 label="Book"
               />

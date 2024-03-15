@@ -10,9 +10,19 @@ import FilterSiderAirlines from '../Filter/FilterSiderAirlines';
 import Flightdata from './flight-data';
 import { Switch } from '../ui/switch'
 import { Label } from '../ui/label'
+<<<<<<< HEAD
 import { Filter1, Filter2, airlines, prices, TripDuration } from '../Filter/constants';
 import instance from "@/axiosinstance";
 import { Flight } from '@/redux/reducers/flightsSlice';
+=======
+import SearchForm from './SearchForm'
+import FlightDate from './Flight-Date'
+import FilterSlider from '../Filter/FilterSlider'
+import { Filter1, Filter2, airlines, prices, TripDuration} from '../Filter/constants'
+import { Provider } from 'react-redux'
+import FilterSiderAirlines from '../Filter/FilterSiderAirlines'
+import { store } from '@/redux/store'
+>>>>>>> e9d44bdd6f1ce7465f3c513ca54313fad14e9482
 
 const FlightPageContent: React.FC = () => {
   const [location, setLocation] = useState<string>('');

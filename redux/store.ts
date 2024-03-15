@@ -3,10 +3,9 @@ import flightsReducer from './reducers/flightsSlice';
 
 export const store = configureStore({
   reducer: {
-    flights: flightsReducer, // Ensure this key matches what you use in your useSelector hook
+    flights: flightsReducer,
   },
 });
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

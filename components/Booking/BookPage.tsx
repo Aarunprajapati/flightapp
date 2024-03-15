@@ -21,6 +21,8 @@ import {
   Stepper,
 } from '@chakra-ui/react';
 import { ControlledFlow } from './ControlledFlow';
+import { store } from '@/redux/store';
+import { Provider } from 'react-redux';
 
 //* var 
 const steps = [
@@ -63,28 +65,11 @@ const BookPage = () => {
     }
   };
 
-  //* render components accordingly steps
-  // const getStepContent = (step:any) => {
-  //   switch (step) {
-  //     case 0:
-  //       return <BookReview/>;
-  //     case 1:
-  //       return <BookContact/>;
-  //     case 2:
-  //       return <BookTravelDeatils/>;
-  //   }
-  // };
-
-  //* form submittion function
-
-  // const handleSubmit = (e:any)=>{
-  //   e.preventDefault()
-  //   console.log(e.target.value)
 
 
-  // }
 
   return (
+    <Provider store={store}>    
     <div className="max-w-5xl mx-28 bg-white rounded-lg overflow-hidden">
       <div className="p-4">
         <Stepper index={currentStepIndex}>
@@ -138,6 +123,7 @@ const BookPage = () => {
           </div>
       </div>
     </div>
+    </Provider>
   );
 };
 
