@@ -47,7 +47,7 @@ const Navbar = () => {
       <MobileSideBar/>
         <div className=' flex items-center px-5 '>
           <Link href={"/"}>
-            <Image src={'/logo.png'} width={80} height={80} alt='logo' className=' img-fluid '  />
+<Image src={'/flightlogo.jpeg'} width={200} height={200} alt='logo' className='img-fluid rounded-lg w-40 leading-6 h-10 '  />
           </Link>
         </div>
         <div className=' items-center gap-x-2 px-10 hidden lg:flex '>
