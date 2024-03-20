@@ -33,16 +33,11 @@ import { format } from 'date-fns'
 import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
 import { useDispatch } from 'react-redux';
-<<<<<<< HEAD
  import { setFlights } from '@/redux/reducers/flightsSlice';
  interface SearchFormProps{
     setLocation: React.Dispatch<React.SetStateAction<string>>
     setLocationR: React.Dispatch<React.SetStateAction<string>>
  }
-=======
-import { setFlights } from '@/redux/reducers/flightsSlice';
-
->>>>>>> e9d44bdd6f1ce7465f3c513ca54313fad14e9482
 
 const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
     const [date, setDate] = useState<Date | undefined>(undefined);
@@ -99,11 +94,7 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
             setLocationR(locationR);
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
             let res1 = res.data;
-<<<<<<< HEAD
             dispatch(setFlights(res1)); 
-=======
-            console.log(res1, "api response ")
->>>>>>> e9d44bdd6f1ce7465f3c513ca54313fad14e9482
             if (res1.length === 0) {
                 console.log("No data found");
             } else {
@@ -277,11 +268,10 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
                                                 numberOfMonths={2}
                                                 disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                                             />
-                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
-                            {/* <FormMessage/> */}
+
                                     </FormControl>
                                 </FormItem>
                            )}

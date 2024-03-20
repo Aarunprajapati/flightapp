@@ -19,8 +19,8 @@ type StepProps = {
 
 const BookReview = ({gonext, goprev}: StepProps) => {
 
-    const flights = useSelector((state: RootState) => state.flights.bookingFlights); 
-  console.log('Flight data booking:', flights);
+    const flight = useSelector((state: RootState) => state.flights.bookingFlights); 
+  console.log('Flight data booking:', flight);
   return (
     <>
 

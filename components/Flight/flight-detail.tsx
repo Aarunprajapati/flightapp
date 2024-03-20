@@ -1,9 +1,13 @@
 "use client"
+import { RootState } from '@/redux/store';
 import { Clock5 } from 'lucide-react'
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 // flight details component which show in the flight data component
 const Flightdetail = ()=> {
+  const flightD = useSelector((state: RootState) => state.flights.detailFlight); 
+  console.log('Flight details:', flightD);
   return (
     <> 
     <div  className='  border-2 border-gray-200  '>
