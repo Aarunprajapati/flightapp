@@ -35,9 +35,9 @@ export const airlines=[
 export const prices=[
     {
         label:"One-Way price",
-        uptoPrice:"up to 3100rs",
-        minprice:"3000rs",
-        maxprice:"5000rs",
+        uptoPrice:3100,
+        minprice:3000,
+        maxprice:5000,
     }
 
 ]

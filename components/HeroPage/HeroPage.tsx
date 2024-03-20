@@ -89,7 +89,7 @@ const HeroPage = () => {
   const today = new Date();
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: today,
-    to: addDays(today, 20),
+    to: today || addDays(today, 20),
   });
   const disabledDays = { before: new Date() };
   
@@ -265,7 +265,7 @@ const HeroPage = () => {
       </div>
 
       <div className='hidden relative bottom-12 w-full md:flex items-center justify-center'>
-        <Link href={`/flights?${selectedCity.cityName}&${destinationcity.cityName}&${fromDateString}&${toDateString}&${selectdown}&${select}`}>
+        <Link href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&selectdown=${selectdown}&select=${select}`}>
         <Button className='px-14 rounded-full text-2xl font-semibold py-3 bg-blue-400' size={'lg'}>Search</Button>      
         </Link>
       </div>
