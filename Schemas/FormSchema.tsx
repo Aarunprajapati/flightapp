@@ -1,10 +1,9 @@
 import * as z from 'zod'
 
 export const formSchema = z.object({
-    route: z.string({
-    }),
-    dates:z.date(),
-    dateR:z.date(),
+    select: z.string(),
+    fromDate: z.string().optional().or(z.date().optional()),
+    toDate: z.string().optional().or(z.date().optional()),
     location: z.string(),
     locationR: z.string(),
     adults: z.string(),

@@ -13,36 +13,56 @@ import { Label } from '../ui/label'
 import { Filter1, Filter2, airlines, prices, TripDuration } from '../Filter/constants';
 import instance from "@/axiosinstance";
 import { Flight } from '@/redux/reducers/flightsSlice';
+import { useSearchParams } from 'next/navigation';
+
 
 const FlightPageContent: React.FC = () => {
+  const searchParams = useSearchParams();
+  const selectedcity = searchParams.get("selectedcity")
+  const destinationcity = searchParams.get("destinationcity") 
+
   const [location, setLocation] = useState<string>('');
   const [locationR, setLocationR] = useState<string>('');
-  const [searchData, setSearchData] = useState<Flight[]>([]);
+  const [error, setError] = useState<string>('');
   const [filterData, setFilteredData] = useState<Flight[]>([]);
   const [stopInfo, setStopInfo] = useState<string[]>([]);
   const [depTime, setDepTime] = useState<string[]>([]);
-  const [price, setPrice] = useState<string>('');
+  const [price, setPrice] = useState<number[]>([]);
+
+  useEffect(()=>{
+    const fetchFlights = async () => {
+      setFilteredData([])
+      const response = await instance.get(`/matchingData?location=${selectedcity}&locationR=${destinationcity}`);
+      setFilteredData(response.data);
+    };
+    fetchFlights();
+  },[])
+
 
   useEffect(() => {
     const fetchFlights = async () => {
+      setFilteredData([])
+      setError('')
       if (location && locationR) {
         try {
           const params = new URLSearchParams({
             location,
             locationR,
+            price: price.join(','),
             stopInfo: stopInfo.join(','),
             depTime: depTime.join(',')
           });
           const { data } = await instance.get(`/matchingData?${params}`);
-          setFilteredData(data);
-        } catch (error) {
-          console.error('Failed to fetch flights:', error);
+          console.log(data, "dataapi")
+          setFilteredData(data);       
+        } catch (error:any) {
+          setError(error);
         }
       }
     };
 
     fetchFlights();
-  }, [location, locationR, stopInfo, depTime]);
+  }, [location, locationR, stopInfo, depTime, price]);
 
   return (
     <Provider store={store}>
@@ -51,23 +71,23 @@ const FlightPageContent: React.FC = () => {
           <SearchForm setLocation={setLocation} setLocationR={setLocationR} />
         </div>
         <main className='grid grid-cols-12 gap-x-2 mx-52 gap-y-10 overflow-hidden '>
-          <div className='col-span-3'>
+          <div className='col-span-3 gap-2 '>
             <div className='h-auto '>
               <p className='mb-2'>Filter Flights</p>
               <FilterSider setStopInfo={setStopInfo} filter={Filter1} />
               <FilterSider setDepTime={setDepTime} filter={Filter2} />
-              <FilterSlider value={prices} />
+              <FilterSlider value={prices} setPrice={setPrice} />
               <FilterSiderAirlines filter={airlines} />
-              <FilterSlider value={TripDuration} />
+              {/* <FilterSlider value={TripDuration} /> */}
             </div>
           </div>
-          <div className='col-span-9 flex flex-col gap-4'>
+          <div className='col-span-9 flex flex-col gap-4 mx-3'>
             <FlightDate />
             {/* <div className='flex gap-[76px] items-center bg-slate-100 h-1 text-sm p-6 '>
               <Label htmlFor="airplane-mode" className='my-1 mx-1'>Smart sort</Label>
               <Switch id="airplane-mode" />
             </div> */}
-            <Flightdata data={filterData.length > 0 ? filterData : searchData} />
+            <Flightdata data={filterData &&  filterData} error={error} />
           </div>
         </main>
       </div>

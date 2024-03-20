@@ -5,13 +5,13 @@ import FlightDetailsBtn from './flight-details-btn';
 import { Flight, setBookingFlights, setDetailFlight } from '@/redux/reducers/flightsSlice';
 interface FlightDataProps{
   data: Flight[]
+  error:string
 }
 
-const FlightData = ({data}:FlightDataProps) => {
-  const dispatch = useDispatch()
-
-  const handleBookClick = (flightData:any) => {
-    dispatch(setBookingFlights(flightData))
+const FlightData = ({ data, error }: FlightDataProps) => {
+  const dispatch = useDispatch();
+  const handleBookClick = (flightData: any) => {
+    dispatch(setBookingFlights(flightData));
   };
   const handleDetailClick = (flightData1:any) => {
     dispatch(setDetailFlight(flightData1))
@@ -19,16 +19,22 @@ const FlightData = ({data}:FlightDataProps) => {
 
   return (
     <>
+    <div className='mx-10 '>
+      {error && (<h1 className=' text-xl font-semibold bg-slate-200 text-black p-4 rounded-md'> No Flight Found</h1>)}
       {data?.map((flight, index) => (
         <div key={index} className="border-2 border-gray-200 my-2 p-5">
-          <div className=' flex gap-2 justify-between items-center'>
+          <div className=" flex gap-2 justify-between items-center">
             <div className="flex gap-2">
               <div className="py-1">
                 <img className="w-8 h-8" src="flight.svg" alt="flight" />
               </div>
               <div className="grid">
-                <p className="text-base">{flight.displayData.airlines[0].airlineName}</p>
-                <p className="text-xs">{flight.displayData.airlines[0].flightNumber}</p>
+                <p className="text-base">
+                  {flight.displayData.airlines[0].airlineName}
+                </p>
+                <p className="text-xs">
+                  {flight.displayData.airlines[0].flightNumber}
+                </p>
               </div>
             </div>
             <div className="text-lg">
@@ -48,16 +54,17 @@ const FlightData = ({data}:FlightDataProps) => {
             <div>
               <CustomButton
                 href="/flights/book"
-                onClick={()=> handleBookClick(flight)}
+                onClick={() => handleBookClick(flight)}
                 className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
                 label="Book"
               />
             </div>
-
           </div>
           <FlightDetailsBtn onClick={()=> handleDetailClick(flight)} />
         </div>
       ))}
+
+    </div>
     </>
   );
 };
