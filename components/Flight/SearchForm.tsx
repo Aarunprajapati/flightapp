@@ -116,7 +116,6 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
     };
 
   return (
-    
         <div className=' w-full space-y-2 my-5'>
             {/* components used to search the flight  */}
             <Form {...form}>
