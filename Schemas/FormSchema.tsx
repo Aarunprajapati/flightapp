@@ -8,6 +8,4 @@ export const formSchema = z.object({
     locationR: z.string(),
     adults: z.string(),
     children: z.string(),
-  
-
 })

@@ -1,13 +1,8 @@
 "use client"
 import CustomButton from '../CustomButton';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch} from 'react-redux';
 import FlightDetailsBtn from './flight-details-btn';
-import { useState, useEffect } from 'react';
-import instance from "@/axiosinstance";
-import { string } from 'zod';
-import { RootState } from '@/redux/store';
-import { Flight, setBookingFlights } from '@/redux/reducers/flightsSlice';
+import { Flight, setBookingFlights, setDetailFlight } from '@/redux/reducers/flightsSlice';
 interface FlightDataProps{
   data: Flight[]
   error:string
@@ -17,6 +12,9 @@ const FlightData = ({ data, error }: FlightDataProps) => {
   const dispatch = useDispatch();
   const handleBookClick = (flightData: any) => {
     dispatch(setBookingFlights(flightData));
+  };
+  const handleDetailClick = (flightData1:any) => {
+    dispatch(setDetailFlight(flightData1))
   };
 
   return (
@@ -62,7 +60,7 @@ const FlightData = ({ data, error }: FlightDataProps) => {
               />
             </div>
           </div>
-          <FlightDetailsBtn />
+          <FlightDetailsBtn onClick={()=> handleDetailClick(flight)} />
         </div>
       ))}
 

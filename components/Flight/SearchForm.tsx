@@ -276,11 +276,10 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
                                                 numberOfMonths={2}
                                                 disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                                             />
-                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
-                            {/* <FormMessage/> */}
+
                                     </FormControl>
                                 </FormItem>
                            )}
