@@ -55,7 +55,7 @@ const FlightData = ({ data, error }: FlightDataProps) => {
             </div>
             <div>
               <CustomButton
-                href="/flights/book"
+                href={`/flights/book?id=${flight._id}`}
                 onClick={() => handleBookClick(flight)}
                 className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
                 label="Book"
