@@ -18,51 +18,48 @@ import { useSearchParams } from 'next/navigation';
 
 const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const selectedcity = searchParams.get("selectedcity")
-  const destinationcity = searchParams.get("destinationcity") 
+  const SelectedCity = searchParams.get("selectedcity");
+  const DestinationCity = searchParams.get("destinationcity");
 
   const [location, setLocation] = useState<string>('');
   const [locationR, setLocationR] = useState<string>('');
+  const [hasInitialFetch, setHasInitialFetch] = useState(false);
   const [error, setError] = useState<string>('');
   const [filterData, setFilteredData] = useState<Flight[]>([]);
-  const [stopInfo, setStopInfo] = useState<string[]>([]);
-  const [depTime, setDepTime] = useState<string[]>([]);
-  const [price, setPrice] = useState<number[]>([]);
-
-  useEffect(()=>{
-    const fetchFlights = async () => {
-      setFilteredData([])
-      const response = await instance.get(`/matchingData?location=${selectedcity}&locationR=${destinationcity}`);
-      setFilteredData(response.data);
-    };
-    fetchFlights();
-  },[])
-
+  const [stopInfo, setStopInfo] = useState<string[]>([]); 
+  const [depTime, setDepTime] = useState<string[]>([]); 
+  const [price, setPrice] = useState<number[]>([]); 
 
   useEffect(() => {
     const fetchFlights = async () => {
-      setFilteredData([])
-      setError('')
-      if (location && locationR) {
+      setFilteredData([]);
+      setError('');
+      const useLocation = hasInitialFetch && location ? location : SelectedCity;
+      const useLocationR = hasInitialFetch && locationR ? locationR : DestinationCity;
+
+      if (useLocation && useLocationR) {
         try {
           const params = new URLSearchParams({
-            location,
-            locationR,
+            location: useLocation,
+            locationR: useLocationR,
             price: price.join(','),
             stopInfo: stopInfo.join(','),
             depTime: depTime.join(',')
           });
           const { data } = await instance.get(`/matchingData?${params}`);
           console.log(data, "dataapi")
-          setFilteredData(data);       
+          setFilteredData(data);
+          if (!hasInitialFetch) setHasInitialFetch(true); // Mark the initial fetch as complete only if successful.
         } catch (error:any) {
-          setError(error);
+          setError(error.message || 'An error occurred');
         }
       }
     };
 
     fetchFlights();
   }, [location, locationR, stopInfo, depTime, price]);
+
+
 
   return (
     <Provider store={store}>

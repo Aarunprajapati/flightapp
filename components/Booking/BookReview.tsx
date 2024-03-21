@@ -1,4 +1,5 @@
-import React  from 'react'
+"use client"
+import React, { useEffect, useState }  from 'react'
 //* icons
 import {ArrowRight, Backpack, Briefcase, CalendarDays, ChevronDown, Clock5, Sofa, Utensils, XSquare } from 'lucide-react'
 //* shadcn ui
@@ -11,6 +12,8 @@ import {
 import { Button } from '../ui/button'
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useSearchParams } from 'next/navigation';
+import instance from '@/axiosinstance'
 
 type StepProps = {
     gonext: (FormData: Record<string, any>) => void;
@@ -19,13 +22,40 @@ type StepProps = {
 
 const BookReview = ({gonext, goprev}: StepProps) => {
 
-    const flights = useSelector((state: RootState) => state.flights.bookingFlights); 
-  console.log('Flight data booking:', flights);
+
+
+    // const [oneFlight, setOneFlight] = useState<any>([]);
+
+    const flight = useSelector((state: any) => state.flights.bookingFlights); 
+    const flights = [flight]
+  console.log('Flight data booking:', flight);
+  if (!flight || flight.length === 0) {
+    return <div className=' text-2xl font-bold bg-gray-600 text-white p-4 my-10 rounded-md'>No flights found</div>;
+  }
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
+  const Bookreview = async () => {
+    if (!id) return; // Early return if `id` is null or undefined
+    
+    try {
+      const response = await instance.get(`/allflight/?id=${id}`); // Using axios directly for demonstration
+      console.log(response.data, "response");
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+if(id){
+        Bookreview()
+    }
+
+
+
   return (
     <>
-
     <div  className=' w-full p-4 my-8'>
-        <div  className=' grid gap-4'>
+        {flights.map((flight, index)=>(        
+        <div  className=' grid gap-4' key={index}>
             <div className=' flex items-center gap-2 my-2'>
                 <div className=' flex items-center'>
                     <h2 className=' text-sm font-semibold'>{flight.displayData.source.airport.cityName}</h2>
@@ -48,13 +78,13 @@ const BookReview = ({gonext, goprev}: StepProps) => {
                 </div>
                 <div className='grid gap-4'>
                     <div className=' flex items-center gap-2'>
-                        <p className=' font-semibold text-2xl text-black'>{flight.displayData.source.depTime.slice(14, 16)}</p>
+                        <p className=' font-semibold text-2xl text-black'>{flight.displayData.source.depTime.slice(11, 16)}</p>
                         <p className=' text-lg text-foreground '>{flight.displayData.source.airport.cityCode}</p>
                         <p className=' text-xs text-foreground'>{flight.displayData.source.airport.airportName}, {flight.displayData.source.airport.terminal} </p>
                     </div>
                     <Clock5 className=' w-4 h-5 text-foreground'/>
                     <div className=' flex items-center gap-2'>
-                        <p className=' font-semibold text-2xl text-black'>{flight.displayData.destination.arrTime.slice(14, 16)}</p>
+                        <p className=' font-semibold text-2xl text-black'>{flight.displayData.destination.arrTime.slice(11, 16)}</p>
                         <p className=' text-lg text-foreground '>{flight.displayData.destination.airport.cityCode}</p>
                         <p className=' text-xs text-foreground'>{flight.displayData.destination.airport.airportName}, {flight.displayData.destination.airport.terminal}</p>
                     </div>
@@ -120,6 +150,7 @@ const BookReview = ({gonext, goprev}: StepProps) => {
                 </div>
             </div>
         </div>
+    ))}
         {/* <Button onClick={()=>{gonext({name:"arun"})}}>Next</Button> */}
     </div>
 
