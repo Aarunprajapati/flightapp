@@ -38,7 +38,7 @@ export interface Flight {
   fare: number;
   __v: number;
   displayData: DisplayData;
-}
+}         
 
 interface FlightsState {
   flights: Flight[];
@@ -56,7 +56,7 @@ const flightsSlice = createSlice({
   name: 'flights',
   initialState,
   reducers: {
-    
+  
     setFlights: (state, action: PayloadAction<Flight[]>) => {
       state.flights= action.payload;
     },
