@@ -1,4 +1,4 @@
-""
+"use client"
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -21,13 +21,15 @@ import {
   } from "@/components/ui/select"
 
 import { Nationality } from './nationality'
+import { useFormContext } from './context/formcontext'
 type StepProps = {
     gonext: (FormData: Record<string, any>) => void;
     goprev: () => void;
   };
 
 
-const BookTravelDeatils = ({gonext, goprev}: StepProps) => {
+const BookTravelDeatils = () => {
+    const {handleFormNext, handleFormBack, setFormData} = useFormContext()
 
     const form = useForm<z.infer<typeof travelleSchema>>({
         resolver: zodResolver(travelleSchema),
@@ -40,7 +42,10 @@ const BookTravelDeatils = ({gonext, goprev}: StepProps) => {
     })
 
     const handleSubmit = (value:z.infer<typeof travelleSchema>)=>{
-        console.log(value)
+        console.log({value})
+        setFormData((prevFormData)=> ({...prevFormData, ...value}))
+        handleFormNext()
+
     }
 
   return (
@@ -143,8 +148,10 @@ const BookTravelDeatils = ({gonext, goprev}: StepProps) => {
                     />
                 </div>
            </div>  
-        <div className=' px-4 py-2'>
-            <Button className='bg-blue-600 text-white ' type="submit">submit</Button>
+        <div className=' px-4 py-2 flex gap-2'>
+
+            <Button className='bg-blue-600 text-white ' onClick={handleFormBack}>Back</Button>
+            <Button className='bg-blue-600 text-white '>Submit</Button>
         </div>
     </form>
 </Form>
