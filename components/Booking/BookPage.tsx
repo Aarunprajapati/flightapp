@@ -33,10 +33,8 @@ const steps = [
 
 const BookPage = () => {
   //* states
-  const [activeStep, setActiveStep] = useState(0);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [data, setData] = useState({})
-
   //* functions 
   const goprev = ()=>{
     const prevstep = currentStepIndex -1;
@@ -45,28 +43,16 @@ const BookPage = () => {
     }
   }
   
-  const gonext = (FormData:any) => {
+  const gonext = (id:any) => {
     const newdata = {
       ...data,
-      ...FormData
+      id:id
     }
     setCurrentStepIndex(currentStepIndex +1) 
     setData(newdata)
+    console.log('ID of booking page', id);
   };
-
-  const handleNext = () => {
-    if (activeStep < steps.length - 1) {
-      setActiveStep((currentStep) => currentStep + 1);
-    }
-  };
-  const handlePrevious = () => {
-    if (activeStep > 0) {
-      setActiveStep((currentStep) => currentStep - 1);
-    }
-  };
-
-
-
+ 
 
   return (
     <Provider store={store}>    

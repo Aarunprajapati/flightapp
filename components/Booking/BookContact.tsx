@@ -116,8 +116,6 @@ const BookContact = ({gonext, goprev}:StepProps) => {
         </div> */}
     </form>
 </Form>
-
-      {/* <Button onClick={()=>gonext({age:26})}>Next</Button> */}
     </div>
   )
 }

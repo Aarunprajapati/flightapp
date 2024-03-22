@@ -148,7 +148,7 @@ const BookTravelDeatils = ({gonext, goprev}: StepProps) => {
         </div>
     </form>
 </Form>
-{/* <Button onClick={()=>gonext({city:"jaipur"})}>next</Button> */}
+
 
     </div>
   )
