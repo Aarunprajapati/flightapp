@@ -9,50 +9,36 @@ import {
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
-import { Button } from '../ui/button'
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useSearchParams } from 'next/navigation';
 import instance from '@/axiosinstance'
-import { useForm } from 'react-hook-form'
-import { useFormContext } from './context/formcontext'
 
-type StepProps = {
-    gonext: (FormData: Record<string, any>) => void;
-    goprev: () => void;
-  };
 
-const BookReview = () => {
-    const {handleFormNext, setFormData} = useFormContext()
-    
-const [flights, setFlight] = useState<any>([]);
-console.log(flights)
+
+
+const BookReview: React.FC<{ onNext: (data: any, id: any | null) => void }> = ({ onNext }) => {
+   
+const [flights, setFlights] = useState<any>([]);
+// console.log(flights)
  
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  
 
+  useEffect(() => {
+    const fetchFlights = async () => {
+      if (!id) return;
+      try {
+        const response = await instance.get(`/allflight/?id=${id}`);
+        const res = Object.values(response.data);
+        setFlights(res[0]);
+        onNext({},id);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
+    };
 
-
-  const handleNext = (id:any)=>{
-    handleFormNext()    
-    setFormData((prevFormData)=> ({...prevFormData, id: id}))
-  }
-
-  const Bookreview = async () => {
-    if (!id) return; // Early return if `id` is null or undefined
-    
-    try {
-      const response = await instance.get(`/allflight/?id=${id}`);
-      const res = Object.values(response.data)
-      setFlight(res[0]);
-
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  };
-  useEffect(()=>{
-    Bookreview();
-  }, [])
+    fetchFlights();
+  }, [id, onNext]);
 
     if (!flights || flights.length === 0) {
         return <div className=' text-2xl font-bold bg-gray-600 text-white p-4 my-10 rounded-md'>No flights found</div>;
@@ -70,7 +56,6 @@ console.log(flights)
                     <h2 className='text-sm font-semibold'>{flight.displayData.destination.airport.cityName}</h2>
 
                 </div>
-                {/* <p className='  text-sm font-light'>{flight.displayData.source.depTime.slice(11, 16)}</p> */}
                 <p className=' text-[10px] font-semibold  bg-orange-100 text-black p-1 rounded-lg'>ARRIVES NEXT DAY</p>
             </div>
             <div className=' flex items-center gap-4 mb-5'>
@@ -161,8 +146,6 @@ console.log(flights)
         </div>
     ))}
     </div>
-    <Button onClick={()=>handleNext(id)}>Next</Button>
-
     </>
   )
 }

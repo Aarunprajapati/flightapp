@@ -22,14 +22,11 @@ import {
 
 import { Nationality } from './nationality'
 import { useFormContext } from './context/formcontext'
-type StepProps = {
-    gonext: (FormData: Record<string, any>) => void;
-    goprev: () => void;
-  };
+
 
 
 const BookTravelDeatils = () => {
-    const {handleFormNext, handleFormBack, setFormData} = useFormContext()
+    // const {handleFormNext, handleFormBack, setFormData} = useFormContext()
 
     const form = useForm<z.infer<typeof travelleSchema>>({
         resolver: zodResolver(travelleSchema),
@@ -43,8 +40,8 @@ const BookTravelDeatils = () => {
 
     const handleSubmit = (value:z.infer<typeof travelleSchema>)=>{
         console.log({value})
-        setFormData((prevFormData)=> ({...prevFormData, ...value}))
-        handleFormNext()
+        // setFormData((prevFormData)=> ({...prevFormData, ...value}))
+        // handleFormNext()
 
     }
 
@@ -150,8 +147,8 @@ const BookTravelDeatils = () => {
            </div>  
         <div className=' px-4 py-2 flex gap-2'>
 
-            <Button className='bg-blue-600 text-white ' onClick={handleFormBack}>Back</Button>
-            <Button className='bg-blue-600 text-white '>Submit</Button>
+            {/* <Button className='bg-blue-600 text-white ' onClick={handleFormBack}>Back</Button>
+            <Button className='bg-blue-600 text-white '>Submit</Button> */}
         </div>
     </form>
 </Form>

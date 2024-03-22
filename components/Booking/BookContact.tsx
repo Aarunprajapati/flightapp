@@ -18,15 +18,12 @@ import {
   } from "@/components/ui/select"
 
 import { cn } from '@/lib/utils'
-import { useFormContext} from './context/formcontext'
-type StepProps = {
-    gonext: (FormData: Record<string, any>) => void;
-    goprev: () => void;
-  };
+// import { useFormContext} from './context/formcontext'
+
 
 
 const BookContact = () => {
-    const { handleFormNext, handleFormBack, setFormData } = useFormContext()
+    // const { handleFormNext, handleFormBack, setFormData } = useFormContext()
     const form = useForm<z.infer<typeof bookschema>>({
         resolver: zodResolver(bookschema),
         defaultValues:{
@@ -39,8 +36,8 @@ const BookContact = () => {
     })
     const handleSubmit = (value: z.infer<typeof bookschema>) => {
         console.log({value})
-        setFormData((prevFormData)=> ({...prevFormData, ...value}))
-        handleFormNext()
+        // setFormData((prevFormData)=> ({...prevFormData, ...value}))
+        // handleFormNext()
         // form.reset();
     }
   return (
@@ -117,8 +114,8 @@ const BookContact = () => {
             </div>
         </div>
         <div className=' px-4 py-2 flex gap-2'>
-            <Button className='bg-blue-600 text-white' onClick={handleFormBack}>Back</Button>
-            <Button className='bg-blue-600 text-white'>Next</Button>
+            {/* <Button className='bg-blue-600 text-white' onClick={handleFormBack}>Back</Button> */}
+            {/* <Button className='bg-blue-600 text-white'>Next</Button> */}
         </div>
     </form>
 </Form>

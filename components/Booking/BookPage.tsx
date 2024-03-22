@@ -1,127 +1,112 @@
-"use client"
-import React, { useState } from 'react';
+"use client"// Add semicolon at the end of the statement
 
-//* custome components 
+import React, { useEffect, useState } from 'react';
 import BookReview from './BookReview';
 import BookContact from './BookContact';
+ // Correct the import statement
+
+import { useSteps, Stepper, Step, StepIndicator, StepNumber, StepTitle, StepDescription, Button } from '@chakra-ui/react';
 import BookTravelDeatils from './BookTravelDeatils';
 
-//* chakra ui 
-import {
-  Box,
-  Button,
-  Step,
-  StepDescription,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  StepSeparator,
-  StepStatus,
-  StepTitle,
-  Stepper,
-} from '@chakra-ui/react';
-import { ControlledFlow } from './ControlledFlow';
-import { store } from '@/redux/store';
-import { Provider } from 'react-redux';
-import {FormProvider, useFormContext} from '@/components/Booking/context/formcontext'
-import FormContent from './FormContent';
+type FormData = {
+  travelDetails: any;
+  contactInfo: any;
+  review: any;
+  id: any | null; 
+};
 
-//* var 
-const steps = [
-  { title: 'Review your itinerary',  },
-  { title: 'Add contact details', },
-  { title: 'Add traveller details', description:'E-ticket will be sent to this email address and phone number' },
-];
+const BookPage: React.FC = () => {
+  const steps = [
+    { title: 'Travel Details' },
+    { title: 'Contact Information' },
+    { title: 'Review' },
+  ];
 
-const BookPage = () => {
-  const {step, handleFormBack, handleFormNext} = useFormContext();
-  console.log(step)
- 
-  const handlenext = ()=>{
-    handleFormNext();
-  }
+  const [formData, setFormData] = useState<FormData>({
+    travelDetails: {},
+    contactInfo: {},
+    review: {},
+    id: null, 
+  });
 
+  const { activeStep, setActiveStep } = useSteps({});
+
+  useEffect(() => {
+    setActiveStep(0); 
+  }, []);
+
+  const handleNext = (data: any, id: any | null) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      id: id, 
+    }));
+    console.log('ID in formData:', id); 
+    setActiveStep((prevStep) => prevStep + 1); 
+  };
+
+  const handlePrev = () => {
+    setActiveStep((prevStep) => prevStep - 1);
+  };
+
+  const handleSubmit = () => {
+    console.log('Form Data:', formData);
+    setFormData({
+      travelDetails: {},
+      contactInfo: {},
+      review: {},
+      id: null, 
+    });
+    setActiveStep(0); 
+  };
+
+  const getStepComponent = (stepIndex: number) => {
+    switch (stepIndex) {
+      case 0:
+        return <BookReview onNext={(data) => handleNext(data, formData.id)} />;
+      case 1:
+        return <BookContact onNext={handleNext} onPrev={handlePrev} />;
+      case 2:
+        return  <BookTravelDeatils formData={formData} onNext={(data) => handleNext(data, formData.id)} onPrev={handlePrev} />;
+        
+      default:
+        return null;
+    }
+  };
 
   return (
-    <>    
-    <div className="max-w-5xl mx-28 bg-white rounded-lg overflow-hidden">
-      <div className="p-4">
-        {/* <Stepper index={step}>
-          {steps.map((stepcontent, index) => (
-            <Step key={index}>
-              <StepIndicator>
-                <StepStatus
-                  complete={index < step ? <StepIcon /> : undefined}
-                  incomplete={index >= step ? <StepNumber /> : undefined}
-                  active={index === step ? <StepNumber /> : undefined}
-                />
-              </StepIndicator>
-              <Box flexShrink="0">
-                <StepTitle>{stepcontent.title}</StepTitle>
-                <StepDescription className=' text-foreground'>{stepcontent.description}</StepDescription>
-              </Box>
-              {index < steps.length - 1 && <StepSeparator />}
-            </Step>
+    <>
+      <Stepper index={activeStep}>
+        <StepIndicator>
+          {[1, 2, 3].map((stepNumber) => (
+            <StepNumber key={stepNumber}>{stepNumber}</StepNumber>
           ))}
-        </Stepper> */}
+        </StepIndicator>
+        {steps.map((step, index) => (
+          <Step key={index}>
+            <StepTitle>{step.title}</StepTitle>
+            <StepDescription>{getStepComponent(index)}</StepDescription>
+          </Step>
+        ))}
+      </Stepper>
 
-       <FormProvider>
-       <Stepper index={step}>
-      {steps.map((stepcontent, index) => (
-        <Step key={index}>
-          <StepIndicator>
-            <StepStatus
-              complete={index < step ? <StepIcon /> : undefined}
-              incomplete={index >= step ? <StepNumber /> : undefined}
-              active={index === step ? <StepNumber /> : undefined}
-            />
-          </StepIndicator>
-          <Box flexShrink="0">
-            <StepTitle>{stepcontent.title}</StepTitle>
-            <StepDescription className=' text-foreground'>{stepcontent.description}</StepDescription>
-          </Box>
-          {index < steps.length - 1 && <StepSeparator />}
-        </Step>
-      ))}
-    </Stepper> 
-       
-            <FormContent/>
-       </FormProvider>
-        
- 
-          <div className="flex justify-between">
-          
-             
-
-            <Button
-              type='button'
-              className="text-light"
-              colorScheme="orange"
-              variant="solid"
-              size="md"
-              
-            >
-              prev
-             
-            </Button>
-            <Button            
-                className="text-light"
-                colorScheme="orange"
-                variant="solid"
-                size="md"
-               onClick={()=>handlenext()}
-                
-              >
-                next
-              </Button>
-          </div>
+      <div style={{ marginTop: '20px' }}>
+        {activeStep !== 0 && (
+          <Button onClick={handlePrev} disabled={activeStep === 0}>
+            Previous
+          </Button>
+        )}
+        {activeStep !== steps.length - 1 ? (
+          <Button onClick={() => handleNext({}, null)} disabled={false}>
+            Next
+          </Button>
+        ) : (
+          <Button onClick={handleSubmit} disabled={false}>
+            Submit
+          </Button>
+        )}
       </div>
-    </div>
     </>
   );
 };
 
 export default BookPage;
-
-
-
