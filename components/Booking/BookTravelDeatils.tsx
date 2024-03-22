@@ -155,7 +155,7 @@ const BookTravelDeatils = () => {
         </div>
     </form>
 </Form>
-{/* <Button onClick={()=>gonext({city:"jaipur"})}>next</Button> */}
+
 
     </div>
   )
