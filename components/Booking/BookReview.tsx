@@ -14,51 +14,54 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useSearchParams } from 'next/navigation';
 import instance from '@/axiosinstance'
+import { useForm } from 'react-hook-form'
+import { useFormContext } from './context/formcontext'
 
 type StepProps = {
     gonext: (FormData: Record<string, any>) => void;
     goprev: () => void;
   };
 
-    const BookReview = ({gonext, goprev}: StepProps) => {
-         
-    // const [oneFlight, setOneFlight] = useState<any>([]);
-
-    const flight = useSelector((state: any) => state.flights.bookingFlights); 
-    const flights = [flight]
-
-  console.log('Flight data booking:', flight);
-  if (!flight || flight.length === 0) {
-    return <div className=' text-2xl font-bold bg-gray-600 text-white p-4 my-10 rounded-md'>No flights found</div>;
-  }
+const BookReview = () => {
+    const {handleFormNext, setFormData} = useFormContext()
+    
+const [flights, setFlight] = useState<any>([]);
+console.log(flights)
+ 
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-    
-    
+
+
+  const handleNext = (id:any)=>{
+    handleFormNext()    
+    setFormData((prevFormData)=> ({...prevFormData, id: id}))
+  }
+
   const Bookreview = async () => {
     if (!id) return; // Early return if `id` is null or undefined
     
     try {
-      const response = await instance.get(`/allflight/?id=${id}`); // Using axios directly for demonstration
-      console.log(response.data, "response");
+      const response = await instance.get(`/allflight/?id=${id}`);
+      const res = Object.values(response.data)
+      setFlight(res[0]);
+
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
   };
+  useEffect(()=>{
+    Bookreview();
+  }, [])
 
-if(id){
-        Bookreview()
+    if (!flights || flights.length === 0) {
+        return <div className=' text-2xl font-bold bg-gray-600 text-white p-4 my-10 rounded-md'>No flights found</div>;
     }
-
-    // useEffect(()=>{
-    //     gonext({id})  })
 
   return (
     <>
     <div  className=' w-full p-4 my-8'>
-        {flights.map((flight, index)=>(  
-                  
+        {flights.map((flight: any, index:number)=>(        
         <div  className=' grid gap-4' key={index}>
             <div className=' flex items-center gap-2 my-2'>
                 <div className=' flex items-center'>
@@ -158,6 +161,7 @@ if(id){
         </div>
     ))}
     </div>
+    <Button onClick={()=>handleNext(id)}>Next</Button>
 
     </>
   )
