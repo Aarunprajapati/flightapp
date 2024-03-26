@@ -35,7 +35,7 @@ const steps = [
 
 const BookPage = () => {
   const {step, handleFormBack, handleFormNext} = useFormContext();
-  console.log(step)
+  console.log(step, "steps")
  
   const handlenext = ()=>{
     handleFormNext();
@@ -46,6 +46,7 @@ const BookPage = () => {
     <>    
     <div className="max-w-5xl mx-28 bg-white rounded-lg overflow-hidden">
       <div className="p-4">
+        <FormProvider>
         {/* <Stepper index={step}>
           {steps.map((stepcontent, index) => (
             <Step key={index}>
@@ -65,8 +66,7 @@ const BookPage = () => {
           ))}
         </Stepper> */}
 
-       <FormProvider>
-       <Stepper index={step}>
+       {/* <Stepper index={step}>
       {steps.map((stepcontent, index) => (
         <Step key={index}>
           <StepIndicator>
@@ -83,18 +83,16 @@ const BookPage = () => {
           {index < steps.length - 1 && <StepSeparator />}
         </Step>
       ))}
-    </Stepper> 
+    </Stepper>  */}
        
             <FormContent/>
-       </FormProvider>
         
  
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
           
              
 
             <Button
-              type='button'
               className="text-light"
               colorScheme="orange"
               variant="solid"
@@ -109,12 +107,13 @@ const BookPage = () => {
                 colorScheme="orange"
                 variant="solid"
                 size="md"
-               onClick={()=>handlenext()}
+                onClick={()=>handlenext()}
                 
               >
                 next
               </Button>
-          </div>
+          </div> */}
+            </FormProvider>
       </div>
     </div>
     </>
