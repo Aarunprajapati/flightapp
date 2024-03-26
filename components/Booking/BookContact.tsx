@@ -122,8 +122,6 @@ const BookContact = () => {
         </div>
     </form>
 </Form>
-
-      {/* <Button onClick={()=>gonext({age:26})}>Next</Button> */}
     </div>
   )
 }
