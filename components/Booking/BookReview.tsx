@@ -161,7 +161,7 @@ console.log(flights)
         </div>
     ))}
     </div>
-    <Button onClick={()=>handleNext(id)}>Next</Button>
+    <Button className='bg-blue-600 text-white' onClick={()=>handleNext(id)}>Next</Button>
 
     </>
   )

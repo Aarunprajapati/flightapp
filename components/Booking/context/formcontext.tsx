@@ -11,6 +11,7 @@ interface IFormContext {
     handleFormNext: () => void,
     handleFormBack: () => void,
     step:number,
+    setStep:React.Dispatch<React.SetStateAction<number>>
     formData: IFormData,
     setFormData: React.Dispatch<React.SetStateAction<IFormData>>
 }
@@ -25,7 +26,8 @@ const FormContext = createContext<IFormContext>({
         firstName: '',
         lastName: '',
     },
-    setFormData: ()=>{}
+    setFormData: ()=>{},
+    setStep: ()=>{},
 
     
 });
@@ -56,7 +58,7 @@ export const FormProvider = ({ children }: IProps) => {
     console.log(formData)
 
     return (
-    <FormContext.Provider value={{step, handleFormNext, handleFormBack, formData, setFormData}}>
+    <FormContext.Provider value={{step,setStep, handleFormNext, handleFormBack, formData, setFormData}}>
       {children}
     </FormContext.Provider>
   );
