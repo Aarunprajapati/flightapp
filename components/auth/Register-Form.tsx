@@ -21,6 +21,7 @@ import CardWrapper from './Card-Wrapper'
 import { Button } from '../ui/button';
 import { FormError } from '../Form-Error';
 import { FormSuccess } from '../FormSuccess';
+import toast from 'react-hot-toast';
 
 
 const RegisterForm = () => {
@@ -37,9 +38,10 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    toast.success("successfully registered");
     setError("");
     setSuccess("");
-    console.log(values);
+
   
     try {
       

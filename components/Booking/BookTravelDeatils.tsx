@@ -42,7 +42,6 @@ const BookTravelDeatils = () => {
     })
 
     const handleSubmit = (value:z.infer<typeof travelleSchema>)=>{
-        console.log({value})
         setFormData((prevFormData)=> ({...prevFormData, ...value}))
         handleFormNext()
 
