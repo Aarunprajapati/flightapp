@@ -29,7 +29,7 @@ type StepProps = {
 
 
 const BookTravelDeatils = () => {
-    const {handleFormNext, handleFormBack, setFormData} = useFormContext()
+    const {handleFormNext, handleFormBack, setFormData, onSubmit, formData} = useFormContext()
 
     const form = useForm<z.infer<typeof travelleSchema>>({
         resolver: zodResolver(travelleSchema),
@@ -41,12 +41,13 @@ const BookTravelDeatils = () => {
         }
     })
 
-    const handleSubmit = (value:z.infer<typeof travelleSchema>)=>{
-        console.log({value})
+    const handleSubmit = async (value:z.infer<typeof travelleSchema>)=>{
+        // console.log(value, "form values vbhfbjvcjm")
         setFormData((prevFormData)=> ({...prevFormData, ...value}))
+        onSubmit({...formData,...value})
         handleFormNext()
-
     }
+
 
   return (
     <div className=' w-full p-4'>
@@ -55,7 +56,7 @@ const BookTravelDeatils = () => {
         
         {/* full Name */}
         <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md ">
-            <div className=''>
+            <div className=''> 
                 <FormField             
                     control={form.control}
                     name='firstName'
@@ -151,12 +152,10 @@ const BookTravelDeatils = () => {
         <div className=' px-4 py-2 flex gap-2'>
 
             <Button className='bg-blue-600 text-white ' onClick={handleFormBack}>Back</Button>
-            <Button className='bg-blue-600 text-white '>Submit</Button>
+            <Button type='submit' className='bg-blue-600 text-white ' >Submit</Button>
         </div>
     </form>
 </Form>
-
-
     </div>
   )
 }
