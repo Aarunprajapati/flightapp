@@ -1,39 +1,40 @@
+"use client";
 
-'use client'
-
-import React from 'react'
-import * as z from 'zod'
-import { formSchema } from '@/Schemas';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Cookies from "js-cookie"
+import React from "react";
+import * as z from "zod";
+import { formSchema } from "@/Schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
 import {
   Form,
   FormField,
   FormControl,
   FormLabel,
   FormMessage,
-  FormItem
-} from '@/components/ui/form'
-import { useTransition, useState } from 'react';
+  FormItem,
+} from "@/components/ui/form";
+import { useTransition, useState } from "react";
 
-import { Input } from '../ui/input';
-import CardWrapper from './Card-Wrapper'
-import { Button } from '../ui/button';
-import { FormError } from '../Form-Error';
-import { FormSuccess } from '../FormSuccess';
+import { Input } from "../ui/input";
+import CardWrapper from "./Card-Wrapper";
+import { Button } from "../ui/button";
+import { FormError } from "../Form-Error";
+import { FormSuccess } from "../FormSuccess";
 // import { login } from '@/actions/login';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 // import { login } from '@/actions/login';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import axiosinstance from '@/axiosinstance';
-
+import axios from "axios";
+import toast from "react-hot-toast";
+import axiosinstance from "@/axiosinstance";
 
 const LoginForm = () => {
-
+  const router = useRouter()
   const searchParams = useSearchParams();
-  const urlError = searchParams.get("error") == "OAuthAccountNotLinked" ? "Email already linked with different Provider": ""
+  const urlError =
+    searchParams.get("error") == "OAuthAccountNotLinked"
+      ? "Email already linked with different Provider"
+      : "";
 
   const [isPending, StartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -49,20 +50,22 @@ const LoginForm = () => {
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
-    try {    
-        const res = await axios.post('http://localhost:5000/api/user/login', Values)
-        const data = res.data;
-        console.log(data, "data")
-        console.log(data.data.success)
-        setSuccess(data.data.success)
-        form.reset();
-      
-    } catch (error:any) {
-      console.log(error.response.data.error)
-      setError(error.response.data.error)
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/user/login",
+        Values,
+        { withCredentials: true },
+      );
+      const data = res.data;
+      setSuccess(data.data.success);
+      router.push("/")
+      form.reset();
+    } catch (error: any) {
+      console.log(error.response.data.error);
+      setError(error.response.data.error);
     }
   };
-  
+
   return (
     <CardWrapper
       headerLabel="Welcome to Login Form"
@@ -71,7 +74,7 @@ const LoginForm = () => {
       showSocial
     >
       <Form {...form}>
-        <form className=" space-y-6" onSubmit={form.handleSubmit(onSubmit)} >
+        <form className=" space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
           <div className=" space-y-4">
             <FormField
               control={form.control}
@@ -105,7 +108,7 @@ const LoginForm = () => {
                       disabled={isPending}
                     />
                   </FormControl>
-                  <FormMessage  />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -121,4 +124,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm
+export default LoginForm;
