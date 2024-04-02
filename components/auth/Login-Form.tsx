@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { formSchema } from '@/Schemas';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Cookies from "js-cookie"
 import {
   Form,
   FormField,
@@ -25,8 +26,12 @@ import { FormSuccess } from '../FormSuccess';
 import { useSearchParams } from 'next/navigation';
 // import { login } from '@/actions/login';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import axiosinstance from '@/axiosinstance';
+
 
 const LoginForm = () => {
+
   const searchParams = useSearchParams();
   const urlError = searchParams.get("error") == "OAuthAccountNotLinked" ? "Email already linked with different Provider": ""
 
@@ -47,8 +52,10 @@ const LoginForm = () => {
     try {    
         const res = await axios.post('http://localhost:5000/api/user/login', Values)
         const data = res.data;
-        setSuccess(data.success)
-      form.reset();
+        console.log(data, "data")
+        console.log(data.data.success)
+        setSuccess(data.data.success)
+        form.reset();
       
     } catch (error:any) {
       console.log(error.response.data.error)

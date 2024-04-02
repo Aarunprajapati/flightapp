@@ -11,15 +11,17 @@ import {
   FormControl,
   FormLabel,
   FormMessage,
-  FormItem,
-} from "@/components/ui/form";
-import { useTransition, useState } from "react";
-import axios from "axios";
-import { Input } from "../ui/input";
-import CardWrapper from "./Card-Wrapper";
-import { Button } from "../ui/button";
-import { FormError } from "../Form-Error";
-import { FormSuccess } from "../FormSuccess";
+  FormItem
+} from '@/components/ui/form'
+import { useTransition, useState } from 'react';
+import axios from 'axios'
+import { Input } from '../ui/input';
+import CardWrapper from './Card-Wrapper'
+import { Button } from '../ui/button';
+import { FormError } from '../Form-Error';
+import { FormSuccess } from '../FormSuccess';
+import toast from 'react-hot-toast';
+
 
 const RegisterForm = () => {
   const [isPending, StartTransition] = useTransition();
@@ -35,10 +37,11 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    toast.success("successfully registered");
     setError("");
     setSuccess("");
-    console.log(values);
 
+  
     try {
       const res = await axios.post(
         "http://localhost:5000/api/user/register",

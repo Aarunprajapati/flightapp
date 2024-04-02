@@ -32,7 +32,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Separator } from '../ui/separator'
+import toast from 'react-hot-toast'
 
 
 
@@ -154,13 +154,12 @@ const HeroPage = () => {
         }))
         setCity(FromAirlines);
         setToCity(ToAirlines)
-        
+        toast.success("Welcome, Search Your Flights")
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     })()
   }, []);
-
 
   return (
     <div className='flex items-center flex-col relative w-full bg-white mx-auto px-20 space-y-2 '>

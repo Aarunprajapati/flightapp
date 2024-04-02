@@ -64,10 +64,10 @@ const FlightPageContent: React.FC = () => {
   return (
     <Provider store={store}>
       <div className='w-full mx-auto'>
-        <div className='flex h-20 mx-60 bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300'>
+        <div className='flex mx-40  bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300 '>
           <SearchForm setLocation={setLocation} setLocationR={setLocationR} />
         </div>
-        <main className='grid grid-cols-12 gap-x-2 mx-52 gap-y-10 overflow-hidden '>
+        <main className='grid grid-cols-12 gap-x-2 mx-40 gap-y-10 overflow-hidden '>
           <div className='col-span-3 gap-2 '>
             <div className='h-auto '>
               <p className='mb-2'>Filter Flights</p>

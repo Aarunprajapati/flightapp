@@ -3,20 +3,27 @@ import CustomButton from '../CustomButton';
 import { useDispatch} from 'react-redux';
 import FlightDetailsBtn from './flight-details-btn';
 import { Flight, setBookingFlights, setDetailFlight } from '@/redux/reducers/flightsSlice';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 interface FlightDataProps{
   data: Flight[]
   error:string
 }
 
 const FlightData = ({ data, error }: FlightDataProps) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
   const dispatch = useDispatch();
   const handleBookClick = (flightData: any) => {
     dispatch(setBookingFlights(flightData));
   };
   const handleDetailClick = (flightData1:any) => {
+    // toast.success("Successfully")
     dispatch(setDetailFlight(flightData1))
   };
-
+  if(error){
+    toast.error("No Such Flight Available")
+  }
   return (
     <>
     <div className='mx-10 '>
@@ -52,12 +59,14 @@ const FlightData = ({ data, error }: FlightDataProps) => {
               <p className="font-bold">₹{flight.fare}</p>
             </div>
             <div>
-              <CustomButton
-                href={`/flights/book?id=${flight._id}`}
-                onClick={() => handleBookClick(flight)}
-                className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
-                label="Book"
-              />
+              {
+                isLoggedIn ? (<CustomButton
+                  href={`/flights/book?id=${flight._id}`}
+                  onClick={() => handleBookClick(flight)}
+                  className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
+                  label="Book"
+                />):(<Button>Login</Button>)
+              }
             </div>
           </div>
           <FlightDetailsBtn onClick={()=> handleDetailClick(flight)} />

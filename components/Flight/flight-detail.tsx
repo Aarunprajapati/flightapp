@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const Flightdetail = () => {
   const flightD = useSelector((state: any) => state.flights.detailFlight);
   const data = [flightD];
-  console.log('Flight details:', data);
+ 
   
   return (
     <>

@@ -12,7 +12,7 @@ export const ControlledFlow: React.FC<ControlledFlowProps> = ({
   onNext,
 }) => {
   const gonext = (dataFormStep: Record<string, any>) => {
-    console.log(dataFormStep);
+    
     onNext(dataFormStep);
   };
 
