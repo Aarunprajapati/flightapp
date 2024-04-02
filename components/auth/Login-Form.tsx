@@ -44,8 +44,7 @@ const LoginForm = () => {
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
-    try {
-     
+    try {    
         const res = await axios.post('http://localhost:5000/api/user/login', Values)
         const data = res.data;
         setSuccess(data.success)

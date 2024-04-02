@@ -42,7 +42,7 @@ const FormContent = () => {
             <StepTitle>{stepContent.title}</StepTitle>
             {stepContent.description && <StepDescription>{stepContent.description}</StepDescription>}
           </Box>
-          {/* {index < steps.length - 1 && <StepSeparator />} */}
+          {index < steps.length - 1 && <StepSeparator />}
         </Step>
       ))}
     </Stepper>
@@ -57,8 +57,9 @@ const FormContent = () => {
         return <BookContact />;
       case 3:
         return <BookTravelDeatils/>;
-      default:
-        return null; // Consider showing a default or initial state
+      // default:
+      //   return null;
+         // Consider showing a default or initial state
     }
   };
 
