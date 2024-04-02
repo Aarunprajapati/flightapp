@@ -21,9 +21,11 @@ import { Button } from '../ui/button';
 import { FormError } from '../Form-Error';
 import { FormSuccess } from '../FormSuccess';
 import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
 
 
 const RegisterForm = () => {
+  const router = useRouter()
   const [isPending, StartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -50,6 +52,7 @@ const RegisterForm = () => {
       console.log(res);
       const data = res.data;
       setSuccess(data.success);
+      router.push('/')
       form.reset();
     } catch (error: any) {
       setError(error.response.data.error);
