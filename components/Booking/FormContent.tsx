@@ -57,8 +57,9 @@ const FormContent = () => {
         return <BookContact />;
       case 3:
         return <BookTravelDeatils/>;
-      default:
-        return null; 
+      // default:
+      //   return null;
+         // Consider showing a default or initial state
     }
   };
 

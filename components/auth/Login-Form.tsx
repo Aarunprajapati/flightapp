@@ -49,11 +49,8 @@ const LoginForm = () => {
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
-    try {
-        const res = await axiosinstance.post("/login", Values, {withCredentials: true});
-        // const token = res.data.data.accessToken as string 
-        // Cookies.set("accessToken", token, { path: '/', secure: true, sameSite: "None" });
-        
+    try {    
+        const res = await axios.post('http://localhost:5000/api/user/login', Values)
         const data = res.data;
         console.log(data, "data")
         console.log(data.data.success)

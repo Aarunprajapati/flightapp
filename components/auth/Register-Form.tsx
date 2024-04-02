@@ -1,11 +1,10 @@
+"use client";
 
-'use client'
-
-import React from 'react'
-import * as z from 'zod'
-import { registerSchema } from '@/Schemas';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from "react";
+import * as z from "zod";
+import { registerSchema } from "@/Schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormField,
@@ -32,7 +31,7 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name:"",
+      name: "",
       email: "",
       password: "",
     },
@@ -44,19 +43,19 @@ const RegisterForm = () => {
 
   
     try {
-      
-        const res = await axios.post('http://localhost:5000/api/user/register', values);
-        console.log(res)
-        const data = res.data; 
-        setSuccess(data.success);
-        form.reset();
-      } catch (error:any) {
-        setError(error.response.data.error);
-     
-     
+      const res = await axios.post(
+        "http://localhost:5000/api/user/register",
+        values,
+      );
+      console.log(res);
+      const data = res.data;
+      setSuccess(data.success);
+      form.reset();
+    } catch (error: any) {
+      setError(error.response.data.error);
     }
   };
-  
+
   return (
     <CardWrapper
       headerLabel="Create an Account"
@@ -67,7 +66,7 @@ const RegisterForm = () => {
       <Form {...form}>
         <form className=" space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
           <div className=" space-y-4">
-          <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -133,4 +132,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm
+export default RegisterForm;
