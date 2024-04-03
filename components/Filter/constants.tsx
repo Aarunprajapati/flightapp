@@ -9,10 +9,10 @@ export const Filter1=[
 export const Filter2=[
     {
         label:"Departure time",
-        value1:"Evening",
-        time1:"4pm-8pm",
-        value2:"Night",
-        time2:"8pm-12pm"
+        value1:"evening",
+        time1:"12pm-24pm",
+        value2:"morning",
+        time2:"1am-12am"
     },
 ]
 export const airlines=[
@@ -35,9 +35,9 @@ export const airlines=[
 export const prices=[
     {
         label:"One-Way price",
-        uptoPrice:"up to $125",
-        minprice:"$100",
-        maxprice:"$200",
+        uptoPrice:3100,
+        minprice:3000,
+        maxprice:5000,
     }
 
 ]

@@ -34,8 +34,20 @@ import { ScrollArea } from '../ui/scroll-area'
 import  instance from "@/axiosinstance"
 import { useDispatch } from 'react-redux';
  import { setFlights } from '@/redux/reducers/flightsSlice';
+import { useSearchParams } from 'next/navigation';
+ interface SearchFormProps{
+    setLocation: React.Dispatch<React.SetStateAction<string>>
+    setLocationR: React.Dispatch<React.SetStateAction<string>>
+ }
 
-const SearchForm = ()  => {
+const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
+    const searchParams = useSearchParams();
+    const selectedcity = searchParams.get("selectedcity")
+    const destinationcity = searchParams.get("destinationcity")
+    const fromdatastring = searchParams.get("fromdatastring")
+    const todatastring = searchParams.get("todatastring")
+
+    const select = searchParams.get("select")
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])
@@ -45,11 +57,13 @@ const SearchForm = ()  => {
     const  form  = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            route: '',
-            location:'',     
-            locationR:'',     
-            adults: '',
-            children: '',
+            select: '',
+            location: selectedcity || '',     
+            locationR:destinationcity || '', 
+            fromDate:  fromdatastring ? new Date(fromdatastring) : "", 
+            toDate: todatastring? new Date(todatastring) : "",
+            adults: '1' || "",
+            children: '0' || "",
         },
     });
 
@@ -78,7 +92,6 @@ const SearchForm = ()  => {
             console.error('Error fetching data:', error);
         }
     })();
-     
       },[]);
 
     
@@ -87,23 +100,21 @@ const SearchForm = ()  => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const { location, locationR } = values;
+            setLocation(location);
+            setLocationR(locationR);
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
             let res1 = res.data;
             if (res1.length === 0) {
                 console.log("No data found");
             } else {
-                dispatch(setFlights(res1)); // Dispatching as an array
+                dispatch(setFlights(res1)) 
             }
-    
-            form.reset();
         } catch (error: any) {
             console.error(error.response?.data?.error || "An unexpected error occurred");
         }
     };
-    
 
   return (
-    
         <div className=' w-full space-y-2 my-5'>
             {/* components used to search the flight  */}
             <Form {...form}>
@@ -113,13 +124,14 @@ const SearchForm = ()  => {
                     <div className='grid gap-1.5 justify-start lg:max-w-sm items-center '>
                        <FormField
                        control={form.control}
-                       name="route"
+                       name="select"
                        render={({field})=>(
                         <FormItem>
                             <FormLabel className=' flex text-black'>Route</FormLabel>
                             <FormControl className='border-none outline-none ring-1 ring-blue-600 rounded-sm'>
                                 <div className='w-[150px] flex items-center space-y-5'>
                                 <Select
+                                defaultValue={select || ''}
                                  value={field.value}
                                  onValueChange={(value) => {
                                    field.onChange(value);
@@ -228,7 +240,7 @@ const SearchForm = ()  => {
                      <div className='grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2'>
                            <FormField
                            control={form.control}
-                           name='dates'
+                           name='fromDate'
                            render={( {field} )=>(
                                 <FormItem >
                                     <FormLabel className=' flex text-black'>Onward</FormLabel>
@@ -255,7 +267,7 @@ const SearchForm = ()  => {
                                         <Calendar
                                                 initialFocus
                                                 mode="single"
-                                                selected={field.value}
+                                                // selected={fromDate}
                                                 onSelect={(selectedDate) => {
                                                     setDate(selectedDate); 
                                                     field.onChange(selectedDate); 
@@ -263,11 +275,10 @@ const SearchForm = ()  => {
                                                 numberOfMonths={2}
                                                 disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                                             />
-                                        {/* <Calendar selected={date} onSelect={setDate} /> */}
                                         </PopoverContent>
                                     </Popover>
                             </div>
-                            {/* <FormMessage/> */}
+
                                     </FormControl>
                                 </FormItem>
                            )}
@@ -279,7 +290,7 @@ const SearchForm = ()  => {
                     <div className='grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2'>
                            <FormField
                            control={form.control}
-                           name='dateR'
+                           name='toDate'
                            render={( {field} )=>(
                                 <FormItem >
                                     <FormLabel className=' flex text-black'>Return</FormLabel>
@@ -306,7 +317,7 @@ const SearchForm = ()  => {
                                         <Calendar
                                                 initialFocus
                                                 mode="single"
-                                                selected={field.value}
+                                                // selected={field.value}
                                                 onSelect={(selectedDate) => {
                                                     setDate1(selectedDate); 
                                                     field.onChange(selectedDate); 

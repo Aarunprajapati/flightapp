@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import flightsReducer from './reducers/flightsSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    flight: flightsReducer,
+    flights: flightsReducer,
   },
 });
 
-export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
