@@ -13,6 +13,8 @@ export function middleware(request: NextRequest) {
   if (!currentUser && request.nextUrl.pathname.startsWith("/flights/book")) {
     return Response.redirect(new URL("/auth/login", request.url));
   }
+  
+
 }
 
 export const config = {
