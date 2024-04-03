@@ -3,7 +3,7 @@ import axios from 'axios';
 
 axios.interceptors.request.use(
   function (config) {
-    config.baseURL = 'http://localhost:5000/api/user';
+    config.baseURL = `${process.env.BACKEND_BASE_URL}/api/user`;
 
     return config;
   },
