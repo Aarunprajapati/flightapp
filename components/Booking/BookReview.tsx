@@ -33,9 +33,12 @@ console.log(flights)
 
 
 
-  const handleNext = (id:any)=>{
+  const handleNext = async (id:any)=>{
+    const prise = await instance.get(`/allflight/?id=${id}`);
+    const fare = prise.data.flight[0].fare;
+    console.log(fare,"priseData");
     handleFormNext()    
-    setFormData((prevFormData)=> ({...prevFormData, id: id}))
+    setFormData((prevFormData)=> ({...prevFormData, id:id, fare:fare}))
   }
 
   const Bookreview = async () => {

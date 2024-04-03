@@ -43,9 +43,10 @@ const RegisterForm = () => {
       const res = await axios.post(
         "http://localhost:5000/api/user/register",
         values,
+        { withCredentials: true },
       );
       console.log(res);
-      const data = res.data;
+      const data = res.data.data;
       setSuccess(data.success);
       form.reset();
     } catch (error: any) {

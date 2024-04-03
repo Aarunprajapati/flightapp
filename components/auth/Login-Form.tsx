@@ -45,8 +45,8 @@ const LoginForm = () => {
     setError("");
     setSuccess("");
     try {    
-        const res = await axios.post('http://localhost:5000/api/user/login', Values)
-        const data = res.data;
+        const res = await axios.post('http://localhost:5000/api/user/login', Values,{ withCredentials: true})
+        const data = res.data.data;
         setSuccess(data.success)
       form.reset();
       

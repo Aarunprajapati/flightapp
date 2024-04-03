@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import  instance from "@/axiosinstance"
 interface IFormData{
     id:string,
+    fare:string,
     email:string,
     firstName:string,
     lastName:string,
@@ -23,6 +24,7 @@ const FormContext = createContext<IFormContext>({
     step:1,
     formData:{
         id:"",
+        fare:"",
         email: '',
         firstName: '',
         lastName: '',
@@ -43,6 +45,7 @@ export const FormProvider = ({ children }: IProps) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<IFormData>({
         id:"",
+        fare:"",
         email: '',
         firstName: '',
         lastName: '',
