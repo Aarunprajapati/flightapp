@@ -1,4 +1,5 @@
 import { formSchema } from "@/Schemas"
+import axiosinstance from "@/axiosinstance"
 import axios from "axios"
 import { z } from "zod"
 
@@ -7,7 +8,7 @@ import { z } from "zod"
 export const getUserByEmail = async (email:string) => {
     try {
             
-            const res = await axios.post('http://localhost:5000/api/user/login', email)
+            const res = await axiosinstance.post('/login', email)
             return res.data
         
     } catch (error) {

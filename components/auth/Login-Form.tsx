@@ -50,8 +50,8 @@ const LoginForm = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/user/login",
+      const res = await axiosinstance.post(
+        "/login",
         Values,
         { withCredentials: true },
       );
@@ -60,6 +60,7 @@ const LoginForm = () => {
       router.push("/")
       form.reset();
     } catch (error: any) {
+      toast.error("unauthorised user")
       console.log(error.response.data.error);
       setError(error.response.data.error);
     }

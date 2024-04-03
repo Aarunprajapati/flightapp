@@ -3,7 +3,7 @@ import axios from 'axios';
 
 axios.interceptors.request.use(
   function (config) {
-    config.baseURL = `${process.env.BACKEND_BASE_URL}/api/user`;
+    config.baseURL = 'https://flightappbackend-k5rb.vercel.app/api/user';
 
     return config;
   },

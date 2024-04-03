@@ -22,6 +22,7 @@ import { FormError } from '../Form-Error';
 import { FormSuccess } from '../FormSuccess';
 import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
+import axiosinstance from "@/axiosinstance";
 
 
 const RegisterForm = () => {
@@ -45,8 +46,8 @@ const RegisterForm = () => {
 
   
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/user/register",
+      const res = await axiosinstance.post(
+        "/register",
         values,
         { withCredentials: true },
       );

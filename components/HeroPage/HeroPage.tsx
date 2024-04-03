@@ -31,6 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import toast from 'react-hot-toast'
+import axiosinstance from "@/axiosinstance";
 
 //* Var
 const datas = [
@@ -136,9 +137,8 @@ const HeroPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/user/displaydata",
-        );
+        const response = await axiosinstance.get('/displaydata');
+        console.log(response.data)
         const FromData = response.data.source;
         const ToData = response.data.destination;
         const FromAirlines = FromData?.map((value: any) => ({
