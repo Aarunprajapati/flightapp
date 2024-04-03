@@ -38,7 +38,7 @@ const BookContact = () => {
         }
     })
     const handleSubmit = (value: z.infer<typeof bookschema>) => {
-        console.log({value})
+    
         setFormData((prevFormData)=> ({...prevFormData, ...value}))
         handleFormNext()
         // form.reset();

@@ -39,7 +39,7 @@ const handleChange = (value: number[]) => {
               <ChevronDown className="text-gray-400 font-extralight text-xs" />
             </AccordionTrigger>
             <AccordionContent className="shadow-md">
-              <div className='text-sm font-normal'>{price1[0]}rs</div>
+              <div className='text-sm font-normal'>{price1[0]} &#8377;</div>
               <div className="py-4 w-full flex items-start justify-center flex-col gap-2">
                 <Slider
                   min={item.minprice}
@@ -49,8 +49,8 @@ const handleChange = (value: number[]) => {
                   onValueChange={handleChange}
                 />
                 <div className="flex justify-between w-full text-xs">
-                  <span>{item.minprice}rs</span>
-                  <span>{item.maxprice}rs</span>
+                  <span>{item.minprice} &#8377;</span>
+                  <span>{item.maxprice} &#8377;</span>
                 </div>
               </div>
             </AccordionContent>

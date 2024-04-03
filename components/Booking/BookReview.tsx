@@ -16,6 +16,7 @@ import { useSearchParams } from 'next/navigation';
 import instance from '@/axiosinstance'
 import { useForm } from 'react-hook-form'
 import { useFormContext } from './context/formcontext'
+import toast from 'react-hot-toast'
 
 type StepProps = {
     gonext: (FormData: Record<string, any>) => void;
@@ -26,7 +27,7 @@ const BookReview = () => {
     const {handleFormNext, setFormData} = useFormContext()
     
 const [flights, setFlight] = useState<any>([]);
-console.log(flights)
+
  
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -42,7 +43,7 @@ console.log(flights)
   }
 
   const Bookreview = async () => {
-    if (!id) return; // Early return if `id` is null or undefined
+    if (!id) return; 
     
     try {
       const response = await instance.get(`/allflight/?id=${id}`);
@@ -165,7 +166,6 @@ console.log(flights)
     ))}
     </div>
     <Button className='bg-blue-600 text-white' onClick={()=>handleNext(id)}>Next</Button>
-
     </>
   )
 }

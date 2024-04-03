@@ -29,8 +29,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "../ui/separator";
+} from "@/components/ui/popover"
+import toast from 'react-hot-toast'
 
 //* Var
 const datas = [
@@ -152,7 +152,8 @@ const HeroPage = () => {
           AirportName: value.airport.airportName,
         }));
         setCity(FromAirlines);
-        setToCity(ToAirlines);
+        setToCity(ToAirlines)
+        toast.success("Welcome, Search Your Flights")
       } catch (error) {
         console.error("Error fetching data:", error);
       }

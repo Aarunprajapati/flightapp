@@ -48,7 +48,6 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
     const todatastring = searchParams.get("todatastring")
 
     const select = searchParams.get("select")
-    console.log(select, "select")
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [date1, setDate1] = useState<Date | undefined>(undefined);
     const [data, setData] = useState<[]>([])

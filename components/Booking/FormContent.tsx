@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { useFormContext } from './context/formcontext';
 import BookContact from './BookContact';
@@ -6,7 +7,6 @@ import BookReview from './BookReview';
 
 import {
   Box,
-  Button,
   Step,
   StepDescription,
   StepIcon,
@@ -48,7 +48,7 @@ const FormContent = () => {
     </Stepper>
   );
 
-  // Switch-case to render the current form section based on the step
+  
   const FormContent = () => {
     switch (step) {
       case 1:

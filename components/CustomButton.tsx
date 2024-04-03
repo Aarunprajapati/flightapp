@@ -18,5 +18,5 @@ const CustomButton = ({label,href,className, onClick}: SeacrhButtonProps) => {
     </Link>
   );
 }
-
+        
 export default CustomButton

@@ -11,17 +11,21 @@ import {
   FormControl,
   FormLabel,
   FormMessage,
-  FormItem,
-} from "@/components/ui/form";
-import { useTransition, useState } from "react";
-import axios from "axios";
-import { Input } from "../ui/input";
-import CardWrapper from "./Card-Wrapper";
-import { Button } from "../ui/button";
-import { FormError } from "../Form-Error";
-import { FormSuccess } from "../FormSuccess";
+  FormItem
+} from '@/components/ui/form'
+import { useTransition, useState } from 'react';
+import axios from 'axios'
+import { Input } from '../ui/input';
+import CardWrapper from './Card-Wrapper'
+import { Button } from '../ui/button';
+import { FormError } from '../Form-Error';
+import { FormSuccess } from '../FormSuccess';
+import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
+
 
 const RegisterForm = () => {
+  const router = useRouter()
   const [isPending, StartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -35,10 +39,11 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
+    toast.success("successfully registered");
     setError("");
     setSuccess("");
-    console.log(values);
 
+  
     try {
       const res = await axios.post(
         "http://localhost:5000/api/user/register",
@@ -48,6 +53,7 @@ const RegisterForm = () => {
       console.log(res);
       const data = res.data.data;
       setSuccess(data.success);
+      router.push('/')
       form.reset();
     } catch (error: any) {
       setError(error.response.data.error);
