@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Providers } from "./providers";
 import { ToasterContext } from "@/context/HotToaster";
-import Cookies from "js-cookie";
 const inter = Inter({ subsets: ["latin"] });
 import { cookies } from "next/headers";
 
