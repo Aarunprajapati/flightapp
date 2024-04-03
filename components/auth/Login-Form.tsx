@@ -50,8 +50,8 @@ const LoginForm = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/user/login",
+      const res = await axiosinstance.post(
+        "/login",
         Values,
         { withCredentials: true },
       );
