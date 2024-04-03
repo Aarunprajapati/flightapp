@@ -18,7 +18,6 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
-import {middleware} from "@/middleware"
 
 //* var
 const datas = [
@@ -46,15 +45,13 @@ const datas = [
 ];
 
 const Navbar = ({ user }: any) => {
-
   const router = useRouter();
- 
+
   const handleLogOut = async () => {
     try {
       await axiosinstance.post("/logout", {}, { withCredentials: true });
       toast.success("Logged out successfully");
       router.push("/auth/login");
-      
     } catch (error) {
       toast.error("Error in logout");
     }
