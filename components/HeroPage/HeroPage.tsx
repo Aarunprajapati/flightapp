@@ -197,9 +197,10 @@ const HeroPage = () => {
                   <Command>
                     <CommandInput placeholder="Search arrival..." />
                     <CommandEmpty>No framework found.</CommandEmpty>
-                    {FromCity?.map((city) => (
-                      <CommandGroup>
+                    {FromCity?.map((city, index) => (
+                      <CommandGroup key={index}>
                         <div
+                          
                           className=" flex items-center"
                           onClick={() => handleCitySelection(city)}
                         >
@@ -242,9 +243,10 @@ const HeroPage = () => {
                     <CommandInput placeholder="Search arrival..." />
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup>
-                      {ToCity?.map((city) => (
+                      {ToCity?.map((city, index) => (
                         <div
                           className=" flex items-center  "
+                          key={index}
                           onClick={() => handleCityDestinationSelection(city)}
                         >
                           <CommandItem
