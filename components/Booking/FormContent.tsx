@@ -25,7 +25,7 @@ const steps = [
 ];
 
 const FormContent = () => {
-  const { step } = useFormContext(); 
+  const { step, onSubmit } = useFormContext(); 
 
   const renderSteps = () => (
     <Stepper index={step-1}> 
@@ -57,9 +57,8 @@ const FormContent = () => {
         return <BookContact />;
       case 3:
         return <BookTravelDeatils/>;
-      // default:
-      //   return null;
-         // Consider showing a default or initial state
+      default:
+        return null; 
     }
   };
 
