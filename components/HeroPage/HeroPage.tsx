@@ -137,8 +137,8 @@ const HeroPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axiosinstance.get('/displaydata');
-        console.log(response.data)
+        const response = await axiosinstance.get('/displaydata');  
+        console.log(response.data,">>>>>>>>>>.")
         const FromData = response.data.source;
         const ToData = response.data.destination;
         const FromAirlines = FromData?.map((value: any) => ({
