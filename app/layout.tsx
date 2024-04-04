@@ -17,7 +17,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = cookies().has("accessToken");
+  const user = cookies().get("accessToken");
+  console.log(user, "cookie")
   return (
     <html lang="en">
       <body className={inter.className}>
