@@ -55,6 +55,8 @@ export const FormProvider = ({ children }: IProps) => {
     const onSubmit = async(formData:any)=>{
         console.log( " resp before booking data",formData)
         const res = await instance.post('/booking', formData) 
+        const data =res.data;
+        window.location.href = data.url;
     }
     const handleFormNext = ()=>{
         

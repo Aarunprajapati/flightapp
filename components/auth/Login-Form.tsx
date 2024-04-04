@@ -24,9 +24,7 @@ import { FormSuccess } from "../FormSuccess";
 import { useRouter, useSearchParams } from "next/navigation";
 // import { login } from '@/actions/login';
 import axios from "axios";
-import toast from "react-hot-toast";
-import axiosinstance from "@/axiosinstance";
-
+import toast from "react-hot-toast"
 const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams();
