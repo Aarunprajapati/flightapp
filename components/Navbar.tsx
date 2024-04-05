@@ -103,7 +103,7 @@ const Navbar = ({ user }: any) => {
               <Link href={"/auth/register"}>
                 <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
                   <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
-                  <Button variant={"outline"} onClick={handleLogOut}>
+                  <Button variant={"outline"}>
                     Signup
                   </Button>
                 </div>
@@ -122,7 +122,7 @@ const Navbar = ({ user }: any) => {
               <Link href={"/auth/login"}>
                 <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
                   <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
-                  <Button variant={"outline"} onClick={handleLogOut}>
+                  <Button variant={"outline"}>
                     login
                   </Button>
                 </div>
