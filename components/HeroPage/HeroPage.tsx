@@ -31,6 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import toast from 'react-hot-toast'
+import axiosinstance from "@/axiosinstance";
 
 //* Var
 const datas = [
@@ -136,9 +137,8 @@ const HeroPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/user/displaydata",
-        );
+        const response = await axiosinstance.get('/displaydata');  
+        console.log(response.data,">>>>>>>>>>.")
         const FromData = response.data.source;
         const ToData = response.data.destination;
         const FromAirlines = FromData?.map((value: any) => ({
@@ -197,9 +197,10 @@ const HeroPage = () => {
                   <Command>
                     <CommandInput placeholder="Search arrival..." />
                     <CommandEmpty>No framework found.</CommandEmpty>
-                    {FromCity?.map((city) => (
-                      <CommandGroup>
+                    {FromCity?.map((city, index) => (
+                      <CommandGroup key={index}>
                         <div
+                          
                           className=" flex items-center"
                           onClick={() => handleCitySelection(city)}
                         >
@@ -242,9 +243,10 @@ const HeroPage = () => {
                     <CommandInput placeholder="Search arrival..." />
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup>
-                      {ToCity?.map((city) => (
+                      {ToCity?.map((city, index) => (
                         <div
                           className=" flex items-center  "
+                          key={index}
                           onClick={() => handleCityDestinationSelection(city)}
                         >
                           <CommandItem

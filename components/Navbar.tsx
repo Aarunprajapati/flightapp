@@ -46,7 +46,7 @@ const datas = [
 
 const Navbar = ({ user }: any) => {
   const router = useRouter();
-
+  console.log(user)
   const handleLogOut = async () => {
     try {
       await axiosinstance.post("/logout", {}, { withCredentials: true });
