@@ -38,9 +38,11 @@ import { useSearchParams } from 'next/navigation';
  interface SearchFormProps{
     setLocation: React.Dispatch<React.SetStateAction<string>>
     setLocationR: React.Dispatch<React.SetStateAction<string>>
+    setAdults: React.Dispatch<React.SetStateAction<string>>
+    setChildren: React.Dispatch<React.SetStateAction<string>>
  }
 
-const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
+const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFormProps)  => {
     const searchParams = useSearchParams();
     const selectedcity = searchParams.get("selectedcity")
     const destinationcity = searchParams.get("destinationcity")
@@ -99,7 +101,9 @@ const SearchForm = ({setLocation, setLocationR}: SearchFormProps)  => {
     //* functions used after the  submit  button
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const { location, locationR } = values;
+            const { location, locationR,adults,children } = values;
+            setAdults(adults);
+            setChildren(children);
             setLocation(location);
             setLocationR(locationR);
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
