@@ -14,7 +14,7 @@ const BookPage = () => {
  
   return (
     <>    
-    <div className="max-w-5xl mx-28 bg-white rounded-lg overflow-hidden">
+    <div className="mx-28 bg-white rounded-lg overflow-hidden">
       <div className="p-4">
          <FormProvider>
             <FormContent/>
