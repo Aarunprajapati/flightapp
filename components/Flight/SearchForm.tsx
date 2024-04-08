@@ -26,26 +26,28 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { ScrollArea } from "../ui/scroll-area";
-import instance from "@/axiosinstance";
-import { useDispatch } from "react-redux";
-import { setFlights } from "@/redux/reducers/flightsSlice";
-import { useSearchParams } from "next/navigation";
-interface SearchFormProps {
-  setLocation: React.Dispatch<React.SetStateAction<string>>;
-  setLocationR: React.Dispatch<React.SetStateAction<string>>;
-}
+} from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
+import {  CalendarIcon } from 'lucide-react'
+import { format } from 'date-fns'
+import { ScrollArea } from '../ui/scroll-area'
+import  instance from "@/axiosinstance"
+import { useDispatch } from 'react-redux';
+ import { setFlights } from '@/redux/reducers/flightsSlice';
+import { useSearchParams } from 'next/navigation';
+ interface SearchFormProps{
+    setLocation: React.Dispatch<React.SetStateAction<string>>
+    setLocationR: React.Dispatch<React.SetStateAction<string>>
+    setAdults: React.Dispatch<React.SetStateAction<string>>
+    setChildren: React.Dispatch<React.SetStateAction<string>>
+ }
 
-const SearchForm = ({ setLocation, setLocationR }: SearchFormProps) => {
-  const searchParams = useSearchParams();
-  const selectedcity = searchParams.get("selectedcity");
-  const destinationcity = searchParams.get("destinationcity");
-  const fromdatastring = searchParams.get("fromdatastring");
-  const todatastring = searchParams.get("todatastring");
+const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFormProps)  => {
+    const searchParams = useSearchParams();
+    const selectedcity = searchParams.get("selectedcity")
+    const destinationcity = searchParams.get("destinationcity")
+    const fromdatastring = searchParams.get("fromdatastring")
+    const todatastring = searchParams.get("todatastring")
 
   const select = searchParams.get("select");
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -79,41 +81,28 @@ const SearchForm = ({ setLocation, setLocationR }: SearchFormProps) => {
         console.error("Error fetching data:", error);
       }
     })();
-
-    // api used for the destination city
-    (async () => {
-      try {
-        const res1 = await instance.get("/destinationcity");
-        const airportdata1 = res1.data.sourceAirports1;
-        const airports1 = airportdata1?.map((value: string) => value);
-        setData1(airports1);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    })();
-  }, []);
-
-  //* functions used after the  submit  button
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      const { location, locationR } = values;
-      setLocation(location);
-      setLocationR(locationR);
-      const res = await instance.get(
-        `/matchingData?location=${location}&locationR=${locationR}`,
-      );
-      let res1 = res.data;
-      if (res1.length === 0) {
-        console.log("No data found");
-      } else {
-        dispatch(setFlights(res1));
-      }
-    } catch (error: any) {
-      console.error(
-        error.response?.data?.error || "An unexpected error occurred",
-      );
-    }
-  };
+  })
+    
+    
+    //* functions used after the  submit  button
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            const { location, locationR,adults,children } = values;
+            setAdults(adults);
+            setChildren(children);
+            setLocation(location);
+            setLocationR(locationR);
+            const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
+            let res1 = res.data;
+            if (res1.length === 0) {
+                console.log("No data found");
+            } else {
+                dispatch(setFlights(res1)) 
+            }
+        } catch (error: any) {
+            console.error(error.response?.data?.error || "An unexpected error occurred");
+        }
+    };
 
   return (
     <div className=" w-full space-y-2 my-5">
