@@ -24,6 +24,7 @@ import { Nationality } from "./nationality";
 import { useFormContext } from "./context/formcontext";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const stripePromise = loadStripe(
   "pk_test_51P11cvSHl2BiGxNdJZ6IX8jyGAppzYT7SqwCtHWHH4pKj236HMr4SeOEjYRAODsYtEDVOrftnEs471oQTbhxIxsq008GWpORWY",
@@ -34,6 +35,14 @@ type StepProps = {
 };
 
 const BookTravelDeatils = () => {
+  const searchParams = useSearchParams();
+  const adultsParam = searchParams.get('adults');
+const adults = adultsParam ? parseInt(adultsParam) : 1;
+
+const childrenParam = searchParams.get('children');
+const children = childrenParam ? parseInt(childrenParam) : 0;
+
+const totalMembers = adults + children;
   const { handleFormNext, handleFormBack, setFormData, onSubmit, formData } =
     useFormContext();
   const [loading, setLoading] = useState(false);
@@ -78,13 +87,16 @@ const BookTravelDeatils = () => {
     }
   };
 
-  return (
-    <div className=" w-full p-4">
-      <Form {...form}>
+  const renderFormSection = (index:any) => {
+    return (
+      <div key={index} className="w-full p-4 ">
+     <Form {...form}>
+      <div className=" flex justify-between">
+
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
           action="/create-checkout-session"
-          className="p-4 w-full"
+          className="p-4 w-full "
         >
           {/* full Name */}
           <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md ">
@@ -192,26 +204,30 @@ const BookTravelDeatils = () => {
               />
             </div>
           </div>
-          <div className=" px-4 py-2 flex gap-2">
-            <Button
-              className="bg-blue-600 text-white "
-              onClick={handleFormBack}
-            >
-              Back
-            </Button>
-
-            <Button
-              type="submit"
-              className="bg-blue-600 text-white"
-              disabled={loading}
-            >
-              {loading ? "Processing..." : "submit"}
-            </Button>
-          </div>
         </form>
+      </div>
+
       </Form>
-    </div>
+      </div>
+    );
+  };
+
+  const formSections = Array.from({ length: totalMembers }, (_, index) => index);
+
+  return (
+    <>
+      {formSections.map((sectionIndex) => renderFormSection(sectionIndex))}
+      <div className="px-4 py-2 flex  gap-2">
+        <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
+          Back
+        </Button>
+        <Button type="submit" className="bg-blue-600 text-white" disabled={loading}>
+          {loading ? 'Processing...' : 'Submit'}
+        </Button>
+      </div>
+    </>
   );
 };
+
 
 export default BookTravelDeatils;
