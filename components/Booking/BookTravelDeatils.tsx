@@ -80,7 +80,7 @@ const BookTravelDeatils = () => {
 
   return (
     <div className=" w-full p-4">
-      <Form {...form}>
+      <Form {...form} >
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
           action="/create-checkout-session"
