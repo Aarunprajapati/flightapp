@@ -58,7 +58,7 @@ const BookTravelDetails = () => {
     const allFormData:any = form.map(({ getValues }) => getValues());
     setFormData(allFormData);
     console.log(allFormData,"")
-    onSubmit({...formData , allFormData});
+    onSubmit();
     try {
       const response = await fetch("/create-checkout-session", {
         method: "POST",
