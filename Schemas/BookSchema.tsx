@@ -12,9 +12,17 @@ export const bookschema =z.object({
 
 
 
-export const travelleSchema = z.object({
+const memberSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
-    Gender: z.enum(['Male','Female','Other']),
-    Nationality: z.string(),
-})
+    gender: z.enum(['Male', 'Female', 'Other']),
+});
+
+const travelleSchema = z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    Gender: z.enum(['Male', 'Female', 'Other']),
+    Nationality: z.string()
+});
+
+export { travelleSchema };

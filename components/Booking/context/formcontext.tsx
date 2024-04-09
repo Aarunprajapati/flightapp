@@ -1,11 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import  instance from "@/axiosinstance"
+
+interface IMemberData{
+    firstName:string,
+    lastName:string,
+    Gender:string
+}
 interface IFormData{
     id:string,
     fare:string,
     email:string,
-    firstName:string,
-    lastName:string,
+    members: IMemberData[]
    
 }
 interface IFormContext {
@@ -26,8 +31,9 @@ const FormContext = createContext<IFormContext>({
         id:"",
         fare:"",
         email: '',
-        firstName: '',
-        lastName: '',
+        members:[]
+
+        
     },
     setFormData: ()=>{},
     setStep: ()=>{},
@@ -48,14 +54,14 @@ export const FormProvider = ({ children }: IProps) => {
         id:"",
         fare:"",
         email: '',
-        firstName: '',
-        lastName: '',
+       members:[]
       
     })
    
     const onSubmit = async(formData:any)=>{
         console.log( " resp before booking data",formData)
         const res = await instance.post('/booking', formData)
+        console.log(res.data,"contaxt")
         const response = res.data.url
         window.location.href = response
     }
