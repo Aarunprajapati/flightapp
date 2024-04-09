@@ -1,79 +1,114 @@
 import { createContext, useContext, useState } from "react";
-import  instance from "@/axiosinstance"
-interface IFormData{
-    id:string,
-    fare:string,
-    email:string,
-    firstName:string,
-    lastName:string,
-   
+import instance from "@/axiosinstance";
+
+interface IMember {
+  firstName: string;
+  lastName: string;
+  gender: string;
+
+  nationality: string;
 }
+
+interface IFormData {
+  id: string;
+  fare: string;
+  code: {
+    dial_code: string;
+  };
+  phone: string;
+
+  email: string;
+
+  members: IMember[];
+}
+
 interface IFormContext {
-    onSubmit: (data:any) => void,
-    handleFormNext: () => void,
-    handleFormBack: () => void,
-    step:number,
-    setStep:React.Dispatch<React.SetStateAction<number>>
-    formData: IFormData,
-    setFormData: React.Dispatch<React.SetStateAction<IFormData>>
+  onSubmit: (formData: IFormData) => void;
+  handleFormNext: () => void;
+  handleFormBack: () => void;
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  formData: IFormData;
+  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 }
 
 const FormContext = createContext<IFormContext>({
-    handleFormNext: () =>{},
-    handleFormBack: () => {},
-    step:1,
-    formData:{
-        id:"",
-        fare:"",
-        email: '',
-        firstName: '',
-        lastName: '',
+  handleFormNext: () => {},
+  handleFormBack: () => {},
+  step: 1,
+  formData: {
+    id: "",
+    fare: "",
+    code: {
+      dial_code: "",
     },
-    setFormData: ()=>{},
-    setStep: ()=>{},
-    onSubmit:()=>{}
-    
+    phone: "",
+
+    email: "",
+
+    members: [],
+  },
+  setFormData: () => {},
+  setStep: () => {},
+  onSubmit: () => {},
 });
 
-interface IProps{
-    children: React.ReactNode
+interface IProps {
+  children: React.ReactNode;
 }
 
-
-
 export const FormProvider = ({ children }: IProps) => {
-    const [step, setStep] = useState(1);
-    const[url, seturl] = useState(null)
-    const [formData, setFormData] = useState<IFormData>({
-        id:"",
-        fare:"",
-        email: '',
-        firstName: '',
-        lastName: '',
-      
-    })
-   
-    const onSubmit = async(formData:any)=>{
-        console.log( " resp before booking data",formData)
-        const res = await instance.post('/booking', formData)
-        const response = res.data.url
-        window.location.href = response
-    }
-    const handleFormNext = ()=>{
-        setStep(prevStep => prevStep + 1)
-    }
-    const handleFormBack = ()=>{
-        setStep(prevStep => prevStep - 1)
-    }
-   
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<IFormData>({
+    id: "",
+    fare: "",
+    code: {
+      dial_code: "",
+    },
+    phone: "",
 
-    return (
-    <FormContext.Provider value={{step,setStep, handleFormNext, handleFormBack, formData, setFormData, onSubmit}}>
+    email: "",
+
+    members: [],
+  });
+
+  const onSubmit = async (formData: IFormData) => {
+    try {
+      console.log("Submitting form data:", formData);
+      const res = await instance.post("/booking", formData);
+      const response = res.data.url;
+      window.location.href = response;
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error (e.g., show error message to user)
+    }
+  };
+
+  const handleFormNext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  const handleFormBack = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
+  return (
+    <FormContext.Provider
+      value={{
+        step,
+        setStep,
+        handleFormNext,
+        handleFormBack,
+        formData,
+        setFormData,
+        onSubmit,
+      }}
+    >
       {children}
     </FormContext.Provider>
   );
 };
 
-export const useFormContext = ()=>{
-    return useContext(FormContext)
-}
+export const useFormContext = () => {
+  return useContext(FormContext);
+};
