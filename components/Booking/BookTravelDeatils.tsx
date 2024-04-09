@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,16 +20,12 @@ import { useFormContext } from "./context/formcontext";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
 const stripePromise = loadStripe(
   "pk_test_51P11cvSHl2BiGxNdJZ6IX8jyGAppzYT7SqwCtHWHH4pKj236HMr4SeOEjYRAODsYtEDVOrftnEs471oQTbhxIxsq008GWpORWY",
 );
 
 type FormData = z.infer<typeof travelleSchema>;
-
-// interface BookTravelDetailsProps {
-//   gonext: (formData: Record<string, any>) => void;
-//   goprev: () => void;
-// }
 
 const BookTravelDetails = () => {
   const searchParams = useSearchParams();
@@ -57,44 +52,34 @@ const BookTravelDetails = () => {
       },
     }),
   );
-  const handleSubmit = async (data: FormData, index: number) => {
+
+  const handleSubmit = async () => {
     setLoading(true);
-
-  
-    const updatedFormData = { ...formData, [`member_${index}`]: data };
-
-    setFormData(updatedFormData);
-
+    const allFormData:any = form.map(({ getValues }) => getValues());
+    setFormData(allFormData);
+    console.log(allFormData,"")
+    onSubmit({...formData , allFormData});
     try {
-      const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
       const response = await fetch("/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData: updatedFormData }),
+        body: JSON.stringify({ data: allFormData }),
       });
-
-      if (!response.ok) {
-        // Handle HTTP errors
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const session = await response.json();
-
+      const stripe = await stripePromise;
       if (stripe) {
         const { error } = await stripe.redirectToCheckout({
           sessionId: session.id,
         });
         if (error) {
           console.error(error.message);
-          // Optionally, inform the user of the checkout error
+          setLoading(false);
         }
       } else {
-        throw new Error("Stripe couldn't be initialized.");
+        console.error("Stripe is null");
       }
     } catch (error) {
       console.error(error);
-      // Optionally, inform the user of the error
-    } finally {
       setLoading(false);
     }
   };
@@ -104,9 +89,9 @@ const BookTravelDetails = () => {
       <form
         action={"/create-checkout-session"}
         key={index}
-        onSubmit={form.handleSubmit((data) => handleSubmit(data, index))}
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
-        {/* Full Name */}
+        {/* {/ Full Name /} */}
         <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md">
           <div>
             <FormField
@@ -143,7 +128,7 @@ const BookTravelDetails = () => {
             />
           </div>
 
-          {/* Gender */}
+          {/* {/ Gender /} */}
           <div className="grid gap-3 items-center p-4 max-w-xl -mt-6">
             <FormLabel>Gender</FormLabel>
             <div>
@@ -176,7 +161,7 @@ const BookTravelDetails = () => {
           </div>
         </div>
 
-        {/* Nationality */}
+        {/* {/ Nationality /} */}
         <div className="grid gap-3 items-center p-4 max-w-md">
           <FormLabel>Nationality</FormLabel>
           <div>
@@ -209,34 +194,27 @@ const BookTravelDetails = () => {
             />
           </div>
         </div>
-        <div className="px-4 py-2 flex  gap-2">
-        <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
-          Back
-        </Button>
-        <Button
-          type="submit"
-          className="bg-blue-600 text-white"
-          disabled={loading}
-        >
-          {loading ? "Processing..." : "Submit"}
-        </Button>
-      </div>
       </form>
     </Form>
   );
-
-  // const formSections = [
-  //   ...Array.from({ length: adultsCount }, (_, index) => renderFormSection(index, 'Adult')),
-  //   ...Array.from({ length: childrenCount }, (_, index) => renderFormSection(index, 'Child')),
-  // ];
 
   return (
     <>
       <div className="p-4 flex justify-between w-full flex-wrap">
         {form.map(renderFormSection)}
       </div>
-
-      
+      <div className="px-4 py-2 flex gap-2">
+        <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
+          Back
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          className="bg-blue-600 text-white"
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Submit"}
+        </Button>
+      </div>
     </>
   );
 };
