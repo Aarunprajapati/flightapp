@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,12 +21,16 @@ import { useFormContext } from "./context/formcontext";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
 const stripePromise = loadStripe(
   "pk_test_51P11cvSHl2BiGxNdJZ6IX8jyGAppzYT7SqwCtHWHH4pKj236HMr4SeOEjYRAODsYtEDVOrftnEs471oQTbhxIxsq008GWpORWY",
 );
 
 type FormData = z.infer<typeof travelleSchema>;
+
+// interface BookTravelDetailsProps {
+//   gonext: (formData: Record<string, any>) => void;
+//   goprev: () => void;
+// }
 
 const BookTravelDetails = () => {
   const searchParams = useSearchParams();
@@ -37,7 +42,6 @@ const BookTravelDetails = () => {
   const { handleFormNext, handleFormBack, setFormData, onSubmit, formData } =
     useFormContext();
   const [loading, setLoading] = useState(false);
-
   // Adjust to hold an array of useForm hooks.
   const form: UseFormReturn<FormData>[] = Array.from({
     length: totalMembers,
@@ -52,46 +56,61 @@ const BookTravelDetails = () => {
       },
     }),
   );
-
   const handleSubmit = async () => {
+    const allFormData = form.map((forms) => forms.getValues());
+    console.log(allFormData, "allformdata")
+    // const combinedFormData = allFormData.reduce(
+    //   (acc, currentForm) => ({ ...acc, ...currentForm }),
+    //   {},
+    // );
+
+    // console.log(combinedFormData, "combined form data");;
+
+    setFormData((prevData) => ({ ...prevData, ...allFormData }));
+    formData.members = allFormData;
+    onSubmit({ ...formData });
+    handleFormNext();
     setLoading(true);
-    const allFormData:any = form.map(({ getValues }) => getValues());
-    setFormData(allFormData);
-    console.log(allFormData,"")
-    onSubmit();
-    try {
-      const response = await fetch("/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: allFormData }),
-      });
-      const session = await response.json();
-      const stripe = await stripePromise;
-      if (stripe) {
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: session.id,
-        });
-        if (error) {
-          console.error(error.message);
-          setLoading(false);
-        }
-      } else {
-        console.error("Stripe is null");
-      }
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
+    // try {
+    //   const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
+    //   const response = await fetch("/create-checkout-session", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ combinedFormData }),
+    //   });
+
+    //   if (!response.ok) {
+    //     // Handle HTTP errors
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
+
+    //   const session = await response.json();
+
+    //   if (stripe) {
+    //     const { error } = await stripe.redirectToCheckout({
+    //       sessionId: session.id,
+    //     });
+    //     if (error) {
+    //       console.error(error.message);
+    //       // Optionally, inform the user of the checkout error
+    //     }
+    //   } else {
+    //     throw new Error("Stripe couldn't be initialized.");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   // Optionally, inform the user of the error
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
     <Form {...form}>
-      <form
-        action={"/create-checkout-session"}
-        key={index}
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        {/* {/ Full Name /} */}
+      <form 
+      // action={"/create-checkout-session"}
+       key={index}>
+        {/* Full Name */}
         <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md">
           <div>
             <FormField
@@ -128,7 +147,7 @@ const BookTravelDetails = () => {
             />
           </div>
 
-          {/* {/ Gender /} */}
+          {/* Gender */}
           <div className="grid gap-3 items-center p-4 max-w-xl -mt-6">
             <FormLabel>Gender</FormLabel>
             <div>
@@ -161,7 +180,7 @@ const BookTravelDetails = () => {
           </div>
         </div>
 
-        {/* {/ Nationality /} */}
+        {/* Nationality */}
         <div className="grid gap-3 items-center p-4 max-w-md">
           <FormLabel>Nationality</FormLabel>
           <div>
@@ -203,7 +222,7 @@ const BookTravelDetails = () => {
       <div className="p-4 flex justify-between w-full flex-wrap">
         {form.map(renderFormSection)}
       </div>
-      <div className="px-4 py-2 flex gap-2">
+      <div className="px-4 py-2 flex justify-end gap-2">
         <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
           Back
         </Button>
@@ -212,7 +231,7 @@ const BookTravelDetails = () => {
           className="bg-blue-600 text-white"
           disabled={loading}
         >
-          {loading ? "Processing..." : "Submit"}
+          {loading ? "Processing..." : "Submit All"}
         </Button>
       </div>
     </>

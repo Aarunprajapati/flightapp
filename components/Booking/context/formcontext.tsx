@@ -1,10 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import  instance from "@/axiosinstance"
+
+interface IMemberData{
+    firstName:string,
+    lastName:string,
+    Gender:string
+}
 interface IFormData{
     id:string,
     fare:string,
     email:string,
-    members:[]
+    members: IMemberData[]
    
 }
 interface IFormContext {
