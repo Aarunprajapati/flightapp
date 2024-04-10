@@ -53,53 +53,52 @@ const BookTravelDetails = () => {
   );
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
-    console.log(allFormData, "allformdata")
-  
-
+    console.log(allFormData, "allformdata");
     setFormData((prevData) => ({ ...prevData, ...allFormData }));
     formData.members = allFormData;
     onSubmit({ ...formData });
     handleFormNext();
     setLoading(true);
-    try {
-      const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
-      const response = await fetch("/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData}),
-      });
+    // try {
+    //   const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
+    //   const response = await fetch("/create-checkout-session", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ formData }),
+    
+    //   });
 
-      if (!response.ok) {
-        // Handle HTTP errors
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+    //   if (!response.ok) {
+    //     // Handle HTTP errors
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
 
-      const session = await response.json();
+    //   const session = await response.json();
 
-      if (stripe) {
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: session.id,
-        });
-        if (error) {
-          console.error(error.message);
-          // Optionally, inform the user of the checkout error
-        }
-      } else {
-        throw new Error("Stripe couldn't be initialized.");
-      }
-    } catch (error) {
-      console.error(error);
-      // Optionally, inform the user of the error
-    } finally {
-      setLoading(false);
-    }
+    //   if (stripe) {
+    //     const { error } = await stripe.redirectToCheckout({
+    //       sessionId: session.id,
+    //     });
+    //     if (error) {
+    //       console.error(error.message);
+    //       // Optionally, inform the user of the checkout error
+    //     }
+    //   } else {
+    //     throw new Error("Stripe couldn't be initialized.");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   // Optionally, inform the user of the error
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
     <Form {...form}>
-      <form 
-      action={"/create-checkout-session"}
-       key={index}>
+      <form
+      //  action={"/create-checkout-session"} 
+      key={index}>
         {/* Full Name */}
         <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md">
           <div>
@@ -209,34 +208,30 @@ const BookTravelDetails = () => {
 
   return (
     <>
-<div className="w-full flex flex-wrap">
-  {form.map((formData, index) => (
-    <div key={index} className="w-full md:w-1/2 p-4">
-      <div className="border border-gray-300  p-4 ">
-      {renderFormSection(formData, index)}
+      <div className="w-full flex flex-wrap">
+        {form.map((formData, index) => (
+          <div key={index} className="w-full md:w-1/2 p-4">
+            <div className="border border-gray-300  p-4 ">
+              {renderFormSection(formData, index)}
+            </div>
+          </div>
+        ))}
+        <div className="w-full mt-4 flex justify-between ">
+          <Button
+            className="bg-blue-600 text-white px-6 py-2"
+            onClick={handleFormBack}
+          >
+            Back
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            className="bg-blue-600 text-white px-8 py-2"
+            disabled={loading}
+          >
+            {loading ? "Processing..." : "Submit All"}
+          </Button>
+        </div>
       </div>
-    </div>
-  ))}
-  <div className="w-full mt-4 flex justify-between ">
-    <Button
-      className="bg-blue-600 text-white px-6 py-2"
-      onClick={handleFormBack}
-    >
-      Back
-    </Button>
-    <Button
-      onClick={handleSubmit}
-      className="bg-blue-600 text-white px-8 py-2"
-      disabled={loading}
-    >
-      {loading ? "Processing..." : "Submit All"}
-    </Button>
-  </div>
-</div>
-
-
-
-
     </>
   );
 };

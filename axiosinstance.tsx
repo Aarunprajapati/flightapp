@@ -1,7 +1,10 @@
 import axios from 'axios';    
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:5000/api/user',
+  withCredentials: true,
+});
 
-
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   function (config) {
     config.baseURL = 'http://localhost:5000/api/user';
 
@@ -13,8 +16,8 @@ axios.interceptors.request.use(
 );
 
 export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete,
+  get: axiosInstance.get,
+  post: axiosInstance.post,
+  put: axiosInstance.put,
+  delete: axiosInstance.delete,
 }
