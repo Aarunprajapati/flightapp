@@ -54,50 +54,14 @@ const BookTravelDetails = () => {
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
     console.log(allFormData, "allformdata")
-    // const combinedFormData = allFormData.reduce(
-    //   (acc, currentForm) => ({ ...acc, ...currentForm }),
-    //   {},
-    // );
-
-    // console.log(combinedFormData, "combined form data");;
+  
 
     setFormData((prevData) => ({ ...prevData, ...allFormData }));
     formData.members = allFormData;
     onSubmit({ ...formData });
     handleFormNext();
     setLoading(true);
-    // try {
-    //   const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
-    //   const response = await fetch("/create-checkout-session", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ combinedFormData }),
-    //   });
 
-    //   if (!response.ok) {
-    //     // Handle HTTP errors
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-
-    //   const session = await response.json();
-
-    //   if (stripe) {
-    //     const { error } = await stripe.redirectToCheckout({
-    //       sessionId: session.id,
-    //     });
-    //     if (error) {
-    //       console.error(error.message);
-    //       // Optionally, inform the user of the checkout error
-    //     }
-    //   } else {
-    //     throw new Error("Stripe couldn't be initialized.");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   // Optionally, inform the user of the error
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
@@ -214,21 +178,34 @@ const BookTravelDetails = () => {
 
   return (
     <>
-      <div className="p-4 flex justify-between w-full flex-wrap">
-        {form.map(renderFormSection)}
+<div className="w-full flex flex-wrap">
+  {form.map((formData, index) => (
+    <div key={index} className="w-full md:w-1/2 p-4">
+      <div className="border border-gray-300  p-4 ">
+      {renderFormSection(formData, index)}
       </div>
-      <div className="px-4 py-2 flex justify-end gap-2">
-        <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
-          Back
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white"
-          disabled={loading}
-        >
-          {loading ? "Processing..." : "Submit All"}
-        </Button>
-      </div>
+    </div>
+  ))}
+  <div className="w-full mt-4 flex justify-between ">
+    <Button
+      className="bg-blue-600 text-white px-6 py-2"
+      onClick={handleFormBack}
+    >
+      Back
+    </Button>
+    <Button
+      onClick={handleSubmit}
+      className="bg-blue-600 text-white px-8 py-2"
+      disabled={loading}
+    >
+      {loading ? "Processing..." : "Submit All"}
+    </Button>
+  </div>
+</div>
+
+
+
+
     </>
   );
 };

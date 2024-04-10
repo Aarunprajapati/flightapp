@@ -47,7 +47,7 @@ const BookContact = () => {
     <div className=' p-4 '>
        <Form {...form}>
     <form onSubmit={form.handleSubmit(handleSubmit)} className='p-4 max-w-2xl'>
-        
+        <div className="border border-gray-300  p-4 "> 
         {/* Mobile Number */}
         <div className="flex items-center col-span-12 space-x-2 p-3  border-gray-200 rounded-md w-full">
 
@@ -116,6 +116,10 @@ const BookContact = () => {
                 />
             </div>
         </div>
+        </div>
+
+
+
         <div className=' px-4 py-2 flex gap-2'>
             <Button className='bg-blue-600 text-white' onClick={handleFormBack}>Back</Button>
             <Button className='bg-blue-600 text-white'>Next</Button>
