@@ -13,14 +13,17 @@ interface IFormData{
     members: IMemberData[]
    
 }
+
+
+
 interface IFormContext {
-    onSubmit: (data:any) => void,
-    handleFormNext: () => void,
-    handleFormBack: () => void,
-    step:number,
-    setStep:React.Dispatch<React.SetStateAction<number>>
-    formData: IFormData,
-    setFormData: React.Dispatch<React.SetStateAction<IFormData>>
+  onSubmit: (formData: IFormData) => void;
+  handleFormNext: () => void;
+  handleFormBack: () => void;
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  formData: IFormData;
+  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 }
 
 const FormContext = createContext<IFormContext>({
@@ -35,17 +38,15 @@ const FormContext = createContext<IFormContext>({
 
         
     },
-    setFormData: ()=>{},
-    setStep: ()=>{},
-    onSubmit:()=>{}
-    
+  
+  setFormData: () => {},
+  setStep: () => {},
+  onSubmit: () => {},
 });
 
-interface IProps{
-    children: React.ReactNode
+interface IProps {
+  children: React.ReactNode;
 }
-
-
 
 export const FormProvider = ({ children }: IProps) => {
     const [step, setStep] = useState(1);
@@ -73,13 +74,27 @@ export const FormProvider = ({ children }: IProps) => {
     }
    
 
-    return (
-    <FormContext.Provider value={{step,setStep, handleFormNext, handleFormBack, formData, setFormData, onSubmit}}>
+
+
+
+
+  return (
+    <FormContext.Provider
+      value={{
+        step,
+        setStep,
+        handleFormNext,
+        handleFormBack,
+        formData,
+        setFormData,
+        onSubmit,
+      }}
+    >
       {children}
     </FormContext.Provider>
   );
 };
 
-export const useFormContext = ()=>{
-    return useContext(FormContext)
-}
+export const useFormContext = () => {
+  return useContext(FormContext);
+};

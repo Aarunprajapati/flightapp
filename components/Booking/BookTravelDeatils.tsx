@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,16 +20,12 @@ import { useFormContext } from "./context/formcontext";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
 const stripePromise = loadStripe(
   "pk_test_51P11cvSHl2BiGxNdJZ6IX8jyGAppzYT7SqwCtHWHH4pKj236HMr4SeOEjYRAODsYtEDVOrftnEs471oQTbhxIxsq008GWpORWY",
 );
 
 type FormData = z.infer<typeof travelleSchema>;
-
-// interface BookTravelDetailsProps {
-//   gonext: (formData: Record<string, any>) => void;
-//   goprev: () => void;
-// }
 
 const BookTravelDetails = () => {
   const searchParams = useSearchParams();
@@ -59,12 +54,7 @@ const BookTravelDetails = () => {
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
     console.log(allFormData, "allformdata")
-    // const combinedFormData = allFormData.reduce(
-    //   (acc, currentForm) => ({ ...acc, ...currentForm }),
-    //   {},
-    // );
-
-    // console.log(combinedFormData, "combined form data");;
+  
 
     setFormData((prevData) => ({ ...prevData, ...allFormData }));
     formData.members = allFormData;
@@ -219,21 +209,34 @@ const BookTravelDetails = () => {
 
   return (
     <>
-      <div className="p-4 flex justify-between w-full flex-wrap">
-        {form.map(renderFormSection)}
+<div className="w-full flex flex-wrap">
+  {form.map((formData, index) => (
+    <div key={index} className="w-full md:w-1/2 p-4">
+      <div className="border border-gray-300  p-4 ">
+      {renderFormSection(formData, index)}
       </div>
-      <div className="px-4 py-2 flex justify-end gap-2">
-        <Button className="bg-blue-600 text-white" onClick={handleFormBack}>
-          Back
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white"
-          disabled={loading}
-        >
-          {loading ? "Processing..." : "Submit All"}
-        </Button>
-      </div>
+    </div>
+  ))}
+  <div className="w-full mt-4 flex justify-between ">
+    <Button
+      className="bg-blue-600 text-white px-6 py-2"
+      onClick={handleFormBack}
+    >
+      Back
+    </Button>
+    <Button
+      onClick={handleSubmit}
+      className="bg-blue-600 text-white px-8 py-2"
+      disabled={loading}
+    >
+      {loading ? "Processing..." : "Submit All"}
+    </Button>
+  </div>
+</div>
+
+
+
+
     </>
   );
 };
