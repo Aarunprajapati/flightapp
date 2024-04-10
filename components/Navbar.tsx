@@ -49,7 +49,7 @@ const Navbar = ({ user }: any) => {
  
   const handleLogOut = async () => {
     try {
-      await axiosinstance.post("/logout", {}, { withCredentials: true });
+      await axiosinstance.post("/logout");
       toast.success("Logged out successfully");
       router.push("/auth/login");
     } catch (error) {

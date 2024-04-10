@@ -51,8 +51,7 @@ const LoginForm = () => {
     try {
       const res = await axiosinstance.post(
         "/login",
-        Values,
-        { withCredentials: true },
+        Values
       );
       const data = res.data;
       setSuccess(data.data.success);

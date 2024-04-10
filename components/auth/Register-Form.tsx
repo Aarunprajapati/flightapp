@@ -40,11 +40,9 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-    toast.success("successfully registered");
     setError("");
     setSuccess("");
 
-  
     try {
       const res = await axiosinstance.post(
         "/register",
@@ -57,6 +55,7 @@ const RegisterForm = () => {
       router.push('/')
       form.reset();
     } catch (error: any) {
+      toast.error("Something went wrong while create account ");
       setError(error.response.data.error);
     }
   };

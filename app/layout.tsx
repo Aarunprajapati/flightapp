@@ -18,7 +18,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = cookies().get("accessToken");
-  console.log(user, "usertoken")
   return (
     <html lang="en">
       <body className={inter.className}>
