@@ -41,10 +41,10 @@ import { useSearchParams } from 'next/navigation';
     setLocation: React.Dispatch<React.SetStateAction<string>>
     setLocationR: React.Dispatch<React.SetStateAction<string>>
     setAdults: React.Dispatch<React.SetStateAction<string>>
-    setBacche: React.Dispatch<React.SetStateAction<string>>
+    setChildren: React.Dispatch<React.SetStateAction<string>>
  }
 
-const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormProps)  => {
+const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFormProps)  => {
     const searchParams = useSearchParams();
     const selectedcity = searchParams.get("selectedcity")
     const destinationcity = searchParams.get("destinationcity")
@@ -67,7 +67,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
       fromDate: fromdatastring ? new Date(fromdatastring) : "",
       toDate: todatastring ? new Date(todatastring) : "",
       adults: "1" || "",
-      bacche: "0" || "",
+      children: "0" || "",
     },
   });
 
@@ -101,9 +101,9 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
     //* functions used after the  submit  button
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const { location, locationR,adults,bacche } = values;
+            const { location, locationR,adults,children } = values;
             setAdults(adults);
-            setBacche(bacche);
+            setChildren(children);
             setLocation(location);
             setLocationR(locationR);
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
@@ -383,7 +383,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
             <div className=" grid items-center flex-1">
               <FormField
                 control={form.control}
-                name="bacche"
+                name="children"
                 render={({ field: { ...field } }) => (
                   <FormItem>
                     <FormLabel className=" flex text-black">

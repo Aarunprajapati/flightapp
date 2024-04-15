@@ -26,6 +26,7 @@ const Flightdetail = () => {
 
           <div className='flex gap-6 items-center p-8'>
             <div className='grid -mb-3'>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <div><img className='w-6 h-6' src="flight.svg" alt="flight" /></div>
               <div>
                 <p className='my-2 text-xs'>{flight.displayData.airlines[0].airlineName}</p>

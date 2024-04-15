@@ -7,5 +7,5 @@ export const formSchema = z.object({
     location: z.string(),
     locationR: z.string(),
     adults: z.string(),
-    bacche: z.string(),
+    children: z.string(),
 })
