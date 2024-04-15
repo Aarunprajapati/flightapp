@@ -59,6 +59,7 @@ const FlightPageContent: React.FC = () => {
     };
 
     fetchFlights();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, locationR, stopInfo, depTime, price]);
 
 

@@ -67,7 +67,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
       fromDate: fromdatastring ? new Date(fromdatastring) : "",
       toDate: todatastring ? new Date(todatastring) : "",
       adults: "1" || "",
-      children: "0" || "",
+      bacche: "0" || "",
     },
   });
 
@@ -101,9 +101,9 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
     //* functions used after the  submit  button
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            const { location, locationR,adults,children } = values;
+            const { location, locationR,adults,bacche } = values;
             setAdults(adults);
-            setChildren(children);
+            setBacche(bacche);
             setLocation(location);
             setLocationR(locationR);
             const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
@@ -383,7 +383,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormP
             <div className=" grid items-center flex-1">
               <FormField
                 control={form.control}
-                name="children"
+                name="bacche"
                 render={({ field: { ...field } }) => (
                   <FormItem>
                     <FormLabel className=" flex text-black">
