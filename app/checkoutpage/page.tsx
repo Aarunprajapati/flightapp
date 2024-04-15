@@ -7,22 +7,29 @@ import { Button } from "@/components/ui/button";
 import CardWrapper from "@/components/auth/Card-Wrapper";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
 const page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const handlesubmit = async () => {
-    setLoading(true);
-    const res = await instance.post("/sendmail", {}, { withCredentials: true });
-    console.log(res.data, "success mail");
-    router.push("/");
+
+  try {
+      setLoading(true);
+      await instance.post("/sendmail");
+      router.push("/");
+  } catch (error) {
+    setLoading(false);
+    toast.error("Error while invoice create")
+    router.push("/auth/login")
+  }
   };
   return (
     <div className=" h-screen flex justify-center items-center">
       <CardWrapper
         headerLabel="Welcome to checkOut page"
         backButtonLabel="Don't have an account?"
-        backButtonHref="/"
+        backButtonHref="/auth/login"
       >
         <div className="flex justify-center">
           {loading && (
