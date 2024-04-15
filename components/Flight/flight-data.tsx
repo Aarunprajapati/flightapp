@@ -46,6 +46,7 @@ const FlightData = ({ data, error,bacche,adults }: FlightDataProps) => {
             <div className=" flex gap-2 justify-between items-center">
               <div className="flex gap-2">
                 <div className="py-1">
+                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="w-8 h-8" src="flight.svg" alt="flight" />
                 </div>
                 <div className="grid">
