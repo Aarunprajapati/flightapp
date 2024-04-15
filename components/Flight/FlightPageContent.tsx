@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
