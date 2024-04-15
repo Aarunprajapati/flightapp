@@ -24,7 +24,7 @@ const FlightPageContent: React.FC = () => {
   const [location, setLocation] = useState<string>('');
   const [locationR, setLocationR] = useState<string>('');
   const [adults, setAdults] = useState<string>('');
-  const [children, setChildren] = useState<string>('');
+  const [bacche, setBacche] = useState<string>('');
   const [hasInitialFetch, setHasInitialFetch] = useState(false);
   const [error, setError] = useState<string>('');
   const [filterData, setFilteredData] = useState<Flight[]>([]);
@@ -67,7 +67,7 @@ const FlightPageContent: React.FC = () => {
     <Provider store={store}>
       <div className='w-full mx-auto'>
         <div className='flex mx-40  bg-white items-center gap-x-4 mb-10 border-b-2 border-gray-300 '>
-          <SearchForm setLocation={setLocation} setLocationR={setLocationR} setAdults={setAdults} setChildren={setChildren}/>
+          <SearchForm setLocation={setLocation} setLocationR={setLocationR} setAdults={setAdults} setBacche={setBacche}/>
         </div>
         <main className='grid grid-cols-12 gap-x-2 mx-40 gap-y-10 overflow-hidden '>
           <div className='col-span-3 gap-2 '>
@@ -86,7 +86,7 @@ const FlightPageContent: React.FC = () => {
               <Label htmlFor="airplane-mode" className='my-1 mx-1'>Smart sort</Label>
               <Switch id="airplane-mode" />
             </div> */}
-            <Flightdata data={filterData &&  filterData} adults={adults} children={children} error={error} />
+            <Flightdata data={filterData &&  filterData} adults={adults} bacche={bacche} error={error} />
           </div>
         </main>
       </div>

@@ -41,10 +41,10 @@ import { useSearchParams } from 'next/navigation';
     setLocation: React.Dispatch<React.SetStateAction<string>>
     setLocationR: React.Dispatch<React.SetStateAction<string>>
     setAdults: React.Dispatch<React.SetStateAction<string>>
-    setChildren: React.Dispatch<React.SetStateAction<string>>
+    setBacche: React.Dispatch<React.SetStateAction<string>>
  }
 
-const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFormProps)  => {
+const SearchForm = ({setLocation, setLocationR,setAdults,setBacche}: SearchFormProps)  => {
     const searchParams = useSearchParams();
     const selectedcity = searchParams.get("selectedcity")
     const destinationcity = searchParams.get("destinationcity")
