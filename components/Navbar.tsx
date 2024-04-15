@@ -56,6 +56,9 @@ const Navbar = ({ user }: any) => {
       toast.error("Error in logout");
     }
   };
+  useEffect(()=>{
+    handleLogOut();
+  },[router, user])
 
   return (
     <div className="flex bg-gray-800 w-full items-center p-4  lg:justify-between h-full mx-auto">

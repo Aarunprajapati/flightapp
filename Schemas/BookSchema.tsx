@@ -10,14 +10,6 @@ export const bookschema =z.object({
     email:z.string()
 })
 
-
-
-const memberSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    gender: z.enum(['Male', 'Female', 'Other']),
-});
-
 const travelleSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
