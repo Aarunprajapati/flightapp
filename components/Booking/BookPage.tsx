@@ -11,7 +11,6 @@ const steps = [
 ];
 
 const BookPage = () => {
- 
   return (
     <>    
     <div className="mx-28 bg-white rounded-lg overflow-hidden">

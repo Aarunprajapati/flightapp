@@ -49,13 +49,16 @@ const Navbar = ({ user }: any) => {
  
   const handleLogOut = async () => {
     try {
-      await axiosinstance.post("/logout", {}, { withCredentials: true });
+      await axiosinstance.post("/logout");
       toast.success("Logged out successfully");
       router.push("/auth/login");
     } catch (error) {
       toast.error("Error in logout");
     }
   };
+  useEffect(()=>{
+    handleLogOut();
+  },[router, user])
 
   return (
     <div className="flex bg-gray-800 w-full items-center p-4  lg:justify-between h-full mx-auto">
