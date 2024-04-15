@@ -9,11 +9,10 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 
-const page = () => {
+const CheckOutPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const handlesubmit = async () => {
-
   try {
       setLoading(true);
       await instance.post("/sendmail");
@@ -47,4 +46,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CheckOutPage;
