@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client"
 import React, { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,39 +61,6 @@ const BookTravelDetails = () => {
     onSubmit({ ...formData });
     handleFormNext();
     setLoading(true);
-    // try {
-    //   const stripe = await stripePromise; // Assuming stripePromise is defined elsewhere correctly.
-    //   const response = await fetch("/create-checkout-session", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ formData }),
-    
-    //   });
-
-    //   if (!response.ok) {
-    //     // Handle HTTP errors
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-
-    //   const session = await response.json();
-
-    //   if (stripe) {
-    //     const { error } = await stripe.redirectToCheckout({
-    //       sessionId: session.id,
-    //     });
-    //     if (error) {
-    //       console.error(error.message);
-    //       // Optionally, inform the user of the checkout error
-    //     }
-    //   } else {
-    //     throw new Error("Stripe couldn't be initialized.");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   // Optionally, inform the user of the error
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
