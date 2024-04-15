@@ -10,11 +10,11 @@ export const bookschema =z.object({
     email:z.string()
 })
 
-
-
-export const travelleSchema = z.object({
+const travelleSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
-    Gender: z.enum(['Male','Female','Other']),
-    Nationality: z.string(),
-})
+    Gender: z.enum(['Male', 'Female', 'Other']),
+    Nationality: z.string()
+});
+
+export { travelleSchema };

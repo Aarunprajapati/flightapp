@@ -1,20 +1,24 @@
 import axios from 'axios';    
+const axiosInstance = axios.create({
+  baseURL: `${process.env.BACKEND_BASE_URL}/api/user`,
+  timeout:200000,
+  withCredentials: true,
+});
 
+// axiosInstance.interceptors.request.use(
+//   function (config) {
+//     config.baseURL = 'http://localhost:5000/api/user';
 
-axios.interceptors.request.use(
-  function (config) {
-    config.baseURL = 'https://flightappbackend-k5rb.vercel.app/api/user';
-
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
 
 export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete,
+  get: axiosInstance.get,
+  post: axiosInstance.post,
+  put: axiosInstance.put,
+  delete: axiosInstance.delete,
 }

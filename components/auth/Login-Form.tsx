@@ -24,9 +24,8 @@ import { FormSuccess } from "../FormSuccess";
 import { useRouter, useSearchParams } from "next/navigation";
 // import { login } from '@/actions/login';
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"
 import axiosinstance from "@/axiosinstance";
-
 const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams();
@@ -52,8 +51,7 @@ const LoginForm = () => {
     try {
       const res = await axiosinstance.post(
         "/login",
-        Values,
-        { withCredentials: true },
+        Values
       );
       const data = res.data;
       setSuccess(data.data.success);
