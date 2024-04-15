@@ -1,6 +1,6 @@
 import axios from 'axios';    
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api/user',
+  baseURL: `${process.env.BACKEND_BASE_URL}/api/user`,
   timeout:200000,
   withCredentials: true,
 });
