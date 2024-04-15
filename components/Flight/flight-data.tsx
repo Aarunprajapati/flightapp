@@ -12,13 +12,13 @@ import { useCookies } from 'react-cookie';
 interface FlightDataProps{
   data: Flight[]
   error:string,
-  child:string,
+  children:string,
   adults:string,
 }
 
 
 
-const FlightData = ({ data, error,child,adults }: FlightDataProps) => {
+const FlightData = ({ data, error,children,adults }: FlightDataProps) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const FlightData = ({ data, error,child,adults }: FlightDataProps) => {
               </div>
               <div>
               <CustomButton
-                    href={`/flights/book?id=${flight._id}&adults=${adults}&children=${child}`}
+                    href={`/flights/book?id=${flight._id}&adults=${adults}&children=${children}`}
                     onClick={() => handleBookClick(flight)}
                     className="px-6 py-2 rounded-md text-md bg-orange-500 text-white"
                     label="Book"

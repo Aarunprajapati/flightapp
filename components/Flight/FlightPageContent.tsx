@@ -86,7 +86,7 @@ const FlightPageContent: React.FC = () => {
               <Label htmlFor="airplane-mode" className='my-1 mx-1'>Smart sort</Label>
               <Switch id="airplane-mode" />
             </div> */}
-            <Flightdata data={filterData &&  filterData} adults={adults} child={children} error={error} />
+            <Flightdata data={filterData &&  filterData} adults={adults} children={children} error={error} />
           </div>
         </main>
       </div>
