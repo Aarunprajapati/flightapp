@@ -3,9 +3,11 @@ import {cookies} from "next/headers";
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
+  console.log("request>>>>>",request.cookies)
   // const currentUser = request.cookies.get("accessToken")?.value;
   const currentUserstore = cookies()
   const currentUser =currentUserstore.get("accessToken")?.value;
+  console.log("currentUser>>>>>>>>>",currentUser)
   console.log(currentUser, "current user",request.url)
   console.log("nextUrl",request.nextUrl)
 
@@ -24,14 +26,7 @@ export function middleware(request: NextRequest) {
   if (!currentUser && request.nextUrl.pathname.startsWith("/checkoutpage")) {
     return Response.redirect(new URL("/auth/login", request.url));
   }
-  // const publicRoutes = path === '/auth/login' || path === '/' || path === "/auth/register" || path === "/flights";
 
-  // if(publicRoutes && currentUser){
-  //   return NextResponse.redirect(new URL('/', request.nextUrl))
-  // }
-  // if(!publicRoutes && !currentUser){
-  //     return NextResponse.redirect(new URL('/auth/login', request.nextUrl))
-  // }
 }
 
 export const config = {
