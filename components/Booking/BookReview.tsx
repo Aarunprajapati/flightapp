@@ -37,7 +37,6 @@ const [flights, setFlight] = useState<any>([]);
   const handleNext = async (id:any)=>{
     const prise = await instance.get(`/allflight/?id=${id}`);
     const fare = prise.data.flight[0].fare;
-    console.log(fare,"priseData");
     handleFormNext()    
     setFormData((prevFormData)=> ({...prevFormData, id:id, fare:fare}))
   }
@@ -51,7 +50,7 @@ const [flights, setFlight] = useState<any>([]);
       setFlight(res[0]);
 
     } catch (error) {
-      console.error("Failed to fetch data:", error);
+     toast.error("Flights not found");
     }
   };
   useEffect(()=>{

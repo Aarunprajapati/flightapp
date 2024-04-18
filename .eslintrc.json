@@ -2,5 +2,18 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:storybook/recommended"
+  ],
+  "rules": {
+    "no-console": "warn",  // This rule will flag any console.log statements as errors
+    "no-comment": "off",  // This is not a standard rule. Custom handling or plugins might be needed to remove comments.
+    "spaced-comment": "off"  // This turns off spacing checks in comments, but does not remove them.
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "no-console": "warn"  // Changes the rule to warnings for JavaScript files if that's preferred
+      }
+    }
   ]
 }
