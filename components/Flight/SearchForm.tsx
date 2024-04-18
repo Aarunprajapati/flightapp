@@ -26,30 +26,34 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import {  CalendarIcon } from 'lucide-react'
-import { format } from 'date-fns'
-import { ScrollArea } from '../ui/scroll-area'
-import  instance from "@/axiosinstance"
-import { useDispatch } from 'react-redux';
- import { setFlights } from '@/redux/reducers/flightsSlice';
-import { useSearchParams } from 'next/navigation';
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { ScrollArea } from "../ui/scroll-area";
+import instance from "@/axiosinstance";
+import { useDispatch } from "react-redux";
+import { setFlights } from "@/redux/reducers/flightsSlice";
+import { useSearchParams } from "next/navigation";
 
+interface SearchFormProps {
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
+  setLocationR: React.Dispatch<React.SetStateAction<string>>;
+  setAdults: React.Dispatch<React.SetStateAction<string>>;
+  setChildren: React.Dispatch<React.SetStateAction<string>>;
+}
 
- interface SearchFormProps{
-    setLocation: React.Dispatch<React.SetStateAction<string>>
-    setLocationR: React.Dispatch<React.SetStateAction<string>>
-    setAdults: React.Dispatch<React.SetStateAction<string>>
-    setChildren: React.Dispatch<React.SetStateAction<string>>
- }
-
-const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFormProps)  => {
-    const searchParams = useSearchParams();
-    const selectedcity = searchParams.get("selectedcity")
-    const destinationcity = searchParams.get("destinationcity")
-    const fromdatastring = searchParams.get("fromdatastring")
-    const todatastring = searchParams.get("todatastring")
+const SearchForm = ({
+  setLocation,
+  setLocationR,
+  setAdults,
+  setChildren,
+}: SearchFormProps) => {
+  const searchParams = useSearchParams();
+  const selectedcity = searchParams.get("selectedcity");
+  const destinationcity = searchParams.get("destinationcity");
+  const fromdatastring = searchParams.get("fromdatastring");
+  const todatastring = searchParams.get("todatastring");
 
   const select = searchParams.get("select");
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -71,63 +75,66 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
     },
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     // api used for the search city
-    (async ()=>{
-        try {
-        const res = await instance.get('/sourcecity');
-        const  airportdata =   res.data.sourceAirports;
-          const airports = airportdata?.map((value:string) =>(value))          
-            setData(airports)
-        } catch (error) {   
-            console.error('Error fetching data:', error);
-        }
-    })()
-            
+    (async () => {
+      try {
+        const res = await instance.get("/sourcecity");
+        const airportdata = res.data.sourceAirports;
+        const airports = airportdata?.map((value: string) => value);
+        setData(airports);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    })();
+
     // api used for the destination city
-   ;(async () => {
+    (async () => {
+      try {
+        const res1 = await instance.get("/destinationcity");
+        const airportdata1 = res1.data.sourceAirports1;
+        const airports1 = airportdata1?.map((value: string) => value);
+        setData1(airports1);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    })();
+  }, []);
+
+  //* functions used after the  submit  button
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-        const res1 = await instance.get('/destinationcity');
-   const  airportdata1 =   res1.data.sourceAirports1;
-      const airports1 = airportdata1?.map((value:string) =>(value))
-        setData1(airports1)
-    } catch (error) {   
-        console.error('Error fetching data:', error);
+      const { location, locationR, adults, children } = values;
+      setAdults(adults);
+      setChildren(children);
+      setLocation(location);
+      setLocationR(locationR);
+      const res = await instance.get(
+        `/matchingData?location=${location}&locationR=${locationR}`,
+      );
+      let res1 = res.data;
+      if (res1.length === 0) {
+        console.log("No data found");
+      } else {
+        dispatch(setFlights(res1));
+      }
+    } catch (error: any) {
+      console.error(
+        error.response?.data?.error || "An unexpected error occurred",
+      );
     }
-})();
-  },[]);
-    
-    
-    //* functions used after the  submit  button
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        try {
-            const { location, locationR,adults,children } = values;
-            setAdults(adults);
-            setChildren(children);
-            setLocation(location);
-            setLocationR(locationR);
-            const res = await instance.get(`/matchingData?location=${location}&locationR=${locationR}`);
-            let res1 = res.data;
-            if (res1.length === 0) {
-                console.log("No data found");
-            } else {
-                dispatch(setFlights(res1)) 
-            }
-        } catch (error: any) {
-            console.error(error.response?.data?.error || "An unexpected error occurred");
-        }
-    };
+  };
 
   return (
     <div className=" w-full space-y-2 my-5">
-      {/* components used to search the flight  */}
+      {/* {/ components used to search the flight  /} */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col lg:flex-row  items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg "
+          className="flex flex-col lg:flex-row items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg "
         >
-          {/* select the route  */}
-          <div className="grid gap-1.5 justify-start lg:max-w-sm items-center ">
+          {/* {/ select the route  /} */}
+          <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
               name="select"
@@ -135,7 +142,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
                 <FormItem>
                   <FormLabel className=" flex text-black">Route</FormLabel>
                   <FormControl className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                    <div className="w-[150px] flex items-center space-y-5">
+                    <div className="w-full flex items-center space-y-5">
                       <Select
                         defaultValue={select || ""}
                         value={field.value}
@@ -143,7 +150,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
                           field.onChange(value);
                         }}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="One Way" />
                         </SelectTrigger>
                         <SelectContent>
@@ -168,7 +175,7 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
               )}
             />
           </div>
-          {/* source city location */}
+          {/* {/ source city location /} */}
           <div className="grid w-full gap-1.5 lg:max-w-sm items-center">
             <FormField
               control={form.control}
@@ -178,19 +185,19 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
                   <FormLabel className="flex text-black">From</FormLabel>
 
                   <FormControl className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                    <div className="w-[150px] flex items-center space-y-5">
+                    <div className="w-full flex items-center space-y-5">
                       <Select
                         value={field.value}
                         onValueChange={(value) => {
                           field.onChange(value);
                         }}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="from" />
                         </SelectTrigger>
                         <SelectContent>
                           <ScrollArea className=" h-64 w-36 rounded-md ">
-                            {/* <SelectItem value="One Way" className=' text-black focus:bg-blue-500 focus:text-white'>One way</SelectItem>      */}
+                           
                             {data.map((city, index) => (
                               <SelectItem
                                 key={index}
@@ -211,8 +218,8 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
               )}
             />
           </div>
-          {/* destination city location */}
-          <div className="grid w-full gap-1.5 lg:max-w-sm items-center">
+          {/* {/ destination city location /} */}
+          <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
               name="locationR"
@@ -220,14 +227,14 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
                 <FormItem>
                   <FormLabel className="flex text-black">To</FormLabel>
                   <FormControl className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
-                    <div className="w-[150px] flex items-center space-y-5">
+                    <div className="w-full flex items-center space-y-5">
                       <Select
                         value={field.value}
                         onValueChange={(value) => {
                           field.onChange(value);
                         }}
                       >
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="To" />
                         </SelectTrigger>
                         <SelectContent>
@@ -251,8 +258,8 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
               )}
             />
           </div>
-          {/*  date of journey */}
-          <div className="grid gap-1.5 lg:max-w-sm items-center w-[250px] mx-2">
+          {/* {/  date of journey /} */}
+          <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
               name="fromDate"
@@ -302,8 +309,8 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
               )}
             />
           </div>
-          {/* return date */}
-          <div className="grid gap-1.5 lg:max-w-sm items-center max-w-[250px] mx-2">
+          {/* {/ return date /} */}
+          <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
               name="toDate"
@@ -345,18 +352,18 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
                               date1 < new Date(new Date().setHours(0, 0, 0, 0))
                             }
                           />
-                          {/* <Calendar selected={date} onSelect={setDate} /> */}
+                          {/* {/ <Calendar selected={date} onSelect={setDate} /> /} */}
                         </PopoverContent>
                       </Popover>
                     </div>
-                    {/* <FormMessage/> */}
+                    {/* {/ <FormMessage/> /} */}
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
           {/*family members   */}
-          <div className=" flex items-center w-full space-x-2">
+          <div className="flex items-center w-full space-x-2">
             <div className=" grid items-center flex-1">
               <FormField
                 control={form.control}
@@ -404,8 +411,8 @@ const SearchForm = ({setLocation, setLocationR,setAdults,setChildren}: SearchFor
             </div>
           </div>
 
-          <div className="flex items-center  space-x-2">
-            <div className=" grid items-center flex-1 mt-5">
+          <div className="flex items-center w-full space-x-2">
+            <div className="grid items-center flex-1 mt-5">
               <Button type="submit">Search</Button>
             </div>
           </div>
