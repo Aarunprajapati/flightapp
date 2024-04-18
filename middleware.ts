@@ -1,9 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {cookies} from "next/headers";
 
+
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   console.log("request>>>>>",request.cookies)
+  // console.log("request<<<<<<>>>>>",request.cookies)
   // const currentUser = request.cookies.get("accessToken")?.value;
   const currentUserstore = cookies()
   const currentUser =currentUserstore.get("accessToken")?.value;
@@ -20,9 +22,9 @@ export function middleware(request: NextRequest) {
   if (currentUser && request.nextUrl.pathname.startsWith("/auth/login")) {
     return Response.redirect(new URL("/", request.url));
   }
-  if (!currentUser && request.nextUrl.pathname.startsWith("/flights/book")) {
-    return Response.redirect(new URL("/auth/login", request.url));
-  }
+  // if (!currentUser && request.nextUrl.pathname.startsWith("/flights")) {
+  //   return Response.redirect(new URL("/auth/login", request.url));
+  // }
   if (!currentUser && request.nextUrl.pathname.startsWith("/checkoutpage")) {
     return Response.redirect(new URL("/auth/login", request.url));
   }
