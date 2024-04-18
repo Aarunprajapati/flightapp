@@ -138,7 +138,6 @@ const HeroPage = () => {
     (async () => {
       try {
         const response = await axiosinstance.get("/displaydata");
-        console.log(response.data, ">>>>>>>>>>.");
         const FromData = response.data.source;
         const ToData = response.data.destination;
         const FromAirlines = FromData?.map((value: any) => ({
@@ -155,165 +154,12 @@ const HeroPage = () => {
         setToCity(ToAirlines);
         toast.success("Welcome, Search Your Flights");
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch cities");
       }
     })();
   }, []);
 
   return (
-    // <div className="flex items-center flex-col relative w-full bg-white mx-auto px-5 lg:px-20 md:px-10 space-y-2 ">
-    //   <div className="relative top-12 w-fit rounded-md flex items-center justify-center p-4 shadow-2xl gap-x-2">
-    //     {datas?.map((data) => (
-    //       <div
-    //         key={data.label}
-    //         className={cn("flex flex-col items-center", data.bgColor)}
-    //       >
-    //         <Plane className={cn("w-24 lg:w-28 h-14 rounded-md", data.color)} />
-    //         <p className="text-md lg:text-lg font-semibold text-blue-400">
-    //           {data.label}
-    //         </p>
-    //       </div>
-    //     ))}
-    //   </div>
-    //   <div className="relative bottom-5 shadow-2xl w-full">
-    //     <RadioButton
-    //       labels={labels}
-    //       className="mt-10"
-    //       sidelabel="Book International and Domestic Flights"
-    //       setSelect={setSelectdown}
-    //     />
-    //     <div className="flex items-center">
-    //       {/* From City */}
-    //       <Popover open={open} onOpenChange={setOpen}>
-    //         <div className="flex items-center">
-    //           <PopoverTrigger asChild>
-    //             <div className="flex items-center">
-    //               {/* HeroContent  */}
-    //               <HeroContent value={selectedCity} label="From" />
-    //             </div>
-    //           </PopoverTrigger>
-    //           <PopoverContent className="w-full p-0  z-50 relative">
-    //             <div className="scroll-container overflow-hidden items-center fixed -top-20 -left-[125px] h-auto w-[230px] bg-white">
-    //               <Command>
-    //                 <CommandInput placeholder="Search arrival..." />
-    //                 <CommandEmpty>No framework found.</CommandEmpty>
-    //                 {FromCity?.map((city, index) => (
-    //                   <CommandGroup key={index}>
-    //                     <div
-
-    //                       className=" flex items-center"
-    //                       onClick={() => handleCitySelection(city)}
-    //                     >
-    //                       <CommandItem
-    //                         key={city.cityName}
-    //                         value={city.cityName}
-    //                       >
-    //                         {city.cityName}
-    //                       </CommandItem>
-
-    //                       <Check
-    //                         className={cn(
-    //                           "mr-2 h-4 w-4",
-    //                           selectedCity.cityName === city.cityName
-    //                             ? "opacity-100"
-    //                             : "opacity-0",
-    //                         )}
-    //                       />
-    //                     </div>
-    //                   </CommandGroup>
-    //                 ))}
-    //               </Command>
-    //             </div>
-    //           </PopoverContent>
-    //         </div>
-    //       </Popover>
-
-    //       {/* To City */}
-    //       <Popover open={open1} onOpenChange={setOpen1}>
-    //         <div className="flex items-center">
-    //           <PopoverTrigger asChild>
-    //             <div className="flex items-center">
-    //               {/* HeroContent  */}
-    //               <HeroContent value={destinationcity} label="To" />
-    //             </div>
-    //           </PopoverTrigger>
-    //           <PopoverContent className="w-full p-0  z-[50] relative">
-    //             <div className="scroll-container overflow-hidden items-center fixed -top-20 -left-[110px] h-auto w-[230px] bg-white">
-    //               <Command>
-    //                 <CommandInput placeholder="Search arrival..." />
-    //                 <CommandEmpty>No framework found.</CommandEmpty>
-    //                 <CommandGroup>
-    //                   {ToCity?.map((city, index) => (
-    //                     <div
-    //                       className=" flex items-center  "
-    //                       key={index}
-    //                       onClick={() => handleCityDestinationSelection(city)}
-    //                     >
-    //                       <CommandItem
-    //                         key={city.cityName}
-    //                         value={city.cityName}
-    //                         className=" my-1"
-    //                       >
-    //                         {city.cityName}
-    //                       </CommandItem>
-
-    //                       <Check
-    //                         className={cn(
-    //                           "mr-2 h-4 w-4",
-    //                           destinationcity.cityName === city.cityName
-    //                             ? "opacity-100"
-    //                             : "opacity-0",
-    //                         )}
-    //                       />
-    //                     </div>
-    //                   ))}
-    //                 </CommandGroup>
-    //               </Command>
-    //             </div>
-    //           </PopoverContent>
-    //         </div>
-    //       </Popover>
-
-    //       <HeroContentSecond
-    //         date={date}
-    //         setDate={setDate}
-    //         disabledDates={disabledDays}
-    //         getDayOfWeek={getDayOfWeek}
-    //         today={today}
-    //       />
-    //     </div>
-
-    //     <div className="relative bottom-[90px] left-[270px] inline-block">
-    //       <button
-    //         type="button"
-    //         onClick={stateChange}
-    //         className="rounded-full bg-white shadow-lg z-[100] "
-    //       >
-    //         <ArrowLeftRight className="text-blue-500 w-full h-full p-2" />
-    //       </button>
-    //     </div>
-
-    //     <RadioButton
-    //       labels={heroLabel}
-    //       title="Select A Fare Type"
-    //       className="bg-blue-50 w-fit p-2 mx-5 text-xs mb-10"
-    //       setSelect={setSelect}
-    //     />
-    //   </div>
-
-    //   <div className="relative bottom-12 w-full md:flex items-center justify-center">
-    //     <Link
-    //       href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&selectdown=${selectdown}&select=${select}`}
-    //     >
-    //       <Button
-    //         className="px-14 rounded-full text-2xl font-semibold py-3 bg-blue-400"
-    //         size={"lg"}
-    //       >
-    //         Search
-    //       </Button>
-    //     </Link>
-    //   </div>
-    // </div>
     <div className="flex flex-col items-center relative w-full bg-white mx-auto px-4 sm:px-6 lg:px-20 space-y-2">
       <div className="top-12 w-fit rounded-md flex items-center justify-center p-4 shadow-2xl gap-x-2">
         {datas?.map((data) => (
@@ -386,7 +232,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto lg:-left-20 h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>
