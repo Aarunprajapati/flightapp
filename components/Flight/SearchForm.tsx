@@ -35,7 +35,6 @@ import instance from "@/axiosinstance";
 import { useDispatch } from "react-redux";
 import { setFlights } from "@/redux/reducers/flightsSlice";
 import { useSearchParams } from "next/navigation";
-import toast from "react-hot-toast";
 
 interface SearchFormProps {
   setLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -85,7 +84,7 @@ const SearchForm = ({
         const airports = airportdata?.map((value: string) => value);
         setData(airports);
       } catch (error) {
-        toast.error("Error in fetching source data");
+        console.error("Error fetching data:", error);
       }
     })();
 
@@ -97,7 +96,7 @@ const SearchForm = ({
         const airports1 = airportdata1?.map((value: string) => value);
         setData1(airports1);
       } catch (error) {
-        toast.error("Error in fetching destination data");
+        console.error("Error fetching data:", error);
       }
     })();
   }, []);
@@ -128,13 +127,13 @@ const SearchForm = ({
 
   return (
     <div className=" w-full space-y-2 my-5">
-      {/* components used to search the flight   */}
+      {/* {/ components used to search the flight  /} */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col lg:flex-row items-center lg:max-w-[1400px] lg:mx-auto space-y-4 lg:space-y-0 space-x-0 lg:space-x-2 rounded-lg "
         >
-          {/* select the route   */}
+          {/* {/ select the route  /} */}
           <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
@@ -176,7 +175,7 @@ const SearchForm = ({
               )}
             />
           </div>
-          {/* source city location  */}
+          {/* {/ source city location /} */}
           <div className="grid w-full gap-1.5 lg:max-w-sm items-center">
             <FormField
               control={form.control}
@@ -198,12 +197,7 @@ const SearchForm = ({
                         </SelectTrigger>
                         <SelectContent>
                           <ScrollArea className=" h-64 w-36 rounded-md ">
-                            <SelectItem
-                              value="One Way"
-                              className=" text-black focus:bg-blue-500 focus:text-white"
-                            >
-                              One way
-                            </SelectItem>
+                           
                             {data.map((city, index) => (
                               <SelectItem
                                 key={index}
@@ -224,7 +218,7 @@ const SearchForm = ({
               )}
             />
           </div>
-          {/* destin ion city location  */}
+          {/* {/ destination city location /} */}
           <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
@@ -264,7 +258,7 @@ const SearchForm = ({
               )}
             />
           </div>
-           {/* date of journey  */}
+          {/* {/  date of journey /} */}
           <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
@@ -315,7 +309,7 @@ const SearchForm = ({
               )}
             />
           </div>
-          {/* return date */}
+          {/* {/ return date /} */}
           <div className="grid gap-1.5 lg:max-w-sm items-center w-full mx-2">
             <FormField
               control={form.control}
@@ -358,11 +352,11 @@ const SearchForm = ({
                               date1 < new Date(new Date().setHours(0, 0, 0, 0))
                             }
                           />
-                          <Calendar selected={date} onSelect={setDate} />
+                          {/* {/ <Calendar selected={date} onSelect={setDate} /> /} */}
                         </PopoverContent>
                       </Popover>
                     </div>
-                    <FormMessage />
+                    {/* {/ <FormMessage/> /} */}
                   </FormControl>
                 </FormItem>
               )}

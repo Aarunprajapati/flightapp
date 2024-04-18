@@ -19,9 +19,10 @@ import {
   TripDuration,
 } from "../Filter/constants";
 import instance from "@/axiosinstance";
-import { Flight } from "@/redux/reducers/flightsSlice";
-import { useSearchParams } from "next/navigation";
-import { AlignJustify } from "lucide-react";
+import { Flight } from '@/redux/reducers/flightsSlice';
+import { useSearchParams } from 'next/navigation';
+import { AlignJustify } from 'lucide-react';
+
 
 const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
@@ -35,9 +36,9 @@ const FlightPageContent: React.FC = () => {
   const [hasInitialFetch, setHasInitialFetch] = useState(false);
   const [error, setError] = useState<string>("");
   const [filterData, setFilteredData] = useState<Flight[]>([]);
-  const [stopInfo, setStopInfo] = useState<string[]>([]);
-  const [depTime, setDepTime] = useState<string[]>([]);
-  const [price, setPrice] = useState<number[]>([]);
+  const [stopInfo, setStopInfo] = useState<string[]>([]); 
+  const [depTime, setDepTime] = useState<string[]>([]); 
+  const [price, setPrice] = useState<number[]>([]); 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const toggleForm = () => {

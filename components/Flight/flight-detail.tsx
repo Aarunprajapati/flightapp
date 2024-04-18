@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 import { RootState } from '@/redux/store';
 import { Clock5 } from 'lucide-react'
@@ -26,7 +27,6 @@ const Flightdetail = () => {
   
         <div className="flex flex-col md:flex-row gap-6 md:items-center p-4 md:p-8">
           <div className="flex gap-2 items-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="w-6 h-6" src="flight.svg" alt="flight" />
             <div>
               <p className="my-2 text-xs">{flight.displayData.airlines[0].airlineName}</p>
