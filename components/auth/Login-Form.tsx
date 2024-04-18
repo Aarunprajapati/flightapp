@@ -45,6 +45,7 @@ const LoginForm = () => {
       password: "",
     },
   });
+  console.log('login form')
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
@@ -55,6 +56,7 @@ const LoginForm = () => {
       );
       const data = res.data;
       setSuccess(data.data.success);
+      console.log('setsuccess -- login form')
       router.push("/")
       form.reset();
     } catch (error: any) {

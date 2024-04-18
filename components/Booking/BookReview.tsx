@@ -56,7 +56,7 @@ const [flights, setFlight] = useState<any>([]);
   };
   useEffect(()=>{
     Bookreview();
-  }, [Bookreview])
+  }, [])
 
     if (!flights || flights.length === 0) {
         return <div className=' text-2xl font-bold bg-gray-600 text-white p-4 my-10 rounded-md'>No flights found</div>;

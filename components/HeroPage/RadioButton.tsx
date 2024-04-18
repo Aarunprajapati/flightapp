@@ -25,28 +25,28 @@ const RadioButton= ({ labels, className, title, sidelabel, setSelect }: RadioBut
   };
  
   return (
-    <div>
-      <div className={cn('w-full rounded-md md:flex items-center justify-between p-10 space-x-10 hidden ', className)}>
-        <div className='flex gap-x-3'>
-            <div className='text-black text-sm font-semibold max-w-20'>
-                {title}
-            </div> 
-            <div className='flex items-center'>
-              <RadioGroup defaultValue={`option-${labels[0].label}`} className='flex items-center lg:space-x-2 space-x-5'>
+<div className={`w-full rounded-md flex flex-col md:flex-row items-center justify-between py-5 space-y-4 md:space-y-0 md:space-x-10 ${className}`}>
+    <div className='flex flex-col md:flex-row gap-x-3 items-center'>
+        <div className='text-black text-xs font-semibold mb-2 text-center'>
+            {title}
+        </div> 
+        <div className='flex items-center justify-start'>
+            <RadioGroup defaultValue={`option-${labels[0].label}`} className='flex gap-3 flex-col md:flex-row justify-center lg:items-center'>
                 {labels.map((item) => (
-                    <div className="flex items-center space-x-2"  key={item.label}>
-                        <RadioGroupItem value={`option-${item.label}`}  id={`option-${item.label}`} onClick={()=>handleSubmit(item.label)} />
-                        <Label htmlFor={`option-${item.label}`} className='text-md font-semibold space-x-2'>
-                        {item.label}
-                        </Label>
+                    <div className="flex items-center space-x-2 md:space-x-3" key={item.label}>
+                        <RadioGroupItem value={`option-${item.label}`} id={`option-${item.label}`} onClick={()=>handleSubmit(item.label)} />
+                        <label htmlFor={`option-${item.label}`} className='text-xs md:text-sm lg:text-sm font-semibold'>
+                            {item.label}
+                        </label>
                     </div>
-                  ))}
-              </RadioGroup>
-            </div>
+                ))}
+            </RadioGroup>
         </div>
-        <p className='text-zinc-800 text-md'>{sidelabel}</p>
-      </div>
     </div>
+    <p className='text-zinc-800 text-sm md:text-md lg:text-lg'>{sidelabel}</p>
+</div>
+
+
   );
 }
 
