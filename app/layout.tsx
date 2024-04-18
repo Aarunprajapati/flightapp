@@ -22,7 +22,7 @@ export default async function RootLayout({
   const user = cookies().get("accessToken");
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className='w-full mx-auto'>
         <Providers>
           <ToasterContext />
           <Navbar user={user} />
