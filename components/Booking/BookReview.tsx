@@ -74,8 +74,8 @@ const [flights, setFlight] = useState<any>([]);
                     <h2 className='text-sm font-semibold'>{flight.displayData.destination.airport.cityName}</h2>
 
                 </div>
-                {/ <p className='  text-sm font-light'>{flight.displayData.source.depTime.slice(11, 16)}</p> /}
-                <p className=' text-[10px] font-semibold  bg-orange-100 text-black p-1 rounded-lg'>ARRIVES NEXT DAY</p>
+                <p className='  text-sm font-light'>{flight.displayData.source.depTime.slice(11, 16)}</p> 
+                <p className=' text-[10px] font-semibold  bg-orange-100 text-black p-1 rounded-lg'{'>'}ARRIVES NEXT DAY</p>
             </div>
             <div className=' flex items-center gap-4 mb-5'>
                 <div>
