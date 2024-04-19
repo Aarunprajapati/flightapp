@@ -10,7 +10,8 @@ import {
     AccordionTrigger,
   } from "@/components/ui/accordion"
 import { Button } from '../ui/button'
-
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { useSearchParams } from 'next/navigation';
 import instance from '@/axiosinstance'
 import { useForm } from 'react-hook-form'
@@ -54,6 +55,7 @@ const [flights, setFlight] = useState<any>([]);
   };
   useEffect(()=>{
     Bookreview();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
     if (!flights || flights.length === 0) {
@@ -61,10 +63,10 @@ const [flights, setFlight] = useState<any>([]);
     }
 
   return (
-    <>  
+    <>
     <div  className=' w-full p-4 my-8'>
         {flights.map((flight: any, index:number)=>(        
-        <div  className='grid gap-4 md:grid-cols-2' key={index}>
+        <div  className=' grid gap-4' key={index}>
             <div className=' flex items-center gap-2 my-2'>
                 <div className=' flex items-center'>
                     <h2 className=' text-sm font-semibold'>{flight.displayData.source.airport.cityName}</h2>
@@ -72,7 +74,7 @@ const [flights, setFlight] = useState<any>([]);
                     <h2 className='text-sm font-semibold'>{flight.displayData.destination.airport.cityName}</h2>
 
                 </div>
-                {/* <p className='  text-sm font-light'>{flight.displayData.source.depTime.slice(11, 16)}</p> */}
+                {/ <p className='  text-sm font-light'>{flight.displayData.source.depTime.slice(11, 16)}</p> /}
                 <p className=' text-[10px] font-semibold  bg-orange-100 text-black p-1 rounded-lg'>ARRIVES NEXT DAY</p>
             </div>
             <div className=' flex items-center gap-4 mb-5'>
