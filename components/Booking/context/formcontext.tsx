@@ -1,20 +1,17 @@
 import { createContext, useContext, useState } from "react";
-import  instance from "@/axiosinstance"
+import instance from "@/axiosinstance";
 
-interface IMemberData{
-    firstName:string,
-    lastName:string,
-    Gender:string
+interface IMemberData {
+  firstName: string;
+  lastName: string;
+  Gender: string;
 }
-interface IFormData{
-    id:string,
-    fare:string,
-    email:string,
-    members: IMemberData[]
-   
+interface IFormData {
+  id: string;
+  fare: string;
+  email: string;
+  members: IMemberData[];
 }
-
-
 
 interface IFormContext {
   onSubmit: (formData: IFormData) => void;
@@ -27,18 +24,16 @@ interface IFormContext {
 }
 
 const FormContext = createContext<IFormContext>({
-    handleFormNext: () =>{},
-    handleFormBack: () => {},
-    step:1,
-    formData:{
-        id:"",
-        fare:"",
-        email: '',
-        members:[]
+  handleFormNext: () => {},
+  handleFormBack: () => {},
+  step: 1,
+  formData: {
+    id: "",
+    fare: "",
+    email: "",
+    members: [],
+  },
 
-        
-    },
-  
   setFormData: () => {},
   setStep: () => {},
   onSubmit: () => {},
@@ -49,34 +44,26 @@ interface IProps {
 }
 
 export const FormProvider = ({ children }: IProps) => {
-    const [step, setStep] = useState(1);
-    const[url, seturl] = useState(null)
-    const [formData, setFormData] = useState<IFormData>({
-        id:"",
-        fare:"",
-        email: '',
-       members:[]
-      
-    })
-   
-    const onSubmit = async(formData:any)=>{
-        console.log( " resp before booking data",formData)
-        const res = await instance.post('/booking', formData)
-        console.log(res.data,"contaxt")
-        const response = res.data.url
-        window.location.href = response
-    }
-    const handleFormNext = ()=>{
-        setStep(prevStep => prevStep + 1)
-    }
-    const handleFormBack = ()=>{
-        setStep(prevStep => prevStep - 1)
-    }
-   
+  const [step, setStep] = useState(1);
+  const [url, seturl] = useState(null);
+  const [formData, setFormData] = useState<IFormData>({
+    id: "",
+    fare: "",
+    email: "",
+    members: [],
+  });
 
-
-
-
+  const onSubmit = async (formData: any) => {
+    const res = await instance.post("/booking", formData);
+    const response = res.data.url;
+    window.location.href = response;
+  };
+  const handleFormNext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+  const handleFormBack = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
 
   return (
     <FormContext.Provider

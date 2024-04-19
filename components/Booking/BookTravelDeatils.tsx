@@ -55,7 +55,6 @@ const BookTravelDetails = () => {
   );
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
-    console.log(allFormData, "allformdata");
     setFormData((prevData) => ({ ...prevData, ...allFormData }));
     formData.members = allFormData;
     onSubmit({ ...formData });

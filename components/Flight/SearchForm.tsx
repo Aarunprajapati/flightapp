@@ -114,8 +114,7 @@ const SearchForm = ({
       );
       let res1 = res.data;
       if (res1.length === 0) {
-        console.log("No data found");
-      } else {
+        } else {
         dispatch(setFlights(res1));
       }
     } catch (error: any) {
@@ -197,7 +196,6 @@ const SearchForm = ({
                         </SelectTrigger>
                         <SelectContent>
                           <ScrollArea className=" h-64 w-36 rounded-md ">
-                           
                             {data.map((city, index) => (
                               <SelectItem
                                 key={index}

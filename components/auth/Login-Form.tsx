@@ -20,10 +20,7 @@ import CardWrapper from "./Card-Wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../Form-Error";
 import { FormSuccess } from "../FormSuccess";
-// import { login } from '@/actions/login';
 import { useRouter, useSearchParams } from "next/navigation";
-// import { login } from '@/actions/login';
-import axios from "axios";
 import toast from "react-hot-toast"
 import axiosinstance from "@/axiosinstance";
 const LoginForm = () => {
@@ -45,7 +42,6 @@ const LoginForm = () => {
       password: "",
     },
   });
-  console.log('login form')
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
@@ -56,12 +52,10 @@ const LoginForm = () => {
       );
       const data = res.data;
       setSuccess(data.data.success);
-      console.log('setsuccess -- login form')
       router.push("/")
       form.reset();
     } catch (error: any) {
       toast.error("unauthorised user")
-      console.log(error.response.data.error);
       setError(error.response.data.error);
     }
   };

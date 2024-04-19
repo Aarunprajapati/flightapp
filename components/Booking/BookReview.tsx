@@ -10,8 +10,7 @@ import {
     AccordionTrigger,
   } from "@/components/ui/accordion"
 import { Button } from '../ui/button'
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+
 import { useSearchParams } from 'next/navigation';
 import instance from '@/axiosinstance'
 import { useForm } from 'react-hook-form'
@@ -62,10 +61,10 @@ const [flights, setFlight] = useState<any>([]);
     }
 
   return (
-    <>
+    <>  
     <div  className=' w-full p-4 my-8'>
         {flights.map((flight: any, index:number)=>(        
-        <div  className=' grid gap-4' key={index}>
+        <div  className='grid gap-4 md:grid-cols-2' key={index}>
             <div className=' flex items-center gap-2 my-2'>
                 <div className=' flex items-center'>
                     <h2 className=' text-sm font-semibold'>{flight.displayData.source.airport.cityName}</h2>
