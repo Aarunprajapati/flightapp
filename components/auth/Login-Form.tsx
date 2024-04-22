@@ -20,7 +20,6 @@ import CardWrapper from "./Card-Wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../Form-Error";
 import { FormSuccess } from "../FormSuccess";
-// import { login } from '@/actions/login';
 import { useRouter, useSearchParams } from "next/navigation";
 // import { login } from '@/actions/login';
 import axios from "axios";
@@ -45,7 +44,6 @@ const LoginForm = () => {
       password: "",
     },
   });
-
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
@@ -53,7 +51,6 @@ const LoginForm = () => {
       const res = await axiosinstance.post("/login", Values);
       const data = res.data;
       setSuccess(data.data.success);
-
       router.push("/");
       form.reset();
     } catch (error: any) {
@@ -118,6 +115,7 @@ const LoginForm = () => {
         </form>
       </Form>
     </CardWrapper>
+   
   );
 };
 

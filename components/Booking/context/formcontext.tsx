@@ -1,20 +1,17 @@
 import { createContext, useContext, useState } from "react";
-import  instance from "@/axiosinstance"
+import instance from "@/axiosinstance";
 
-interface IMemberData{
-    firstName:string,
-    lastName:string,
-    Gender:string
+interface IMemberData {
+  firstName: string;
+  lastName: string;
+  Gender: string;
 }
-interface IFormData{
-    id:string,
-    fare:string,
-    email:string,
-    members: IMemberData[]
-   
+interface IFormData {
+  id: string;
+  fare: string;
+  email: string;
+  members: IMemberData[];
 }
-
-
 
 interface IFormContext {
   onSubmit: (formData: IFormData) => void;
@@ -27,18 +24,16 @@ interface IFormContext {
 }
 
 const FormContext = createContext<IFormContext>({
-    handleFormNext: () =>{},
-    handleFormBack: () => {},
-    step:1,
-    formData:{
-        id:"",
-        fare:"",
-        email: '',
-        members:[]
+  handleFormNext: () => {},
+  handleFormBack: () => {},
+  step: 1,
+  formData: {
+    id: "",
+    fare: "",
+    email: "",
+    members: [],
+  },
 
-        
-    },
-  
   setFormData: () => {},
   setStep: () => {},
   onSubmit: () => {},
@@ -75,6 +70,7 @@ export const FormProvider = ({ children }: IProps) => {
 
 
 
+  
 
   return (
     <FormContext.Provider

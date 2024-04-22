@@ -196,7 +196,6 @@ const SearchForm = ({
                         </SelectTrigger>
                         <SelectContent>
                           <ScrollArea className=" h-64 w-36 rounded-md ">
-                           
                             {data.map((city, index) => (
                               <SelectItem
                                 key={index}
