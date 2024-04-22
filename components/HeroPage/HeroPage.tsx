@@ -194,7 +194,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto lg:-left-20 h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>

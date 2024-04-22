@@ -23,11 +23,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className='w-full mx-auto'>
-        <Providers>
+        {/* <Providers> */}
           <ToasterContext />
           <Navbar user={user} />
           {children}
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
