@@ -4,10 +4,6 @@ import { useDispatch} from 'react-redux';
 import FlightDetailsBtn from './flight-details-btn';
 import { Flight, setBookingFlights, setDetailFlight } from '@/redux/reducers/flightsSlice';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import Cookies from 'js-cookie';
-import { useCookies } from 'react-cookie';
 
 interface FlightDataProps{
   data: Flight[]
@@ -16,11 +12,9 @@ interface FlightDataProps{
   adults:string,
 }
 
-
-
 const FlightData = ({ data, error,children,adults }: FlightDataProps) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   const dispatch = useDispatch();
   const handleBookClick = (flightData: any) => {
     dispatch(setBookingFlights(flightData));
