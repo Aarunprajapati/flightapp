@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client"
+"use client";
 import React, { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,7 +55,7 @@ const BookTravelDetails = () => {
   );
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
-    console.log(allFormData, "allformdata");
+    
     setFormData((prevData) => ({ ...prevData, ...allFormData }));
     formData.members = allFormData;
     onSubmit({ ...formData });
@@ -65,12 +65,10 @@ const BookTravelDetails = () => {
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
     <Form {...form}>
-      <form
-      //  action={"/create-checkout-session"} 
-      key={index}>
+      <form className="mx-auto  lg:p-4">
         {/* Full Name */}
-        <div className="flex items-center space-x-2 p-3 border-gray-200 rounded-md">
-          <div>
+        <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-3 border border-gray-200 rounded-md">
+          <div className="flex-1 w-full">
             <FormField
               control={form.control}
               name="firstName"
@@ -78,7 +76,7 @@ const BookTravelDetails = () => {
                 <FormItem className="border-none outline-none ring-1 focus:ring-blue-700 ring-blue-700 rounded-md">
                   <FormControl>
                     <Input
-                      className="outline-none"
+                      className="outline-none w-full"
                       placeholder="First Name"
                       {...field}
                     />
@@ -87,7 +85,7 @@ const BookTravelDetails = () => {
               )}
             />
           </div>
-          <div>
+          <div className="flex-1 w-full">
             <FormField
               control={form.control}
               name="lastName"
@@ -95,7 +93,7 @@ const BookTravelDetails = () => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      className="outline-none"
+                      className="outline-none w-full"
                       placeholder="Last Name"
                       {...field}
                     />
@@ -104,42 +102,44 @@ const BookTravelDetails = () => {
               )}
             />
           </div>
+        </div>
 
-          {/* Gender */}
-          <div className="grid gap-3 items-center p-4 max-w-xl -mt-6">
-            <FormLabel>Gender</FormLabel>
-            <div>
-              <FormField
-                control={form.control}
-                name="Gender"
-                render={({ field }) => (
-                  <FormItem className="border-none outline-none ring-1 focus:ring-blue-700 ring-blue-700 rounded-md">
-                    <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger className="flex gap-5">
-                          <SelectValue>{field.value}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="Male">Male</SelectItem>
-                            <SelectItem value="Female">Female</SelectItem>
-                            <SelectItem value="Other">Other</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
+        {/* Gender */}
+        <div className="grid grid-cols-1 gap-4 items-center p-4 border-t mt-4 border-gray-200">
+          <FormLabel>Gender</FormLabel>
+          <div>
+            <FormField
+              control={form.control}
+              name="Gender"
+              render={({ field }) => (
+                <FormItem className="border-none outline-none ring-1 focus:ring-blue-700 ring-blue-700 rounded-md">
+                  <FormControl>
+                    <Select
+                      value={field.value}
+                      onValueChange={(value) => field.onChange(value)}
+                    >
+                      <SelectTrigger className="flex justify-between items-center">
+                        <SelectValue>
+                          {field.value || "Select gender"}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 
         {/* Nationality */}
-        <div className="grid gap-3 items-center p-4 max-w-md">
+        <div className="grid grid-cols-1 lg:grid-col-3 gap-4 items-center p-4 border-t border-gray-200">
           <FormLabel>Nationality</FormLabel>
           <div>
             <FormField
@@ -152,8 +152,10 @@ const BookTravelDetails = () => {
                       value={field.value}
                       onValueChange={(value) => field.onChange(value)}
                     >
-                      <SelectTrigger className="flex gap-5">
-                        <SelectValue>{field.value}</SelectValue>
+                      <SelectTrigger className="flex justify-between items-center">
+                        <SelectValue>
+                          {field.value || "Select nationality"}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
@@ -179,15 +181,15 @@ const BookTravelDetails = () => {
     <>
       <div className="w-full flex flex-wrap">
         {form.map((formData, index) => (
-          <div key={index} className="w-full md:w-1/2 p-4">
-            <div className="border border-gray-300  p-4 ">
+          <div key={index} className="w-full lg:w-2/4 lg:p-4">
+            <div className="border border-gray-300 lg:p-4 h-full">
               {renderFormSection(formData, index)}
             </div>
           </div>
         ))}
-        <div className="w-full mt-4 flex justify-between ">
+        <div className="w-full mt-4 flex flex-col sm:flex-row justify-between items-center">
           <Button
-            className="bg-blue-600 text-white px-6 py-2"
+            className="bg-blue-600 text-white px-6 py-2 mb-4 sm:mb-0"
             onClick={handleFormBack}
           >
             Back

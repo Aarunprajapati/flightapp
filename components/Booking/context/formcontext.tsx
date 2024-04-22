@@ -58,11 +58,9 @@ export const FormProvider = ({ children }: IProps) => {
        members:[]
       
     })
-   
-    const onSubmit = async(formData:any)=>{
-        console.log( " resp before booking data",formData)
+   console.log(formData, "formData")
+    const onSubmit = async(formData:any)=>{  
         const res = await instance.post('/booking', formData)
-        console.log(res.data,"contaxt")
         const response = res.data.url
         window.location.href = response
     }
