@@ -1,53 +1,71 @@
-import React from 'react';
 
 
-type ButtonProps = {
-  variant?: 'solid' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  colorScheme?: 'primary' | 'success' | 'secondary';
-  onClick?: (ev: Event) => void;
-  className?: string;
-  children?: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+import {cn}  from "../../lib/utils";
+/* eslint-disable react/display-name */
+import { cva, VariantProps } from "class-variance-authority";
+import { ComponentProps, forwardRef } from "react";
 
-const Button = ({
-  variant = 'solid',
-  size = 'md',
-  colorScheme = 'primary',
-  className = '',
-  children,
-  ...props
-}: ButtonProps) => {
+const buttonStyles = cva(
+  [
+    "w-full",
+    "rounded-md",
+    "font-semibold",
+    "focus:outline-none",
+    "disabled:cursor-not-allowed",
+  ],
+  {
+    variants: {
+      variant: {
+        solid: "bg-black",
+        outline: "border-2",
+        ghost: "transition-colors duration-300",
+      },
+      size: {
+        sm: "px-4 py-2 text-sm",
+        md: "px-4 py-2 text-base",
+        lg: "px-6 py-3 text-lg",
+      },
+      colorscheme: {
+        primary: "text-blue-500",
+        secondary: "text-white bg-black"
+      },
+    },
+    compoundVariants: [
+      {
+        variant: "solid",
+        colorscheme: "primary",
+        className: "bg-primary-500 hover:bg-primary-600",
+      },
+      {
+        variant: "outline",
+        colorscheme: "primary",
+        className:
+          "text-primary-600 border-primary-500 bg-transparent hover:bg-primary-100",
+      },
+      {
+        variant: "ghost",
+        colorscheme: "primary",
+        className: "text-primary-600 bg-transparent hover:bg-primary-100",
+      },
+    ],
+    defaultVariants: {
+      variant: "solid",
+      size: "md",
+      colorscheme: "primary",
+    },
+  }
+);
 
-  const baseClasses = "w-full rounded-md font-semibold focus:outline-none disabled:cursor-not-allowed";
+type ButtonProps = ComponentProps<"button"> & VariantProps<typeof buttonStyles>;
 
-  const variantClasses = {
-    solid: "bg-opacity-100",
-    outline: "bg-transparent border-2",
-    ghost: "bg-transparent text-black border-1",
-  };
-
-
-  const sizeClasses = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg",
-  };
-
-  const colorSchemeClasses = {
-    primary: "text-white bg-blue-500 border-blue-500",
-    success: "text-white bg-green-500 border-green-500",
-    secondary: "text-white bg-red-500 border-red-500 ",
-  };
-
-
-  const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${colorSchemeClasses[colorScheme]} ${className}`;
-
-  return (
-    <button className={buttonClasses} {...props}>
-      {children}
-    </button>
-  );
-};
-
-export default Button;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant, size, colorscheme, className, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={cn(buttonStyles({ variant, size, colorscheme, className }))}
+        {...props}
+      />
+    );
+  }
+);

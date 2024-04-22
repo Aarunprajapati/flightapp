@@ -57,28 +57,30 @@ const Navbar = ({ user }: any) => {
   };
 
   return (
-    <div className="flex bg-gray-800 w-full items-center p-4  lg:justify-between h-full mx-auto">
-      {/* <MobileSideBar/> */}
-      <div className=" flex items-center px-5 ">
-        <Link href={"/"}>
+    <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
+      {/* Logo Section */}
+      <div className="flex items-center justify-center lg:justify-start">
+        <Link href="/">
           <Image
-            src={"/flightlogo.jpeg"}
-            width={200}
-            height={200}
+            src="/flightlogo.jpeg"
+            width={150} // Set a smaller width for mobile
+            height={150} // Set a smaller height for mobile
             alt="logo"
-            className="img-fluid rounded-lg w-40 leading-6 h-10 "
+            className="img-fluid rounded-lg "
           />
         </Link>
       </div>
-      <div className=" items-center gap-x-2 px-10 hidden lg:flex ">
+
+      {/* Navigation and Action Items */}
+      <div className="hidden lg:flex items-center lg:gap-x-2 mx-5 lg:mx-auto">
         {datas.map((tool) => (
           <Card
             key={tool.label}
             className="p-1 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer"
           >
             <div className="flex items-center gap-x-4">
-              <div className={cn("p-2 w-fit rounded-md", tool.bgcolor)}>
-                <tool.icon className={cn("w-8 h-8", tool.color)} />
+              <div className={`p-2 w-fit rounded-md ${tool.bgcolor}`}>
+                <tool.icon className={`w-8 h-8 ${tool.color}`} />
               </div>
               <div>
                 <div className="text-xs font-semibold">{tool.label}</div>
@@ -87,37 +89,31 @@ const Navbar = ({ user }: any) => {
             </div>
           </Card>
         ))}
-        {!user ? (
-          <div className="flex gap-x-2">
-            <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-1 gap-x-2  border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
-  
-              <Link href={"/auth/register"}>
-                <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
-                  <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
-                  <Button variant={"outline"}>
-                    Signup
-                  </Button>
-                </div>
-              </Link>
-            </div>
-            <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-1 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
+      </div>
 
-              <Link href={"/auth/login"}>
-                <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
-                  <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
-                  <Button variant={"outline"}>
-                    login
-                  </Button>
-                </div>
-              </Link>
-            </div>
-          </div>
+      {/* Authentication Links */}
+      <div className="flex gap-x-2 ml-auto">
+        {!user ? (
+          <>
+            <Link href="/auth/register">
+              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white ">
+                <Plane className="w-6 h-6 text-blue-600 " />
+                <span className="ml-2 text-sm text-blue-700">Signup</span>
+              </div>
+            </Link>
+            <Link href="/auth/login">
+              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white">
+                <Plane className="w-6 h-6 text-blue-600" />
+                <span className="ml-2 text-sm text-blue-700">Login</span>
+              </div>
+            </Link>
+          </>
         ) : (
-          <div className=" flex items-center shadow-2xl w-fit h-fit rounded-md p-2 gap-x-2 border-black/5 hover:shadow-xl  transition cursor-pointer bg-white">
-            <Plane className="w-9 h-9 bg-white text-blue-600 rounded-md" />
-            <Button variant={"outline"} onClick={handleLogOut}>
+          <div className="flex items-center p-2 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer">
+            <Plane className="w-6 h-6 text-blue-600" />
+            <button onClick={handleLogOut} className="ml-2 text-sm text-white">
               Logout
-            </Button>
+            </button>
           </div>
         )}
       </div>

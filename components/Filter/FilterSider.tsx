@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 
-// Assuming Checkbox component exists and is correctly imported
 interface CheckboxProps {
   id: string;
   value: string;

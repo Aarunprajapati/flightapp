@@ -49,7 +49,7 @@ const RegisterForm = () => {
         values,
         { withCredentials: true },
       );
-      console.log(res);
+      
       const data = res.data.data;
       setSuccess(data.success);
       router.push('/')
