@@ -14,11 +14,9 @@ interface FlightDataProps{
   adults:string,
 }
 
-
-
 const FlightData = ({ data, error,children,adults }: FlightDataProps) => {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   const dispatch = useDispatch();
   const handleBookClick = (flightData: any) => {
     dispatch(setBookingFlights(flightData));

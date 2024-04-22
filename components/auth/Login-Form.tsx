@@ -21,6 +21,8 @@ import { Button } from "../ui/button";
 import { FormError } from "../Form-Error";
 import { FormSuccess } from "../FormSuccess";
 import { useRouter, useSearchParams } from "next/navigation";
+// import { login } from '@/actions/login';
+import axios from "axios";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 const LoginForm = () => {
@@ -53,6 +55,7 @@ const LoginForm = () => {
       form.reset();
     } catch (error: any) {
       toast.error("unauthorised user");
+      console.log(error.response.data.error);
       setError(error.response.data.error);
     }
   };
