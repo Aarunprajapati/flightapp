@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 // shadcn UI components
-import { Slider } from "@/components/ui/slider";
+import {Slider} from "../ui/slider"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../ui/accordion';
 
 interface FilterSliderItem {

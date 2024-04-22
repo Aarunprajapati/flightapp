@@ -1,3 +1,4 @@
+/* eslint-disable storybook/prefer-pascal-case */
 import { Meta, StoryObj} from "@storybook/react"
 
 

@@ -2,12 +2,10 @@
 import CustomButton from '../CustomButton';
 import { useDispatch} from 'react-redux';
 import FlightDetailsBtn from './flight-details-btn';
-import { Flight, setBookingFlights, setDetailFlight } from '@/redux/reducers/flightsSlice';
+import { Flight, setBookingFlights, setDetailFlight } from '../../redux/reducers/flightsSlice';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import Cookies from 'js-cookie';
-import { useCookies } from 'react-cookie';
+
 
 interface FlightDataProps{
   data: Flight[]
