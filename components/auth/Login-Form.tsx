@@ -20,14 +20,11 @@ import CardWrapper from "./Card-Wrapper";
 import { Button } from "../ui/button";
 import { FormError } from "../Form-Error";
 import { FormSuccess } from "../FormSuccess";
-// import { login } from '@/actions/login';
 import { useRouter, useSearchParams } from "next/navigation";
-// import { login } from '@/actions/login';
-import axios from "axios";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 const LoginForm = () => {
-  const router = useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") == "OAuthAccountNotLinked"
@@ -45,23 +42,17 @@ const LoginForm = () => {
       password: "",
     },
   });
-  console.log('login form')
   const onSubmit = async (Values: z.infer<typeof formSchema>) => {
     setError("");
     setSuccess("");
     try {
-      const res = await axiosinstance.post(
-        "/login",
-        Values
-      );
+      const res = await axiosinstance.post("/login", Values);
       const data = res.data;
       setSuccess(data.data.success);
-      console.log('setsuccess -- login form')
-      router.push("/")
+      router.push("/");
       form.reset();
     } catch (error: any) {
-      toast.error("unauthorised user")
-      console.log(error.response.data.error);
+      toast.error("unauthorised user");
       setError(error.response.data.error);
     }
   };
@@ -121,6 +112,7 @@ const LoginForm = () => {
         </form>
       </Form>
     </CardWrapper>
+   
   );
 };
 
