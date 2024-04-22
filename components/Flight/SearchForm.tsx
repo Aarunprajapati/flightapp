@@ -35,6 +35,7 @@ import instance from "@/axiosinstance";
 import { useDispatch } from "react-redux";
 import { setFlights } from "@/redux/reducers/flightsSlice";
 import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface SearchFormProps {
   setLocation: React.Dispatch<React.SetStateAction<string>>;
@@ -84,7 +85,7 @@ const SearchForm = ({
         const airports = airportdata?.map((value: string) => value);
         setData(airports);
       } catch (error) {
-        console.error("Error fetching data:", error);
+       toast.error("Error fetching data")
       }
     })();
 
@@ -96,7 +97,7 @@ const SearchForm = ({
         const airports1 = airportdata1?.map((value: string) => value);
         setData1(airports1);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error("Error fetching data")
       }
     })();
   }, []);
@@ -114,13 +115,12 @@ const SearchForm = ({
       );
       let res1 = res.data;
       if (res1.length === 0) {
-        } else {
+        toast.error("No flights found");
+      } else {
         dispatch(setFlights(res1));
       }
     } catch (error: any) {
-      console.error(
-        error.response?.data?.error || "An unexpected error occurred",
-      );
+      toast.error("Error fetching flights");
     }
   };
 
