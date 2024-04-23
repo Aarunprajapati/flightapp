@@ -22,6 +22,7 @@ import { useFormContext } from "./context/formcontext";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(
   "pk_test_51P11cvSHl2BiGxNdJZ6IX8jyGAppzYT7SqwCtHWHH4pKj236HMr4SeOEjYRAODsYtEDVOrftnEs471oQTbhxIxsq008GWpORWY",
@@ -55,17 +56,30 @@ const BookTravelDetails = () => {
   );
   const handleSubmit = async () => {
     const allFormData = form.map((forms) => forms.getValues());
-    
-    setFormData((prevData) => ({ ...prevData, ...allFormData }));
+    if (allFormData.some((data) => !data.firstName && !data.lastName)) {
+      toast.error("Firstname and lastname is required");
+      return;
+    }
     formData.members = allFormData;
+    setFormData((prevData) => ({ ...prevData, ...allFormData }));
     onSubmit({ ...formData });
     handleFormNext();
     setLoading(true);
   };
+  
+  const getFormHeading = (index:any) => {
+    if (index < adults) {
+      return "Adult Details";
+    } else {
+      return "Children Details";
+    }
+  };
 
   const renderFormSection = (form: UseFormReturn<FormData>, index: any) => (
     <Form {...form}>
+        <h3 className="text-lg font-bold my-2 text-blue-500">{getFormHeading(index)}</h3>
       <form className="mx-auto  lg:p-4">
+
         {/* Full Name */}
         <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-3 border border-gray-200 rounded-md">
           <div className="flex-1 w-full">

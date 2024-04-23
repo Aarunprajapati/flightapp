@@ -26,6 +26,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useFormContext } from "./context/formcontext";
+import toast from "react-hot-toast";
 type StepProps = {
   gonext: (FormData: Record<string, any>) => void;
   goprev: () => void;
@@ -44,13 +45,18 @@ const BookContact = () => {
     },
   });
   const handleSubmit = (value: z.infer<typeof bookschema>) => {
+    if (!(value.email && value.phone)) {
+      toast.error("Please enter email and phone");
+      return;
+    }
     setFormData((prevFormData) => ({ ...prevFormData, ...value }));
     handleFormNext();
     // form.reset();
   };
   return (
     <div className="p-4">
-      <Form {...form}>  
+      <h1 className="text-2xl font-bold mb-4 mx-5 text-blue-500">Add Contact Details</h1>
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
           className="lg:p-4 max-w-full md:max-w-2xl lg:max-w-4xl"

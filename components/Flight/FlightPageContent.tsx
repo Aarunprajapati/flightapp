@@ -87,11 +87,11 @@ const FlightPageContent: React.FC = () => {
   return (
     <Provider store={store}>
       <div className="w-full mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-x-4 md:mb-10 border-b-2 lg:px-36 border-gray-300">
-          <button className="block md:hidden" onClick={toggleForm}>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-x-4 lg:mb-10 border-b-2 lg:px-36 border-gray-300 lg:mx-12">
+          <button className="block lg:hidden" onClick={toggleForm}>
             <AlignJustify className="w-6 h-6" />
           </button>
-          <div className={`md:flex ${isFormOpen ? "" : "hidden"}`}>
+          <div className={`lg:flex ${isFormOpen ? "" : "hidden"}`}>
             <SearchForm
               setLocation={setLocation}
               setLocationR={setLocationR}
@@ -100,8 +100,8 @@ const FlightPageContent: React.FC = () => {
             />
           </div>
         </div>
-        <main className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-10 mx-3 md:mx-40 overflow-hidden">
-          <div className="lg:col-span-3  md:col-2 gap-2">
+        <main className="grid grid-cols-1 lg:grid-cols-12 gap-x-2 gap-y-10 mx-3 lg:mx-40 overflow-hidden">
+          <div className="lg:col-span-3  lg:col-2 gap-2 mt-5">
             <div className="h-auto">
               <p className="mb-2">Filter Flights</p>
               <FilterSider setStopInfo={setStopInfo} filter={Filter1} />

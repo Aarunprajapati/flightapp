@@ -44,7 +44,7 @@ interface IProps {
 }
 
 export const FormProvider = ({ children }: IProps) => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
     const[url, seturl] = useState(null)
     const [formData, setFormData] = useState<IFormData>({
         id:"",
@@ -53,12 +53,12 @@ export const FormProvider = ({ children }: IProps) => {
        members:[]
       
     })
-   console.log(formData, "formData")
     const onSubmit = async(formData:any)=>{  
-        const res = await instance.post('/booking', formData)
-        const response = res.data.url
-        window.location.href = response
+      const res = await instance.post('/booking', formData)
+      const response = res.data.url
+      window.location.href = response
     }
+    console.log(formData, "formData")
     const handleFormNext = ()=>{
         setStep(prevStep => prevStep + 1)
     }
