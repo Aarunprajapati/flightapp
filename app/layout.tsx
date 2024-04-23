@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 import { ToasterContext } from "@/context/HotToaster";
 const inter = Inter({ subsets: ["latin"] });
 import { cookies } from "next/headers";
-
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Flight App",
@@ -20,12 +20,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = cookies().get("accessToken");
+  const session = await auth()
   return (
     <html lang="en">
       <body className='w-full mx-auto'>
         {/* <Providers> */}
           <ToasterContext />
-          <Navbar user={user} />
+          <Navbar user={user} session={session} />
           {children}
         {/* </Providers> */}
       </body>

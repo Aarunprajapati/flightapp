@@ -192,7 +192,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-[-42px] left-[-85px] w-[153px] h-auto lg:w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>
@@ -230,7 +230,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-[-41px] left-[-90px]  w-[153px] h-auto lg:w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>
@@ -271,7 +271,7 @@ const HeroPage = () => {
           />
         </div>
 
-        <div className="relative bottom-[239px] md:bottom-[263px] lg:bottom-[100px] left-[150px] md:left-[338px] lg:left-[264px] inline-block">
+        <div className=" absolute hidden bottom-[500px]  left-[150px] md:bottom-[427px] md:left-[338px]  lg:bottom-[216px] lg:left-[264px] md:inline-block lg:inline-block">
           <button
             type="button"
             onClick={stateChange}

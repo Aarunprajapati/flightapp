@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-async-client-component */
 "use client";
 
 import Image from "next/image";
@@ -18,6 +19,8 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
+import { auth } from "@/auth";
+
 
 //* var
 const datas = [
@@ -44,7 +47,7 @@ const datas = [
   },
 ];
 
-const Navbar = ({ user }: any) => {
+const Navbar =({ user, session }: any) => {
   const router = useRouter();
   const handleLogOut = async () => {
     try {
@@ -59,14 +62,15 @@ const Navbar = ({ user }: any) => {
   return (
     <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
       {/* Logo Section */}
-      <div className="flex items-center justify-center lg:justify-start">
+      <div className="flex items-center px-5 justify-center lg:justify-start lg:mx-44 ">
         <Link href="/">
           <Image
-            src="/flightlogo.jpeg"
-            width={150} // Set a smaller width for mobile
-            height={150} // Set a smaller height for mobile
+            src="/logo.png"
+            width={50} // Set a smaller width for mobile
+            height={50} // Set a smaller height for mobile
             alt="logo"
-            className="img-fluid rounded-lg "
+            className=" img-fluid w-14 h-14 "
+            
           />
         </Link>
       </div>
@@ -93,7 +97,7 @@ const Navbar = ({ user }: any) => {
 
       {/* Authentication Links */}
       <div className="flex gap-x-2 ml-auto">
-        {!user ? (
+        {!user && !session ? (
           <>
             <Link href="/auth/register">
               <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white ">
