@@ -19,7 +19,7 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
-import { auth } from "@/auth";
+import {  signOut } from "next-auth/react";
 
 
 //* var
@@ -51,6 +51,7 @@ const Navbar =({ user, session }: any) => {
   const router = useRouter();
   const handleLogOut = async () => {
     try {
+      await signOut({ redirect: true, callbackUrl: '/auth/login' })
       await axiosinstance.post("/logout");
       toast.success("Logged out successfully");
       router.push("/auth/login");
@@ -58,7 +59,7 @@ const Navbar =({ user, session }: any) => {
       toast.error("Error in logout");
     }
   };
-
+ 
   return (
     <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
       {/* Logo Section */}
