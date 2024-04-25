@@ -19,9 +19,8 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
-import {  signOut } from "next-auth/react";
-
-
+import { signOut } from "next-auth/react";
+import UserProfile from "./profile/userprofile";
 //* var
 const datas = [
   {
@@ -47,19 +46,7 @@ const datas = [
   },
 ];
 
-const Navbar =({ user, session }: any) => {
-  const router = useRouter();
-  const handleLogOut = async () => {
-    try {
-      await signOut({ redirect: true, callbackUrl: '/auth/login' })
-      await axiosinstance.post("/logout");
-      toast.success("Logged out successfully");
-      router.push("/auth/login");
-    } catch (error) {
-      toast.error("Error in logout");
-    }
-  };
- 
+const Navbar = ({ user, session }: any) => {
   return (
     <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
       {/* Logo Section */}
@@ -71,7 +58,6 @@ const Navbar =({ user, session }: any) => {
             height={50} // Set a smaller height for mobile
             alt="logo"
             className=" img-fluid w-14 h-14 "
-            
           />
         </Link>
       </div>
@@ -97,7 +83,7 @@ const Navbar =({ user, session }: any) => {
       </div>
 
       {/* Authentication Links */}
-      <div className="flex gap-x-2 ml-auto">
+      {/* <div className="flex gap-x-2 ml-auto">
         {!user && !session ? (
           <>
             <Link href="/auth/register">
@@ -121,6 +107,11 @@ const Navbar =({ user, session }: any) => {
             </button>
           </div>
         )}
+      </div> */}
+
+      {/* user profile */}
+      <div>
+        <UserProfile user={user} session={session} />
       </div>
     </div>
   );

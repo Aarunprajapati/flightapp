@@ -65,13 +65,7 @@ export const FormProvider = ({ children }: IProps) => {
     const handleFormBack = ()=>{
         setStep(prevStep => prevStep - 1)
     }
-   
-
-
-
-
-  
-
+    
   return (
     <FormContext.Provider
       value={{
