@@ -13,7 +13,7 @@ const Social = () => {
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT
     })
-
+   
     } 
    return (
     <div className=' w-full flex items-center gap-x-2'>
