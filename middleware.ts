@@ -9,6 +9,7 @@ export function middleware(request: NextRequest) {
   // const currentUser = request.cookies.get("accessToken")?.value;
   const currentUserstore = cookies()
   const currentUser =currentUserstore.get("accessToken")?.value;
+  // const googleuser =currentUserstore.get("googleToken")?.value;
   // console.log("currentUser>>>>>>>>>",currentUser)
   // console.log(currentUser, "current user",request.url)
   // console.log("nextUrl",request.nextUrl)
@@ -22,6 +23,9 @@ export function middleware(request: NextRequest) {
   if (currentUser && request.nextUrl.pathname.startsWith("/auth/login")) {
     return Response.redirect(new URL("/", request.url));
   }
+  // if (googleuser && request.nextUrl.pathname.startsWith("/auth/login")) {
+  //   return Response.redirect(new URL("/", request.url));
+  // }
   // if (!currentUser && request.nextUrl.pathname.startsWith("/flights")) {
   //   return Response.redirect(new URL("/auth/login", request.url));
   // }
