@@ -29,7 +29,7 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlError =
-    searchParams.get("error") == "OAuthAccountNotLinked"
+    searchParams?.get("error") == "OAuthAccountNotLinked"
       ? "Email already linked with different Provider"
       : "";
 

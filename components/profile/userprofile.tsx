@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -35,7 +36,7 @@ const style = {
   flexDirection: "column",
   alignItems: "center",
 };
-const settings = ["Profile"];
+// const settings = ["Profile"];
 
 function UserProfile({ user, session }: any) {
   const [userData, setUserData] = React.useState({
@@ -69,6 +70,7 @@ function UserProfile({ user, session }: any) {
   };
 
   const Fetchdata = async () => {
+   
     try {
       const response = await axiosinstance.get("/profile");
       setUserData(response.data.user);
@@ -77,9 +79,9 @@ function UserProfile({ user, session }: any) {
     }
   };
 
-  // React.useEffect(() => {
-  //   Fetchdata();
-  // }, []);
+  React.useEffect(() => {
+    Fetchdata();
+  }, []);
 
   
   if (!user && !session) {
@@ -102,6 +104,7 @@ function UserProfile({ user, session }: any) {
   }
 
   return (
+    
     <Container maxWidth="xl">
       <Toolbar disableGutters>
         <Tooltip title="Open settings">
@@ -123,16 +126,16 @@ function UserProfile({ user, session }: any) {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {settings.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <Button onClick={handleOpenModal}>
-                <Typography textAlign="center" onClick={Fetchdata}>{setting}</Typography>
+          
+            <MenuItem  onClick={handleCloseUserMenu}>
+              <Button href="/auth/profile" onClick={handleOpenModal}>
+                <Typography textAlign="center" >Profile</Typography>
               </Button>
             </MenuItem>
-          ))}
+          
           <MenuItem onClick={handleCloseUserMenu}>
-            <Button>
-              <Typography textAlign="center">History</Typography>
+            <Button href="/auth/trips">
+              <Typography textAlign="center" >History</Typography>
             </Button>
           </MenuItem>
           <MenuItem onClick={handleCloseUserMenu}>
@@ -142,7 +145,7 @@ function UserProfile({ user, session }: any) {
           </MenuItem>
         </Menu>
         {/* user details */}
-        <Modal
+        {/* <Modal
           open={open}
           onClose={handleCloseModal}
           aria-labelledby="modal-modal-title"
@@ -188,9 +191,11 @@ function UserProfile({ user, session }: any) {
                 </Grid>
 
           </Box>
-        </Modal>
+        </Modal> */}
       </Toolbar>
     </Container>
+     
+    
   );
 }
 

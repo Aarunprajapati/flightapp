@@ -5,7 +5,10 @@ import React from 'react'
 
 const LoginPage = () => {
   return (
-    <RegisterForm/>
+    <div className='h-screen flex items-center justify-center'>
+
+      <RegisterForm/>
+    </div>
   )
 }
 

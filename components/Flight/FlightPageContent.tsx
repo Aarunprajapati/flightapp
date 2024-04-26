@@ -26,8 +26,8 @@ import { AlignJustify } from 'lucide-react';
 
 const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const SelectedCity = searchParams.get("selectedcity");
-  const DestinationCity = searchParams.get("destinationcity");
+  const SelectedCity = searchParams?.get("selectedcity");
+  const DestinationCity = searchParams?.get("destinationcity");
 
   const [location, setLocation] = useState<string>("");
   const [locationR, setLocationR] = useState<string>("");

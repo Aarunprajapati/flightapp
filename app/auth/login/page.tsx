@@ -3,7 +3,10 @@ import React from 'react'
 
 const LoginPage = () => {
   return (
-    <LoginForm/>
+    <div className='h-screen flex items-center justify-center'>
+
+      <LoginForm/>
+    </div>
   )
 }
 
