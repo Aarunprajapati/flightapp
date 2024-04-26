@@ -13,11 +13,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 1, name: "Trips", icon: <BriefcaseIcon />, href: '/auth/trips' },
-  { id: 2, name: "Travellers", icon: <Users/>, href: '/trips'},
-  { id: 3, name: "Cleartrip Wallet", icon: <Wallet/>, href: '/trips' },
-  { id: 4, name: "Hi-Five", icon: <Handshake />, href: '/trips' },
-  { id: 5, name: "Expressway", icon: <ArrowBigUp />, href: '/trips' },
-  { id: 6, name: "Profile", icon: <User/>, href: 'auth/profile' },
+  { id: 2, name: "Travellers", icon: <Users/>, href: '/auth/profile'},
+  { id: 3, name: "Cleartrip Wallet", icon: <Wallet/>, href: '/trips/profile' },
+  { id: 4, name: "Hi-Five", icon: <Handshake />, href: '/trips/profile' },
+  { id: 5, name: "Expressway", icon: <ArrowBigUp />, href: '/trips/profile' },
+  { id: 6, name: "Profile", icon: <User/>, href: '/auth/profile' },
 ];
 const ProfileSider = () => {
   return (
