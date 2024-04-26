@@ -32,3 +32,9 @@ export const registerSchema = z.object({
     }),
     profilePic: z.any()
 });
+export const phoneNumberSchema = z.object({ 
+    phoneNumber: z.string().min(10, {
+        message: "Phone number must be at least 10 characters",
+    }),
+
+});
