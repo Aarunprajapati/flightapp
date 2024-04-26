@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import * as z from "zod";
 import { registerSchema } from "@/Schemas";
 import { useForm } from "react-hook-form";
@@ -23,6 +23,7 @@ import { FormSuccess } from "../FormSuccess";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axiosinstance from "@/axiosinstance";
+import { auth } from "@/auth";
 import {
   Select,
   SelectContent,
@@ -31,8 +32,9 @@ import {
   SelectValue,
 } from "../ui/select";
 import { ScrollArea } from "../ui/scroll-area";
+import { useSession } from 'next-auth/react';
 
-const RegisterForm = () => {
+const RegisterForm = () => {  
   const router = useRouter();
   const [isPending, StartTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -65,7 +67,7 @@ const RegisterForm = () => {
       formData.append("profilePic", values.profilePic);
 
       const res = await axiosinstance.post("/register", formData, {
-        withCredentials: true
+        withCredentials: true,
       });
 
       const data = res.data.data;
@@ -83,6 +85,7 @@ const RegisterForm = () => {
       setError(errorMessage);
     }
   };
+
 
   return (
     <CardWrapper

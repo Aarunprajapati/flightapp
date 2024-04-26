@@ -21,7 +21,6 @@ import axiosinstance from "@/axiosinstance";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-// import UserDeatils from "./userDeatils";
 const style = {
   position: "absolute",
   top: "50%",
@@ -111,8 +110,7 @@ function UserProfile({ user, session }: any) {
           <Button onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
               alt={userData?.name || "User"}
-              src={`/${userData?.profilePic}` || "/logo.png"}
-              sx={{ bgcolor: "white", p: "2px", width: 50, height: 50, color:"black" }}
+              src={userData?.profilePic || userData.name}
             />
           </Button>
         </Tooltip>
@@ -155,7 +153,7 @@ function UserProfile({ user, session }: any) {
            
                 <Avatar
                   alt={userData.name.toUpperCase()}
-                  src={`/${userData.profilePic}`}
+                  src={userData?.profilePic || userData.name}
                   sx={{ width: 56, height: 56, mb: 2, color:"black" }}
                 />
                 <Typography variant="h6" sx={{ mb: 2 }}>
