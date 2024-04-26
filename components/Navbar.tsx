@@ -81,34 +81,6 @@ const Navbar = ({ user, session }: any) => {
           </Card>
         ))}
       </div>
-
-      {/* Authentication Links */}
-      {/* <div className="flex gap-x-2 ml-auto">
-        {!user && !session ? (
-          <>
-            <Link href="/auth/register">
-              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white ">
-                <Plane className="w-6 h-6 text-blue-600 " />
-                <span className="ml-2 text-sm text-blue-700">Signup</span>
-              </div>
-            </Link>
-            <Link href="/auth/login">
-              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white">
-                <Plane className="w-6 h-6 text-blue-600" />
-                <span className="ml-2 text-sm text-blue-700">Login</span>
-              </div>
-            </Link>
-          </>
-        ) : (
-          <div className="flex items-center p-2 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer">
-            <Plane className="w-6 h-6 text-blue-600" />
-            <button onClick={handleLogOut} className="ml-2 text-sm text-white">
-              Logout
-            </button>
-          </div>
-        )}
-      </div> */}
-
       {/* user profile */}
       <div>
         <UserProfile user={user} session={session} />

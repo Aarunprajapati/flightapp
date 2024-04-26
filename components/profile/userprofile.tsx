@@ -46,6 +46,11 @@ function UserProfile({ user, session }: any) {
     gender: "",
     profilePic: null
   });;
+  const [googleUser, setGoogleUser] = React.useState({
+    name: "",
+    email: "",
+    image: ""
+  });
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
@@ -72,7 +77,18 @@ function UserProfile({ user, session }: any) {
    
     try {
       const response = await axiosinstance.get("/profile");
+      console.log(response.data.user, "/profile")
       setUserData(response.data.user);
+    } catch (error) {
+      console.error("Error in fetch");
+    }
+  };
+  const googleFetchdata = async () => {
+   
+    try {
+      const response = await axiosinstance.get("/googleUserData");
+      console.log(response.data.user, "googleuser")
+      setGoogleUser(response.data.user);
     } catch (error) {
       console.error("Error in fetch");
     }
@@ -80,6 +96,7 @@ function UserProfile({ user, session }: any) {
 
   React.useEffect(() => {
     Fetchdata();
+    googleFetchdata();
   }, []);
 
   
@@ -109,8 +126,8 @@ function UserProfile({ user, session }: any) {
         <Tooltip title="Open settings">
           <Button onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt={userData?.name || "User"}
-              src={userData?.profilePic || userData.name}
+              alt={userData?.name || googleUser?.name|| "User"}
+              src={userData?.profilePic || googleUser?.image}
             />
           </Button>
         </Tooltip>
@@ -142,54 +159,6 @@ function UserProfile({ user, session }: any) {
             </Button>
           </MenuItem>
         </Menu>
-        {/* user details */}
-        {/* <Modal
-          open={open}
-          onClose={handleCloseModal}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-           
-                <Avatar
-                  alt={userData.name.toUpperCase()}
-                  src={userData?.profilePic || userData.name}
-                  sx={{ width: 56, height: 56, mb: 2, color:"black" }}
-                />
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  {userData.name}
-                </Typography>
-                <Grid container spacing={1} sx={{ width: "100%" }}>
-                  <Grid item xs={4} sx={{ textAlign: "right", pr: 1 }}>
-                    <Typography variant="subtitle1">Email:</Typography>
-                  </Grid>
-                  <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography variant="subtitle2">
-                      {userData.email}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4} sx={{ textAlign: "right", pr: 1 }}>
-                    <Typography variant="subtitle1">DOB:</Typography>
-                  </Grid>
-                  <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography variant="subtitle2">{userData.dob}</Typography>
-                  </Grid>
-                  <Grid item xs={4} sx={{ textAlign: "right", pr: 1 }}>
-                    <Typography variant="subtitle1">Phone:</Typography>
-                  </Grid>
-                  <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography variant="subtitle2">{userData.phoneNumber}</Typography>
-                  </Grid>
-                  <Grid item xs={4} sx={{ textAlign: "right", pr: 1 }}>
-                    <Typography variant="subtitle1">Gender:</Typography>
-                  </Grid>
-                  <Grid item xs={8} sx={{ textAlign: "left" }}>
-                    <Typography variant="subtitle2">{userData.gender}</Typography>
-                  </Grid>
-                </Grid>
-
-          </Box>
-        </Modal> */}
       </Toolbar>
     </Container>
      

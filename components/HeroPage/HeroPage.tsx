@@ -169,11 +169,7 @@ const HeroPage = () => {
             "/googleUser",
             session.user,
           );
-          if (response.data.success) {
-            toast.success("user successfully created");
-          } else if (response.data.error) {
-            toast.error(response.data.error);
-          }
+          // toast.success("User successfully login")
         }
       } catch (error: any) {
         console.error(error.message);
