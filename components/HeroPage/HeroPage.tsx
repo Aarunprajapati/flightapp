@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/popover";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
+import { useSession } from "next-auth/react";
 
 //* Var
 const datas = [
@@ -77,6 +78,9 @@ interface City {
 }
 
 const HeroPage = () => {
+  const { data: session, status } = useSession();
+  // console.log(session, "HeroPage")
+
   const [select, setSelect] = useState<string>("One way");
   const [selectdown, setSelectdown] = useState<string>(" Regular Fares");
 
@@ -156,6 +160,26 @@ const HeroPage = () => {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (session?.user) {
+          const response = await axiosinstance.post(
+            "/googleUser",
+            session.user,
+          );
+          if (response.data.success) {
+            toast.success("user successfully created");
+          } else if (response.data.error) {
+            toast.error(response.data.error);
+          }
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    })();
+  }, [status, session]);
 
   return (
     <div className="flex flex-col items-center relative w-full bg-white mx-auto px-4 sm:px-6 lg:px-20 space-y-2">
