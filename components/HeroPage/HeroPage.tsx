@@ -199,7 +199,7 @@ const HeroPage = () => {
           labels={labels}
           className="mt-10"
           sidelabel="Book International and Domestic Flights"
-          setSelect={setSelectdown}
+          setSelect={setSelect}
         />
         <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
           <div className=" flex">
@@ -304,14 +304,14 @@ const HeroPage = () => {
           <RadioButton
             labels={heroLabel}
             title="Select A Fare Type"
-            setSelect={setSelect}
+            // setSelectdown={setSelectdown}
           />
         </div>
       </div>
 
       <div className="relative bottom-12 w-full flex justify-center">
         <Link
-          href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&selectdown=${selectdown}&select=${select}`}
+          href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&select=${select}`}
         >
           <Button
             className="px-10 lg:px-14 rounded-full text-lg lg:text-2xl font-semibold py-2 lg:py-3 bg-blue-400"

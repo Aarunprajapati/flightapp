@@ -28,6 +28,7 @@ const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
   const SelectedCity = searchParams?.get("selectedcity");
   const DestinationCity = searchParams?.get("destinationcity");
+  const SelectedRoutes = searchParams?.get("select");
 
   const [location, setLocation] = useState<string>("");
   const [locationR, setLocationR] = useState<string>("");
@@ -40,7 +41,7 @@ const FlightPageContent: React.FC = () => {
   const [depTime, setDepTime] = useState<string[]>([]); 
   const [price, setPrice] = useState<number[]>([]); 
   const [isFormOpen, setIsFormOpen] = useState(false);
-
+  const [select, setSelect]= useState<string>("");
   const toggleForm = () => {
     setIsFormOpen((prevState) => !prevState);
   };
@@ -52,10 +53,11 @@ const FlightPageContent: React.FC = () => {
       const useLocation = hasInitialFetch && location ? location : SelectedCity;
       const useLocationR =
         hasInitialFetch && locationR ? locationR : DestinationCity;
-
+      const useRoutes = hasInitialFetch && select ? select : SelectedRoutes;
       if (useLocation && useLocationR) {
         try {
           const params = new URLSearchParams({
+            select:useRoutes!.toString(),
             location: useLocation,
             locationR: useLocationR,
             price: price.join(","),
@@ -74,6 +76,7 @@ const FlightPageContent: React.FC = () => {
 
     fetchFlights();
   }, [
+    select,
     location,
     locationR,
     stopInfo,
@@ -82,6 +85,7 @@ const FlightPageContent: React.FC = () => {
     hasInitialFetch,
     SelectedCity,
     DestinationCity,
+    SelectedRoutes
   ]);
 
   return (
@@ -97,6 +101,7 @@ const FlightPageContent: React.FC = () => {
               setLocationR={setLocationR}
               setAdults={setAdults}
               setChildren={setChildren}
+              setSelect={setSelect}
             />
           </div>
         </div>
