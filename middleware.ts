@@ -1,38 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
-import {cookies} from "next/headers";
-
 
 export function middleware(request: NextRequest) {
-  const path = request.nextUrl.pathname
-  // console.log("request>>>>>",request.cookies)
-  // console.log("request<<<<<<>>>>>",request.cookies)
-  // const currentUser = request.cookies.get("accessToken")?.value;
-  const currentUserstore = cookies()
-  const currentUser =currentUserstore.get("accessToken")?.value;
-  // const googleuser =currentUserstore.get("googleToken")?.value;
-  // console.log("currentUser>>>>>>>>>",currentUser)
-  // console.log(currentUser, "current user",request.url)
-  // console.log("nextUrl",request.nextUrl)
+  // Extract the pathname of the request URL
+  const { pathname } = request.nextUrl;
 
-  // if (!currentUser && request.nextUrl.pathname.startsWith("/auth/login")) {
-  //   return Response.redirect(new URL("/auth/login", request.url));
-  // }
-  // if (currentUser ) {
-  //   return Response.json({msg:'cookie not found'});
-  // }
-  if (currentUser && request.nextUrl.pathname.startsWith("/auth/login")) {
-    return Response.redirect(new URL("/", request.url));
-  }
-  // if (googleuser && request.nextUrl.pathname.startsWith("/auth/login")) {
-  //   return Response.redirect(new URL("/", request.url));
-  // }
-  // if (!currentUser && request.nextUrl.pathname.startsWith("/flights")) {
-  //   return Response.redirect(new URL("/auth/login", request.url));
-  // }
-  if (!currentUser && request.nextUrl.pathname.startsWith("/checkoutpage")) {
-    return Response.redirect(new URL("/auth/login", request.url));
+  // Retrieve cookies directly from the request
+  const accessToken = request.cookies.get("accessToken");
+  const googleToken = request.cookies.get("googleToken");
+
+  const publicPaths = ["/auth/login", "/auth/register", "/"];
+  if (publicPaths.includes(pathname)) {
+    return NextResponse.next();
   }
 
+  if (!accessToken && !googleToken) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  if ((accessToken || googleToken) && pathname.startsWith("/auth/login")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+  return NextResponse.next();
 }
 
 export const config = {

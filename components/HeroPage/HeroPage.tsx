@@ -165,17 +165,13 @@ const HeroPage = () => {
     (async () => {
       try {
         if (session?.user) {
-          const response = await axiosinstance.post(
-            "/googleUser",
-            session.user,
-          );
-          // toast.success("User successfully login")
+          await axiosinstance.post("/googleUser", session.user);
         }
       } catch (error: any) {
         console.error(error.message);
       }
     })();
-  }, [status, session]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center relative w-full bg-white mx-auto px-4 sm:px-6 lg:px-20 space-y-2">
@@ -228,7 +224,6 @@ const HeroPage = () => {
                             >
                               {city.cityName}
                             </CommandItem>
-
                             <Check
                               className={`mr-2 h-4 w-4 ${selectedCity.cityName === city.cityName ? "opacity-100" : "opacity-0"}`}
                             />
@@ -281,7 +276,6 @@ const HeroPage = () => {
               </div>
             </Popover>
           </div>
-
           <HeroContentSecond
             date={date}
             setDate={setDate}
@@ -290,7 +284,6 @@ const HeroPage = () => {
             today={today}
           />
         </div>
-
         <div className=" absolute hidden bottom-[500px]  left-[150px] md:bottom-[427px] md:left-[338px]  lg:bottom-[216px] lg:left-[264px] md:inline-block lg:inline-block">
           <button
             type="button"

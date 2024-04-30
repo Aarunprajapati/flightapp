@@ -1,17 +1,13 @@
-"use client"
+"use client";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   Avatar,
-  Box,
   Button,
   Container,
-  Grid,
-  IconButton,
   Menu,
   MenuItem,
-  Modal,
   Toolbar,
   Tooltip,
   Typography,
@@ -44,12 +40,12 @@ function UserProfile({ user, session }: any) {
     phoneNumber: "",
     dob: "",
     gender: "",
-    profilePic: null
-  });;
+    profilePic: null,
+  });
   const [googleUser, setGoogleUser] = React.useState({
     name: "",
     email: "",
-    image: ""
+    image: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -74,20 +70,18 @@ function UserProfile({ user, session }: any) {
   };
 
   const Fetchdata = async () => {
-   
     try {
       const response = await axiosinstance.get("/profile");
-      console.log(response.data.user, "/profile")
+      console.log(response.data.user, "/profile");
       setUserData(response.data.user);
     } catch (error) {
       console.error("Error in fetch");
     }
   };
   const googleFetchdata = async () => {
-   
     try {
       const response = await axiosinstance.get("/googleUserData");
-      console.log(response.data.user, "googleuser")
+      console.log(response.data.user, "googleuser");
       setGoogleUser(response.data.user);
     } catch (error) {
       console.error("Error in fetch");
@@ -99,7 +93,6 @@ function UserProfile({ user, session }: any) {
     googleFetchdata();
   }, []);
 
-  
   if (!user && !session) {
     return (
       <div className="flex gap-x-2 ml-auto">
@@ -120,13 +113,12 @@ function UserProfile({ user, session }: any) {
   }
 
   return (
-    
     <Container maxWidth="xl">
       <Toolbar disableGutters>
         <Tooltip title="Open settings">
           <Button onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt={userData?.name || googleUser?.name|| "User"}
+              alt={userData?.name || googleUser?.name || "User"}
               src={userData?.profilePic || googleUser?.image}
             />
           </Button>
@@ -141,16 +133,15 @@ function UserProfile({ user, session }: any) {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          
-            <MenuItem  onClick={handleCloseUserMenu}>
-              <Button href="/auth/profile" onClick={handleOpenModal}>
-                <Typography textAlign="center" >Profile</Typography>
-              </Button>
-            </MenuItem>
-          
+          <MenuItem onClick={handleCloseUserMenu}>
+            <Button href="/auth/profile" onClick={handleOpenModal}>
+              <Typography textAlign="center">Profile</Typography>
+            </Button>
+          </MenuItem>
+
           <MenuItem onClick={handleCloseUserMenu}>
             <Button href="/auth/trips">
-              <Typography textAlign="center" >History</Typography>
+              <Typography textAlign="center">History</Typography>
             </Button>
           </MenuItem>
           <MenuItem onClick={handleCloseUserMenu}>
@@ -161,8 +152,6 @@ function UserProfile({ user, session }: any) {
         </Menu>
       </Toolbar>
     </Container>
-     
-    
   );
 }
 

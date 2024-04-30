@@ -13,6 +13,7 @@ import {
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import toast from "react-hot-toast";
 
 const ProfileCenter = () => {
   const [userData, setUserData] = React.useState({
@@ -43,6 +44,15 @@ const ProfileCenter = () => {
       setGoogleUser(response.data.user);
     } catch (error) {
       console.error("Error in fetch");
+    }
+  };
+  const handleDeleteUser = async () => {
+    try {
+      const res = await axiosinstance.delete("/deleteuser");
+      console.log(res.data.message)
+      toast.success("Account deleted successfully");
+    } catch (error) {
+      toast.error("Error in delete Account");
     }
   };
 
