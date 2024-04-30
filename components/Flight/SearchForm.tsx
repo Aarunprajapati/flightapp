@@ -157,7 +157,7 @@ const SearchForm = ({
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem
-                            value="One Way"
+                            value="One way"
                             className=" text-black focus:bg-blue-500 focus:text-white"
                           >
                             One way
