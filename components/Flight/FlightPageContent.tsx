@@ -19,10 +19,9 @@ import {
   TripDuration,
 } from "../Filter/constants";
 import instance from "@/axiosinstance";
-import { Flight } from '@/redux/reducers/flightsSlice';
-import { useSearchParams } from 'next/navigation';
-import { AlignJustify } from 'lucide-react';
-
+import { Flight } from "@/redux/reducers/flightsSlice";
+import { useSearchParams } from "next/navigation";
+import { AlignJustify } from "lucide-react";
 
 const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
@@ -37,11 +36,11 @@ const FlightPageContent: React.FC = () => {
   const [hasInitialFetch, setHasInitialFetch] = useState(false);
   const [error, setError] = useState<string>("");
   const [filterData, setFilteredData] = useState<Flight[]>([]);
-  const [stopInfo, setStopInfo] = useState<string[]>([]); 
-  const [depTime, setDepTime] = useState<string[]>([]); 
-  const [price, setPrice] = useState<number[]>([]); 
+  const [stopInfo, setStopInfo] = useState<string[]>([]);
+  const [depTime, setDepTime] = useState<string[]>([]);
+  const [price, setPrice] = useState<number[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [select, setSelect]= useState<string>("");
+  const [select, setSelect] = useState<string>("");
   const toggleForm = () => {
     setIsFormOpen((prevState) => !prevState);
   };
@@ -54,10 +53,12 @@ const FlightPageContent: React.FC = () => {
       const useLocationR =
         hasInitialFetch && locationR ? locationR : DestinationCity;
       const useRoutes = hasInitialFetch && select ? select : SelectedRoutes;
+      // eslint-disable-next-line no-console
+      console.log(useRoutes, "useRoutes  bhdfbhsbhbybvfu");
       if (useLocation && useLocationR) {
         try {
           const params = new URLSearchParams({
-            select:useRoutes!.toString(),
+            select: useRoutes!.toString(),
             location: useLocation,
             locationR: useLocationR,
             price: price.join(","),
@@ -65,9 +66,8 @@ const FlightPageContent: React.FC = () => {
             depTime: depTime.join(","),
           });
           const { data } = await instance.get(`/matchingData?${params}`);
-
           setFilteredData(data);
-          if (!hasInitialFetch) setHasInitialFetch(true); // Mark the initial fetch as complete only if successful.
+          if (!hasInitialFetch) setHasInitialFetch(true);
         } catch (error: any) {
           setError(error.message || "An error occurred");
         }
@@ -85,7 +85,7 @@ const FlightPageContent: React.FC = () => {
     hasInitialFetch,
     SelectedCity,
     DestinationCity,
-    SelectedRoutes
+    SelectedRoutes,
   ]);
 
   return (
@@ -118,6 +118,7 @@ const FlightPageContent: React.FC = () => {
           <div className="lg:col-span-9 md:col-span-10 flex flex-col gap-4">
             <FlightDate />
             <Flightdata
+              select={select}
               data={filterData && filterData}
               adults={adults}
               children={children}
