@@ -42,21 +42,22 @@ interface SearchFormProps {
   setLocationR: React.Dispatch<React.SetStateAction<string>>;
   setAdults: React.Dispatch<React.SetStateAction<string>>;
   setChildren: React.Dispatch<React.SetStateAction<string>>;
+  setSelect: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchForm = ({
+  setSelect,
   setLocation,
   setLocationR,
   setAdults,
   setChildren,
 }: SearchFormProps) => {
   const searchParams = useSearchParams();
-  const selectedcity = searchParams.get("selectedcity");
-  const destinationcity = searchParams.get("destinationcity");
-  const fromdatastring = searchParams.get("fromdatastring");
-  const todatastring = searchParams.get("todatastring");
-
-  const select = searchParams.get("select");
+  const selectedcity = searchParams?.get("selectedcity");
+  const destinationcity = searchParams?.get("destinationcity");
+  const fromdatastring = searchParams?.get("fromdatastring");
+  const todatastring = searchParams?.get("todatastring");
+  const select = searchParams?.get("select");
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [date1, setDate1] = useState<Date | undefined>(undefined);
   const [data, setData] = useState<[]>([]);
@@ -66,7 +67,7 @@ const SearchForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      select: "",
+      select: select || "",
       location: selectedcity || "",
       locationR: destinationcity || "",
       fromDate: fromdatastring ? new Date(fromdatastring) : "",
@@ -105,13 +106,15 @@ const SearchForm = ({
   //* functions used after the  submit  button
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { location, locationR, adults, children } = values;
+      const { location, locationR, adults, children, select } = values;
+      
+      setSelect(select);
       setAdults(adults);
       setChildren(children);
       setLocation(location);
       setLocationR(locationR);
       const res = await instance.get(
-        `/matchingData?location=${location}&locationR=${locationR}`,
+        `/matchingData?location=${location}&locationR=${locationR}&select=${select}`,
       );
       let res1 = res.data;
       if (res1.length === 0) {
@@ -143,7 +146,7 @@ const SearchForm = ({
                   <FormControl className="border-none outline-none ring-1 ring-blue-600 rounded-sm">
                     <div className="w-full flex items-center space-y-5">
                       <Select
-                        defaultValue={select || ""}
+                        // defaultValue={select || ""}
                         value={field.value}
                         onValueChange={(value) => {
                           field.onChange(value);
@@ -154,13 +157,13 @@ const SearchForm = ({
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem
-                            value="One Way"
+                            value="One way"
                             className=" text-black focus:bg-blue-500 focus:text-white"
                           >
                             One way
                           </SelectItem>
                           <SelectItem
-                            value="Rounded trip"
+                            value="Round trip"
                             className="text-black focus:bg-blue-500 focus:text-white"
                           >
                             Rounded trip
