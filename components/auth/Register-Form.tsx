@@ -53,7 +53,7 @@ const RegisterForm = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
-    console.log(values, "values");
+ 
     setError("");
     setSuccess("");
     try {
@@ -75,7 +75,6 @@ const RegisterForm = () => {
       router.push("/");
       form.reset();
     } catch (error: any) {
-      console.error(error);
       const errorMessage = error.response
         ? error.response.data.error
         : error.message;

@@ -7,6 +7,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "../../routes";
 import axiosInstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
+import toast from "react-hot-toast";
 
 const Social = () => {
   const router = useRouter()
@@ -19,7 +20,7 @@ const Social = () => {
       });
       
     } catch (error) {
-      console.error("An error occurred during sign-in:", error);
+      toast.error("Could not sign in")
     }
   };
 

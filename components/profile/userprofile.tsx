@@ -72,19 +72,19 @@ function UserProfile({ user, session }: any) {
   const Fetchdata = async () => {
     try {
       const response = await axiosinstance.get("/profile");
-      console.log(response.data.user, "/profile");
+
       setUserData(response.data.user);
     } catch (error) {
-      console.error("Error in fetch");
+      toast.error("Error in fetch");
     }
   };
   const googleFetchdata = async () => {
     try {
       const response = await axiosinstance.get("/googleUserData");
-      console.log(response.data.user, "googleuser");
+
       setGoogleUser(response.data.user);
     } catch (error) {
-      console.error("Error in fetch");
+      toast.error("Error in fetch");
     }
   };
 

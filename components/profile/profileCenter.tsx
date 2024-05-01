@@ -46,7 +46,7 @@ const ProfileCenter = () => {
     gender: "",
     profilePic: null,
   });
-  // console.log(userData.name, "userData");
+
   const [googleUser, setGoogleUser] = React.useState({
     name: "",
     email: "",
@@ -63,11 +63,7 @@ const ProfileCenter = () => {
     },
   });
 
-  // console.log(form)
-
   const handlesubmit = async (values: z.infer<typeof phonenumberSchema>) => {
-    // console.log(values, "values");
-
     const response = await axiosinstance.put("/updateprofile", values);
     setIsOpen(false);
     if (response.status === 200) {
@@ -82,24 +78,24 @@ const ProfileCenter = () => {
       const response = await axiosinstance.get("/profile");
       setUserData(response.data.user);
     } catch (error) {
-      console.error("Error in fetch");
+      toast.error("Error fetching profile");
     }
   };
 
   const googleFetchdata = async () => {
     try {
       const response = await axiosinstance.get("/googleUserData");
-      console.log(response.data.user, "googleuser");
+
       setGoogleUser(response.data.user);
     } catch (error) {
-      console.error("Error in fetch");
+      toast.error("Error in fetching google user data");
     }
   };
 
   const handledeleteuser = async () => {
     try {
       const res = await axiosinstance.delete("/deleteuser");
-      console.log(res.data.message);
+
       toast.success("Account deleted successfully");
     } catch (error) {
       toast.error("Error in deleting user");
@@ -118,7 +114,7 @@ const ProfileCenter = () => {
           <p className="text-2xl font-bold">Profile</p>
           {/* edit profile */}
           <div className=" flex gap-10">
-          <Dialog
+            <Dialog
               open={isOpen}
               onOpenChange={() => {
                 setIsOpen(!isOpen);

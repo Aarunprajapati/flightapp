@@ -168,10 +168,10 @@ const HeroPage = () => {
           await axiosinstance.post("/googleUser", session.user);
         }
       } catch (error: any) {
-        console.error(error.message);
+       toast.error("Could not signin with google");
       }
     })();
-  }, []);
+  }, [session?.user]);
 
   return (
     <div className="flex flex-col items-center relative w-full bg-white mx-auto px-4 sm:px-6 lg:px-20 space-y-2">

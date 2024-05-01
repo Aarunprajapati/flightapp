@@ -55,7 +55,6 @@ const LoginForm = () => {
       form.reset();
     } catch (error: any) {
       toast.error("unauthorised user");
-      console.log(error.response.data.error);
       setError(error.response.data.error);
     }
   };
