@@ -48,7 +48,7 @@ const datas = [
 
 const Navbar = ({ user, session }: any) => {
   return (
-    <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
+    <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 justify-between h-full mx-auto">
       {/* Logo Section */}
       <div className="flex items-center px-5 justify-center lg:justify-start lg:mx-44 ">
         <Link href="/">
@@ -61,7 +61,7 @@ const Navbar = ({ user, session }: any) => {
           />
         </Link>
       </div>
-
+      
       {/* Navigation and Action Items */}
       <div className="hidden lg:flex items-center lg:gap-x-2 mx-5 lg:mx-auto">
         {datas.map((tool) => (
