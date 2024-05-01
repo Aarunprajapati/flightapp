@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/popover";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
+import { useSession } from "next-auth/react";
 
 //* Var
 const datas = [
@@ -77,6 +78,9 @@ interface City {
 }
 
 const HeroPage = () => {
+  const { data: session, status } = useSession();
+  // console.log(session, "HeroPage")
+
   const [select, setSelect] = useState<string>("One way");
   const [selectdown, setSelectdown] = useState<string>(" Regular Fares");
 
@@ -157,6 +161,18 @@ const HeroPage = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        if (session?.user) {
+          await axiosinstance.post("/googleUser", session.user);
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    })();
+  }, []);
+
   return (
     <div className="flex flex-col items-center relative w-full bg-white mx-auto px-4 sm:px-6 lg:px-20 space-y-2">
       <div className="top-12 w-fit rounded-md flex items-center justify-center p-4 shadow-2xl gap-x-2">
@@ -179,7 +195,7 @@ const HeroPage = () => {
           labels={labels}
           className="mt-10"
           sidelabel="Book International and Domestic Flights"
-          setSelect={setSelectdown}
+          setSelect={setSelect}
         />
         <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
           <div className=" flex">
@@ -192,7 +208,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-[-42px] left-[-85px] w-[153px] h-auto lg:w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>
@@ -208,7 +224,6 @@ const HeroPage = () => {
                             >
                               {city.cityName}
                             </CommandItem>
-
                             <Check
                               className={`mr-2 h-4 w-4 ${selectedCity.cityName === city.cityName ? "opacity-100" : "opacity-0"}`}
                             />
@@ -230,7 +245,7 @@ const HeroPage = () => {
                   </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0 z-50 relative">
-                  <div className="scroll-container overflow-hidden items-center fixed top-20 left-5 lg:left-auto  h-auto w-[230px] bg-white">
+                  <div className="scroll-container overflow-hidden items-center fixed top-[-41px] left-[-90px]  w-[153px] h-auto lg:w-[230px] bg-white">
                     <Command>
                       <CommandInput placeholder="Search arrival..." />
                       <CommandEmpty>No framework found.</CommandEmpty>
@@ -261,7 +276,6 @@ const HeroPage = () => {
               </div>
             </Popover>
           </div>
-
           <HeroContentSecond
             date={date}
             setDate={setDate}
@@ -270,8 +284,7 @@ const HeroPage = () => {
             today={today}
           />
         </div>
-
-        <div className="relative bottom-[239px] md:bottom-[263px] lg:bottom-[100px] left-[150px] md:left-[338px] lg:left-[264px] inline-block">
+        <div className=" absolute hidden bottom-[500px]  left-[150px] md:bottom-[427px] md:left-[338px]  lg:bottom-[216px] lg:left-[264px] md:inline-block lg:inline-block">
           <button
             type="button"
             onClick={stateChange}
@@ -284,14 +297,14 @@ const HeroPage = () => {
           <RadioButton
             labels={heroLabel}
             title="Select A Fare Type"
-            setSelect={setSelect}
+            // setSelectdown={setSelectdown}
           />
         </div>
       </div>
 
       <div className="relative bottom-12 w-full flex justify-center">
         <Link
-          href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&selectdown=${selectdown}&select=${select}`}
+          href={`/flights?selectedcity=${selectedCity.cityName}&destinationcity=${destinationcity.cityName}&fromdatastring=${fromDateString}&todatastring=${toDateString}&select=${select}`}
         >
           <Button
             className="px-10 lg:px-14 rounded-full text-lg lg:text-2xl font-semibold py-2 lg:py-3 bg-blue-400"

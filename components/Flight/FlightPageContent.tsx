@@ -19,15 +19,15 @@ import {
   TripDuration,
 } from "../Filter/constants";
 import instance from "@/axiosinstance";
-import { Flight } from '@/redux/reducers/flightsSlice';
-import { useSearchParams } from 'next/navigation';
-import { AlignJustify } from 'lucide-react';
-
+import { Flight } from "@/redux/reducers/flightsSlice";
+import { useSearchParams } from "next/navigation";
+import { AlignJustify } from "lucide-react";
 
 const FlightPageContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const SelectedCity = searchParams.get("selectedcity");
-  const DestinationCity = searchParams.get("destinationcity");
+  const SelectedCity = searchParams?.get("selectedcity");
+  const DestinationCity = searchParams?.get("destinationcity");
+  const SelectedRoutes = searchParams?.get("select");
 
   const [location, setLocation] = useState<string>("");
   const [locationR, setLocationR] = useState<string>("");
@@ -36,11 +36,11 @@ const FlightPageContent: React.FC = () => {
   const [hasInitialFetch, setHasInitialFetch] = useState(false);
   const [error, setError] = useState<string>("");
   const [filterData, setFilteredData] = useState<Flight[]>([]);
-  const [stopInfo, setStopInfo] = useState<string[]>([]); 
-  const [depTime, setDepTime] = useState<string[]>([]); 
-  const [price, setPrice] = useState<number[]>([]); 
+  const [stopInfo, setStopInfo] = useState<string[]>([]);
+  const [depTime, setDepTime] = useState<string[]>([]);
+  const [price, setPrice] = useState<number[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
-
+  const [select, setSelect] = useState<string>("");
   const toggleForm = () => {
     setIsFormOpen((prevState) => !prevState);
   };
@@ -52,10 +52,13 @@ const FlightPageContent: React.FC = () => {
       const useLocation = hasInitialFetch && location ? location : SelectedCity;
       const useLocationR =
         hasInitialFetch && locationR ? locationR : DestinationCity;
-
+      const useRoutes = hasInitialFetch && select ? select : SelectedRoutes;
+      // eslint-disable-next-line no-console
+      console.log(useRoutes, "useRoutes  bhdfbhsbhbybvfu");
       if (useLocation && useLocationR) {
         try {
           const params = new URLSearchParams({
+            select: useRoutes!.toString(),
             location: useLocation,
             locationR: useLocationR,
             price: price.join(","),
@@ -63,9 +66,8 @@ const FlightPageContent: React.FC = () => {
             depTime: depTime.join(","),
           });
           const { data } = await instance.get(`/matchingData?${params}`);
-
           setFilteredData(data);
-          if (!hasInitialFetch) setHasInitialFetch(true); // Mark the initial fetch as complete only if successful.
+          if (!hasInitialFetch) setHasInitialFetch(true);
         } catch (error: any) {
           setError(error.message || "An error occurred");
         }
@@ -74,6 +76,7 @@ const FlightPageContent: React.FC = () => {
 
     fetchFlights();
   }, [
+    select,
     location,
     locationR,
     stopInfo,
@@ -82,26 +85,28 @@ const FlightPageContent: React.FC = () => {
     hasInitialFetch,
     SelectedCity,
     DestinationCity,
+    SelectedRoutes,
   ]);
 
   return (
     <Provider store={store}>
       <div className="w-full mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center md:gap-x-4 md:mb-10 border-b-2 lg:px-36 border-gray-300">
-          <button className="block md:hidden" onClick={toggleForm}>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-x-4 lg:mb-10 border-b-2 lg:px-36 border-gray-300 lg:mx-12">
+          <button className="block lg:hidden" onClick={toggleForm}>
             <AlignJustify className="w-6 h-6" />
           </button>
-          <div className={`md:flex ${isFormOpen ? "" : "hidden"}`}>
+          <div className={`lg:flex ${isFormOpen ? "" : "hidden"}`}>
             <SearchForm
               setLocation={setLocation}
               setLocationR={setLocationR}
               setAdults={setAdults}
               setChildren={setChildren}
+              setSelect={setSelect}
             />
           </div>
         </div>
-        <main className="grid grid-cols-1 md:grid-cols-12 gap-x-2 gap-y-10 mx-3 md:mx-40 overflow-hidden">
-          <div className="lg:col-span-3  md:col-2 gap-2">
+        <main className="grid grid-cols-1 lg:grid-cols-12 gap-x-2 gap-y-10 mx-3 lg:mx-40 overflow-hidden">
+          <div className="lg:col-span-3  lg:col-2 gap-2 mt-5">
             <div className="h-auto">
               <p className="mb-2">Filter Flights</p>
               <FilterSider setStopInfo={setStopInfo} filter={Filter1} />
@@ -113,6 +118,7 @@ const FlightPageContent: React.FC = () => {
           <div className="lg:col-span-9 md:col-span-10 flex flex-col gap-4">
             <FlightDate />
             <Flightdata
+              select={select}
               data={filterData && filterData}
               adults={adults}
               children={children}

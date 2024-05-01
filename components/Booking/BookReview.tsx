@@ -36,7 +36,7 @@ const BookReview = () => {
   const [flights, setFlight] = useState<any>([]);
 
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const id = searchParams?.get("id");
 
   const handleNext = async (id: any) => {
     const prise = await instance.get(`/allflight/?id=${id}`);

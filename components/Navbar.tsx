@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-async-client-component */
 "use client";
 
 import Image from "next/image";
@@ -18,7 +19,8 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import axiosinstance from "@/axiosinstance";
 import { useRouter } from "next/navigation";
-
+import { signOut } from "next-auth/react";
+import UserProfile from "./profile/userprofile";
 //* var
 const datas = [
   {
@@ -44,33 +46,22 @@ const datas = [
   },
 ];
 
-const Navbar = ({ user }: any) => {
-  const router = useRouter();
-  const handleLogOut = async () => {
-    try {
-      await axiosinstance.post("/logout");
-      toast.success("Logged out successfully");
-      router.push("/auth/login");
-    } catch (error) {
-      toast.error("Error in logout");
-    }
-  };
-
+const Navbar = ({ user, session }: any) => {
   return (
-    <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 lg:justify-between h-full mx-auto">
+    <div className="flex bg-gray-800 w-full items-center px-2 py-3 lg:px-10 md:px-5  lg:py-4 justify-between h-full mx-auto">
       {/* Logo Section */}
-      <div className="flex items-center justify-center lg:justify-start">
+      <div className="flex items-center px-5 justify-center lg:justify-start lg:mx-44 ">
         <Link href="/">
           <Image
-            src="/flightlogo.jpeg"
-            width={150} // Set a smaller width for mobile
-            height={150} // Set a smaller height for mobile
+            src="/logo.png"
+            width={50} // Set a smaller width for mobile
+            height={50} // Set a smaller height for mobile
             alt="logo"
-            className="img-fluid rounded-lg "
+            className=" img-fluid w-14 h-14 "
           />
         </Link>
       </div>
-
+      
       {/* Navigation and Action Items */}
       <div className="hidden lg:flex items-center lg:gap-x-2 mx-5 lg:mx-auto">
         {datas.map((tool) => (
@@ -90,32 +81,9 @@ const Navbar = ({ user }: any) => {
           </Card>
         ))}
       </div>
-
-      {/* Authentication Links */}
-      <div className="flex gap-x-2 ml-auto">
-        {!user ? (
-          <>
-            <Link href="/auth/register">
-              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white ">
-                <Plane className="w-6 h-6 text-blue-600 " />
-                <span className="ml-2 text-sm text-blue-700">Signup</span>
-              </div>
-            </Link>
-            <Link href="/auth/login">
-              <div className="flex items-center p-1 lg:p-4 md:p-3 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer bg-white">
-                <Plane className="w-6 h-6 text-blue-600" />
-                <span className="ml-2 text-sm text-blue-700">Login</span>
-              </div>
-            </Link>
-          </>
-        ) : (
-          <div className="flex items-center p-2 shadow-xl rounded-md border border-gray-300 hover:shadow-lg transition cursor-pointer">
-            <Plane className="w-6 h-6 text-blue-600" />
-            <button onClick={handleLogOut} className="ml-2 text-sm text-white">
-              Logout
-            </button>
-          </div>
-        )}
+      {/* user profile */}
+      <div>
+        <UserProfile user={user} session={session} />
       </div>
     </div>
   );
