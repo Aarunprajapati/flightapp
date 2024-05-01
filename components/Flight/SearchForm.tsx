@@ -86,7 +86,7 @@ const SearchForm = ({
         const airports = airportdata?.map((value: string) => value);
         setData(airports);
       } catch (error) {
-       toast.error("Error fetching data")
+        toast.error("Error fetching data");
       }
     })();
 
@@ -98,7 +98,7 @@ const SearchForm = ({
         const airports1 = airportdata1?.map((value: string) => value);
         setData1(airports1);
       } catch (error) {
-        toast.error("Error fetching data")
+        toast.error("Error fetching data");
       }
     })();
   }, []);
@@ -107,7 +107,7 @@ const SearchForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const { location, locationR, adults, children, select } = values;
-      
+
       setSelect(select);
       setAdults(adults);
       setChildren(children);
@@ -161,12 +161,6 @@ const SearchForm = ({
                             className=" text-black focus:bg-blue-500 focus:text-white"
                           >
                             One way
-                          </SelectItem>
-                          <SelectItem
-                            value="Round trip"
-                            className="text-black focus:bg-blue-500 focus:text-white"
-                          >
-                            Rounded trip
                           </SelectItem>
                         </SelectContent>
                       </Select>

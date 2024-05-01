@@ -104,7 +104,6 @@ const ProfileCenter = () => {
       toast.error("Error in deleting user");
     }
   };
-
   React.useEffect(() => {
     Fetchdata();
     googleFetchdata();

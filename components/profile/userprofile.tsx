@@ -140,7 +140,6 @@ function UserProfile({ user, session }: any) {
               <Typography textAlign="center">Profile</Typography>
             </Button>
           </MenuItem>
-
           <MenuItem onClick={handleCloseUserMenu}>
             <Button href="/auth/trips">
               <Typography textAlign="center">History</Typography>

@@ -45,9 +45,6 @@ const labels = [
   {
     label: "One way",
   },
-  {
-    label: "Round trip",
-  },
 ];
 
 const heroLabel = [
@@ -168,8 +165,8 @@ const HeroPage = () => {
           await axiosinstance.post("/googleUser", session.user);
         }
       } catch (error: any) {
-      //  toast.error("Could not signin with google");
-      console.log(error)
+        //  toast.error("Could not signin with google");
+        console.log(error);
       }
     })();
   }, [session?.user]);
