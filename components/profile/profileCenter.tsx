@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -35,11 +34,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ScrollArea } from "../ui/scroll-area";
-// import { Input } from "@/components/ui/input"
 
 const ProfileCenter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen, "isOpen");
+
   const [userData, setUserData] = React.useState({
     name: "",
     email: "",
@@ -48,22 +46,24 @@ const ProfileCenter = () => {
     gender: "",
     profilePic: null,
   });
+  // console.log(userData.name, "userData");
   const [googleUser, setGoogleUser] = React.useState({
     name: "",
     email: "",
     image: "",
   });
-  console.log(userData, "usaerdata");
 
   const form = useForm<z.infer<typeof phonenumberSchema>>({
     resolver: zodResolver(phonenumberSchema),
     defaultValues: {
-      name: "",
+      name: `${userData.name}`,
       dob: "",
       gender: "",
       phoneNumber: "",
     },
   });
+
+  // console.log(form)
 
   const handlesubmit = async (values: z.infer<typeof phonenumberSchema>) => {
     // console.log(values, "values");
@@ -113,12 +113,12 @@ const ProfileCenter = () => {
 
   return (
     <>
-      <div className="w-[40%]">
-        <div className=" flex jutiify-between w-full">
+      <div className=" p-4 md:mx-20">
+        <div className=" flex jutiify-between">
           <p className="text-2xl font-bold">Profile</p>
           {/* edit profile */}
           <div className=" flex gap-10">
-            <Dialog
+          <Dialog
               open={isOpen}
               onOpenChange={() => {
                 setIsOpen(!isOpen);
@@ -127,12 +127,12 @@ const ProfileCenter = () => {
               <DialogTrigger asChild>
                 <Button
                   variant={"outline"}
-                  className="text-blue-800 font-serif text-lg  ms-[450px]"
+                  className="text-blue-800 font-serif text-lg ms-5"
                 >
                   edit
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="lg:w-[425px] w-[320px] ">
                 <DialogHeader>
                   <DialogTitle>Edit profile</DialogTitle>
                   <DialogDescription>
@@ -156,10 +156,10 @@ const ProfileCenter = () => {
                               <FormLabel>Name</FormLabel>
                               <FormControl>
                                 <Input
-                                  defaultValue={userData.name}
+                                  {...field}
+                                  // defaultValue={userData.name!}
                                   type="text"
                                   placeholder="Enter your Name"
-                                  {...field}
                                 />
                               </FormControl>
                               <FormMessage />
@@ -208,7 +208,7 @@ const ProfileCenter = () => {
                                     field.onChange(value);
                                   }}
                                   {...field}
-                                  value={field.value}
+                                  // value={field.value}
                                 >
                                   <SelectTrigger className="w-full border border-blue-800">
                                     <SelectValue placeholder="Select the gender" />
