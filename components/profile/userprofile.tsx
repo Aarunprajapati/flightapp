@@ -75,7 +75,8 @@ function UserProfile({ user, session }: any) {
 
       setUserData(response.data.user);
     } catch (error) {
-      toast.error("Error in fetch");
+      // toast.error("Error in fetch");
+      console.log(error);
     }
   };
   const googleFetchdata = async () => {
@@ -84,7 +85,8 @@ function UserProfile({ user, session }: any) {
 
       setGoogleUser(response.data.user);
     } catch (error) {
-      toast.error("Error in fetch");
+      // toast.error("Error in fetch");
+      console.log(error)
     }
   };
 

@@ -69,7 +69,8 @@ const ProfileCenter = () => {
     if (response.status === 200) {
       toast.success("Profile updated successfully");
     } else {
-      toast.error("Error updating profile");
+      // toast.error("Error updating profile");
+      console.log("Error updating profile");
     }
   };
 
@@ -78,7 +79,8 @@ const ProfileCenter = () => {
       const response = await axiosinstance.get("/profile");
       setUserData(response.data.user);
     } catch (error) {
-      toast.error("Error fetching profile");
+      // toast.error("Error fetching profile");
+      console.log("Error fetching profile")
     }
   };
 
@@ -88,7 +90,8 @@ const ProfileCenter = () => {
 
       setGoogleUser(response.data.user);
     } catch (error) {
-      toast.error("Error in fetching google user data");
+      // toast.error("Error in fetching google user data");
+      console.log("Error fetching google user data")
     }
   };
 

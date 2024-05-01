@@ -168,7 +168,8 @@ const HeroPage = () => {
           await axiosinstance.post("/googleUser", session.user);
         }
       } catch (error: any) {
-       toast.error("Could not signin with google");
+      //  toast.error("Could not signin with google");
+      console.log(error)
       }
     })();
   }, [session?.user]);
