@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { Providers } from "./providers";
 import { ToasterContext } from "@/context/HotToaster";
 const inter = Inter({ subsets: ["latin"] });
 import { cookies } from "next/headers";
