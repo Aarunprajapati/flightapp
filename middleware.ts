@@ -5,9 +5,9 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Retrieve cookies directly from the request
-  const accessToken = request.cookies.get("accessToken");
-  const googleToken = request.cookies.get("googleToken");
-
+  const accessToken = JSON.parse(request.cookies.get('accessToken')?.value || 'false')
+  const googleToken = JSON.parse(request.cookies.get('googleToken')?.value || 'false')
+  console.log(accessToken, googleToken);
   const publicPaths = ["/auth/login", "/auth/register", "/"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();
