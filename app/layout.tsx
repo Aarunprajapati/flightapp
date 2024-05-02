@@ -19,7 +19,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user =JSON.parse(cookies().get('accessToken')?.value || 'false');
+  const user = cookies().get("accessToken")?.value;
 
   const session = await auth();
 
