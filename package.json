@@ -2,7 +2,6 @@
   "name": "flightapp",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://flightappbackend-k5rb.vercel.app",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
