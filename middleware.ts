@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   // Retrieve cookies directly from the request
   const accessToken = request.cookies.get("accessToken")?.value;
   const googleToken = request.cookies.get("googleToken")?.value;
-console.log(accessToken, googleToken);
+console.log(accessToken, "accesstoken", googleToken, "googleToken");
   const publicPaths = ["/auth/login", "/auth/register", "/"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();

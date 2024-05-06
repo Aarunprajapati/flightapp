@@ -20,6 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = cookies().get("accessToken")?.value;
+  console.log(user, "layout")
 
   const session = await auth();
 
