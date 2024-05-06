@@ -61,7 +61,7 @@ function UserProfile({ user, session }: any) {
   const handleLogOut = async () => {
     try {
       await signOut({ redirect: false });
-      await axiosinstance.post("/logout");
+      await axiosinstance.get("/logout");
       toast.success("Logged out successfully");
       router.push("/auth/login");
     } catch (error) {
@@ -86,7 +86,7 @@ function UserProfile({ user, session }: any) {
       setGoogleUser(response.data.user);
     } catch (error) {
       // toast.error("Error in fetch");
-      console.log(error)
+      console.log(error);
     }
   };
 
